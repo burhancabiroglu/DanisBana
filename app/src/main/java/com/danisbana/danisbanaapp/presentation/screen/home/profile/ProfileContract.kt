@@ -17,18 +17,3 @@ class ProfileState
 data class ProfileActions(
     val onClick: () -> Unit = {}
 )
-
-/**
- * Compose Utility to retrieve actions from nested components
- **/
-val LocalProfileActions = staticCompositionLocalOf<ProfileActions> {
-    error("{NAME} Actions Were not provided, make sure ProvideProfileActions is called")
-}
-
-@Composable
-fun ProvideProfileActions(actions: ProfileActions, content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalProfileActions provides actions) {
-        content.invoke()
-    }
-}
-

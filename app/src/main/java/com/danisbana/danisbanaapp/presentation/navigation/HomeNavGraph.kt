@@ -15,8 +15,8 @@ fun SetupHomeNavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = Screen.Consultant.route
     ) {
-        composable(route = Screen.Consultant.route) { HomeRoute() }
+        composable(route = Screen.Dashboard.route) { HomeRoute() }
         composable(route = Screen.Consultant.route) { ConsultantRoute() }
-        composable(route = Screen.Consultant.route) { ProfileRoute() }
+        composable(route = Screen.Profile.route) { ProfileRoute() }
     }
 }
