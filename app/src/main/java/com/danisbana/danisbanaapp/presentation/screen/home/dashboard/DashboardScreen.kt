@@ -1,30 +1,18 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.dashboard
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.danisbana.danisbanaapp.presentation.theme.White
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun DashboardScreen(
     state: DashboardState = DashboardState(),
-    actions: DashboardActions = DashboardActions()
+    viewModel: DashboardViewModel = hiltViewModel()
 ) {
-    /*topBar = {
-        TopAppBar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp),
-            backgroundColor = White,
-            elevation = 3.dp
-        ) {
-
-        }
-    }*/
+   Scaffold {
+       it.calculateBottomPadding()
+   }
 }
 
 @Composable

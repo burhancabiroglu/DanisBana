@@ -37,13 +37,13 @@ fun SplashScreen(
         Modifier
             .background(
                 brush =
-                Brush.verticalGradient(
-                    colors = listOf(
-                        QueenBlue,
-                        DesertSand,
-                        QueenBlue,
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            QueenBlue,
+                            DesertSand,
+                            QueenBlue,
+                        )
                     )
-                )
             )
             .fillMaxSize(),
         contentAlignment = Alignment.Center

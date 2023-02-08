@@ -23,9 +23,6 @@ fun HomeScreen(
     actions: HomeActions = HomeActions(),
     navController: NavHostController = rememberNavController()
 ) {
-    (LocalContext.current as? Activity?)?.let {
-        WindowCompat.setDecorFitsSystemWindows(it.window, true)
-    }
     val bottomNavItems = remember { NavItemObj.generate() }
     Scaffold(
         modifier = Modifier

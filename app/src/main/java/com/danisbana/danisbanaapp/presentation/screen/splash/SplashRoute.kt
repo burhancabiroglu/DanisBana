@@ -25,7 +25,8 @@ fun SplashRoute(viewModel: SplashViewModel = hiltViewModel(),navController: NavC
     }
 
     DisposableEffect(Unit){
-        uiController.setStatusBarColor(color = Color.Transparent)
+        uiController.isNavigationBarVisible = false
+        uiController.isStatusBarVisible = false
         onDispose {  }
     }
 }

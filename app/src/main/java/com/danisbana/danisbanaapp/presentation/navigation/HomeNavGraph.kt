@@ -4,19 +4,18 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.danisbana.danisbanaapp.presentation.screen.home.consultant.ConsultantRoute
+import com.danisbana.danisbanaapp.presentation.screen.home.dashboard.DashboardRoute
+import com.danisbana.danisbanaapp.presentation.screen.home.messages.MessagesRoute
 import com.danisbana.danisbanaapp.presentation.screen.home.profile.ProfileRoute
-import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeRoute
-import com.danisbana.danisbanaapp.presentation.screen.splash.SplashRoute
 
 @Composable
 fun SetupHomeNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Consultant.route
+        startDestination = Screen.Dashboard.route
     ) {
-        composable(route = Screen.Dashboard.route) { HomeRoute() }
-        composable(route = Screen.Consultant.route) { ConsultantRoute() }
+        composable(route = Screen.Dashboard.route) { DashboardRoute() }
+        composable(route = Screen.Messages.route) { MessagesRoute() }
         composable(route = Screen.Profile.route) { ProfileRoute() }
     }
 }

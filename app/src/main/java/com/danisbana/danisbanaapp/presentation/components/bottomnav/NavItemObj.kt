@@ -22,7 +22,7 @@ class NavItemObj(
                 ),
                 NavItemObj(
                     icon = Icons.Default.Email,
-                    route = Screen.Consultant
+                    route = Screen.Messages
                 ),
                 NavItemObj(
                     icon = Icons.Default.Person,
