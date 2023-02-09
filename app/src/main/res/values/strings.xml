@@ -4,4 +4,6 @@
     <string name="profile_info">Profil Bilgileri</string>
     <string name="update_password">Şifre Güncelle</string>
     <string name="earn_point">Puan Kazan</string>
+    <string name="home_page_activites">Son Aktivitelerim</string>
+    <string name="home_page_description">Alanında uzman bir psikolog ile\ngörüşmek ister misiniz?"</string>
 </resources>

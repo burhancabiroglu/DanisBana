@@ -22,7 +22,8 @@ import com.danisbana.danisbanaapp.presentation.theme.White
 @Composable
 fun MessageListItem(
     modifier: Modifier = Modifier,
-    item: MessageItemDto = AcceptedMessageItemDto
+    item: MessageItemDto = AcceptedMessageItemDto,
+    dividerVisibility: Boolean = true
 ) {
     Box(modifier.background(White)) {
         Column(
@@ -52,7 +53,7 @@ fun MessageListItem(
             Spacer(modifier = modifier.height(8.dp))
             StatusPointerCircle(status = item.status)
             Spacer(modifier = modifier.height(5.dp))
-            Divider()
+            if(dividerVisibility) Divider()
             Spacer(modifier = modifier.height(2.dp))
         }
     }

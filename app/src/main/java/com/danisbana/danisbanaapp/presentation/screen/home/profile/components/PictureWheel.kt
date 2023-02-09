@@ -35,7 +35,7 @@ fun PictureWheel(
     return Box(
         Modifier
             .fillMaxWidth()
-            .padding(top = (screenWidth * 0.1).dp),
+            .padding(top = (screenHeight * 0.025).dp),
         contentAlignment = Alignment.Center
     ){
         Card(

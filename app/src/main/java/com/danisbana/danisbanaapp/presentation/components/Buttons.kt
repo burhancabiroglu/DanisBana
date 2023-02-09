@@ -14,19 +14,30 @@ import com.danisbana.danisbanaapp.presentation.theme.Charcoal
 import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
-fun PrimaryButton(modifier: Modifier = Modifier, label: String, onClick: () -> Unit = {}) {
+fun BadgeButton(modifier: Modifier = Modifier, label: String, onClick: () -> Unit = {}) {
     Button(
         modifier = modifier
-            .fillMaxWidth()
-            .height(50.dp),
+            .wrapContentSize()
+            .shadow(
+                elevation = 3.dp,
+                clip = false,
+                spotColor = CadetBlue,
+                ambientColor = CadetBlue,
+                shape = RoundedCornerShape(12.dp),
+            ),
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary
+            contentColor = White
         ),
+        elevation = ButtonDefaults.elevation(0.dp),
         onClick = onClick
     ) {
-        Text(text = label)
+        Text(
+            modifier = modifier.padding(3.dp),
+            text = label,
+            style = MaterialTheme.typography.button
+        )
     }
 }
 
