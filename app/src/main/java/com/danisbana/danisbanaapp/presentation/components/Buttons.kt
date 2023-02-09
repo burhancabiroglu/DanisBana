@@ -47,15 +47,13 @@ fun WhiteButton(modifier: Modifier = Modifier, label: String, onClick: () -> Uni
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = White,
-            contentColor = Charcoal
+            contentColor = Charcoal.copy(0.85f)
         ),
-        elevation = ButtonDefaults.elevation(
-            0.dp
-        ),
+        elevation = ButtonDefaults.elevation(0.dp),
         onClick = onClick
     ) {
         Spacer(modifier = Modifier.width(6.dp))
-        Text(text = label)
+        Text(text = label, style = MaterialTheme.typography.button)
         Row(
             modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End

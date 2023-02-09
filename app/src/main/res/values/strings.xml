@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Danış Bana</string>
     <string name="profile">Profil</string>
+    <string name="profile_info">Profil Bilgileri</string>
+    <string name="update_password">Şifre Güncelle</string>
+    <string name="earn_point">Puan Kazan</string>
 </resources>

@@ -1,24 +1,23 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.profile.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.danisbana.danisbanaapp.presentation.theme.CadetBlue
+import com.danisbana.danisbanaapp.presentation.theme.White
+import com.danisbana.danisbanaapp.R
 
 @Composable
 fun SummaryTable(
@@ -29,7 +28,16 @@ fun SummaryTable(
         contentAlignment = Alignment.Center,
     ) {
         Card(
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(12.dp),
+            backgroundColor = White,
+            modifier = Modifier.shadow(
+                elevation = 3.dp,
+                clip = false,
+                spotColor = CadetBlue,
+                ambientColor = CadetBlue,
+                shape = RoundedCornerShape(12.dp),
+            ),
+            elevation = 0.dp
         ) {
             Box(
                 Modifier.height(140.dp)
@@ -39,17 +47,17 @@ fun SummaryTable(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     SummaryColumn(
-                        icon = Icons.Default.Email,
+                        image = painterResource(id = R.drawable.ic_approved_messages),
                         text = "Onaylanan\nMesajlar"
                     )
                     VerticalDivider()
                     SummaryColumn(
-                        icon = Icons.Default.Email,
-                        text = "Onaylanmayan\nMesajlar"
+                        image = painterResource(id = R.drawable.ic_all_messages),
+                        text = "Toplam\nMesajlar"
                     )
                     VerticalDivider()
                     SummaryColumn(
-                        icon = Icons.Default.Email,
+                        image = painterResource(id = R.drawable.ic_trophy),
                         text = "Lotus\nPuan"
                     )
                 }
@@ -71,7 +79,8 @@ private fun VerticalDivider() {
 @Composable
 private fun RowScope.SummaryColumn(
     text: String,
-    icon: ImageVector,
+    icon: ImageVector? = null,
+    image: Painter? = null,
     tint: Color = CadetBlue
 
 ) {
@@ -79,17 +88,32 @@ private fun RowScope.SummaryColumn(
         modifier = Modifier.weight(1f),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = text,
-            tint = tint
-        )
+        if(icon!=null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = text,
+                tint = tint,
+                modifier = Modifier.size(30.dp)
+            )
+        }
+        if(image!=null) {
+            Image(
+                painter = image,
+                contentDescription = text,
+                modifier = Modifier.size(32.dp)
+            )
+        }
+        Spacer(modifier = Modifier.size(6.dp))
         Text(
             text = text,
             textAlign = TextAlign.Center,
-            style = TextStyle(fontSize = 12.sp)
+            style = MaterialTheme.typography.caption
         )
-        Text(text = "12")
+        Spacer(modifier = Modifier.size(3.dp))
+        Text(
+            text = "12",
+            style = MaterialTheme.typography.h2
+        )
     }
 }
 

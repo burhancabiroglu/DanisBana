@@ -10,7 +10,7 @@ interface AppDimens {
         val x26dp = 26.dp
 
 
-        val wallSpace = 22.dp
+        val wallSpace = 16.dp
         val y6dp = 6.dp
         val y8dp = 8.dp
         val y10dp = 10.dp
@@ -29,6 +29,7 @@ interface AppDimens {
         val s6dp = 6.dp
         val s8dp = 8.dp
         val s12dp = 12.dp
+
         val s18dp = 18.dp
         val s22dp = 22.dp
         val s28dp = 28.dp

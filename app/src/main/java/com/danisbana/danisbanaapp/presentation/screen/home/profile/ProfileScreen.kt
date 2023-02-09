@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import com.danisbana.danisbanaapp.presentation.components.MAppBar
 import com.danisbana.danisbanaapp.presentation.components.WhiteButton
 import com.danisbana.danisbanaapp.presentation.screen.home.profile.components.PictureWheel
 import com.danisbana.danisbanaapp.presentation.screen.home.profile.components.SummaryTable
+import com.danisbana.danisbanaapp.presentation.theme.AppDimens
 import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
@@ -30,44 +32,36 @@ fun ProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(White),
-        backgroundColor = Color(0xFFFAFAFA),
+        backgroundColor = MaterialTheme.colors.surface,
         topBar = { MAppBar(
             title = stringResource(id = R.string.profile),
             logoutEnabled = true
         ) }
     ) {
        Column(
-           modifier = Modifier.padding(it).verticalScroll(scrollableState)
+           modifier = Modifier
+               .padding(it)
+               .verticalScroll(scrollableState)
        ) {
            PictureWheel()
            Text(
-               "Ali Cabbarov",
+               state.userName,
                modifier = Modifier
                    .fillMaxWidth()
-                   .padding(vertical = 20.dp),
+                   .padding(vertical = AppDimens.p20.dp),
                textAlign = TextAlign.Center
            )
            SummaryTable(
-               modifier = Modifier.padding(horizontal = 16.dp)
+               modifier = Modifier.padding(horizontal = AppDimens.wallSpace)
            )
            Column(
-               modifier = Modifier
-                   .wrapContentSize()
-                   .padding(16.dp),
+               modifier = Modifier.padding(AppDimens.wallSpace),
                verticalArrangement = Arrangement.spacedBy(10.dp)
            ) {
-               WhiteButton(
-                   label = "Profil Bilgileri"
-               )
-               WhiteButton(
-                   label = "Şifre Güncelle"
-               )
-               WhiteButton(
-                   label = "Puan Kazan"
-               )
+               WhiteButton(label = stringResource(id = R.string.profile_info))
+               WhiteButton(label = stringResource(id = R.string.update_password))
+               WhiteButton(label = stringResource(id = R.string.earn_point))
            }
-
-
        }
     }
 }

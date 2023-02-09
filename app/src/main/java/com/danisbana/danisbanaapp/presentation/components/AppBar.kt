@@ -1,9 +1,7 @@
 package com.danisbana.danisbanaapp.presentation.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.runtime.Composable
@@ -13,6 +11,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.danisbana.danisbanaapp.presentation.theme.QueenBlue
 import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
@@ -32,26 +31,21 @@ fun MAppBar(
             modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.h2,
+                color = MaterialTheme.colors.primary
+            )
             Row(
                 modifier.fillMaxWidth(),
-
+                horizontalArrangement = Arrangement.End
             ) {
-                Box(modifier.weight(1f))
-                Text(
-                    text = title,
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                )
-                Box(
-                    modifier.weight(1f),
-                    contentAlignment = Alignment.CenterEnd
-                ) {
-                    if (logoutEnabled) {
+                if (logoutEnabled) {
+                    IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.Default.Logout ,
-                            contentDescription = "",
+                            contentDescription = "Logout",
+                            tint = MaterialTheme.colors.error.copy(0.5f)
                         )
                     }
                 }

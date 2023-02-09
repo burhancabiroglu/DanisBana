@@ -13,27 +13,26 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    primary = QueenBlue,
+    onPrimary = Charcoal,
+    primaryVariant = Grey100,
+    secondary = DesertSand,
+    onSecondary = Marigold,
+    background =  White,
+    onBackground = Charcoal.copy(0.9f),
+    surface = Grey100,
+    onSurface = Charcoal,
 )
 
 @Composable
 fun DanisBanaAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
+    /*val colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
-    }
+    }*/
+
+    val colors = LightColorPalette
 
     MaterialTheme(
         colors = colors,

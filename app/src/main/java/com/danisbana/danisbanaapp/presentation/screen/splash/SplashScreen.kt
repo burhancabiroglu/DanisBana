@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -60,12 +61,8 @@ fun SplashScreen(
                     .offset(y = (anim.value * -70 - 30).dp)
                     .background(Transparent),
                 text = stringResource(id = R.string.app_name),
-                style = TextStyle(
-                    color = White.copy(alpha = anim.value),
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.SansSerif
-                )
+                style = MaterialTheme.typography.h1,
+                color = White
             )
         }
 

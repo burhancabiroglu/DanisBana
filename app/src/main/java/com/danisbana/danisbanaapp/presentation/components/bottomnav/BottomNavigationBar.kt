@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,14 +29,14 @@ fun MBottomNavigationBar(
             .height(AppDimens.bottomNavHeight),
         backgroundColor = White,
         elevation = 16.dp,
-        contentColor = QueenBlue,
+        contentColor = MaterialTheme.colors.primary,
         content = {
             items.forEachIndexed { index, it ->
                 val isSelected = (index == selectedIndex)
                 BottomNavigationItem(
                     selected = isSelected,
-                    unselectedContentColor = QueenBlue.copy(alpha = 0.3f),
-                    selectedContentColor = QueenBlue,
+                    unselectedContentColor = MaterialTheme.colors.primary.copy(alpha = 0.3f),
+                    selectedContentColor = MaterialTheme.colors.primary,
                     icon = {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Icon(
