@@ -4,6 +4,7 @@ import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.danisbana.danisbanaapp.R
@@ -25,15 +26,25 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 15.sp
     ),
+    overline = TextStyle(
+        fontFamily = FontFamily(Font(R.font.poppins)),
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
+    ),
     body1 = TextStyle(
         fontFamily = FontFamily(Font(R.font.nunito)),
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
+        fontSize = 13.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.nunito)),
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 15.sp
     ),
     button = TextStyle(
         fontFamily = FontFamily(Font(R.font.nunito)),
         fontWeight = FontWeight.Bold,
-        fontSize = 15.sp
+        fontSize = 14.sp
     ),
     caption = TextStyle(
         fontFamily = FontFamily(Font(R.font.nunito)),

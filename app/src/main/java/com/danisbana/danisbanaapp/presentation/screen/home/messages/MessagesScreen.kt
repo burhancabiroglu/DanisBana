@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.danisbana.danisbanaapp.core.model.sampleItems
 import com.danisbana.danisbanaapp.presentation.components.MAppBar
 import com.danisbana.danisbanaapp.presentation.screen.home.messages.components.MessageListItem
 import com.danisbana.danisbanaapp.presentation.theme.White
@@ -31,10 +32,8 @@ fun MessagesScreen(
                 .padding(it)){
 
             LazyColumn {
-                for (i in 0..10){
-                    item {
-                        MessageListItem()
-                    }
+                for (i in sampleItems){
+                    item { MessageListItem(item = i) }
                 }
             }
         }

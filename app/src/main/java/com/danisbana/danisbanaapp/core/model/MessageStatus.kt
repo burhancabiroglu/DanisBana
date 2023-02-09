@@ -1,6 +1,7 @@
 package com.danisbana.danisbanaapp.core.model
 
 import androidx.compose.ui.graphics.Color
+import com.danisbana.danisbanaapp.presentation.theme.*
 
 enum class MessageStatus(
     val label: String,
@@ -8,18 +9,18 @@ enum class MessageStatus(
 ) {
     ACCEPTED(
         label = "Onaylandı",
-        color = Color.Green
+        color = SuccessGreen
     ),
     REJECTED(
         label = "Onaylanmadı",
-        color = Color.Red
+        color = Red.copy(alpha = 0.8f)
     ),
     PENDING(
         label = "Onay Bekleniyor",
-        color = Color.Yellow
+        color = Marigold
     ),
     ANSWERED(
         label = "Cevaplandı",
-        color = Color.Blue
+        color = Blue
     )
 }

@@ -31,6 +31,22 @@ val SampleMessageItemDto = MessageItemDto(
     title = "Depresyon Şikayeti",
     shortMessage = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     statusOrdinal = 1,
-    latestDateString = Date.from(Instant.now()).toString(),
+    latestDateString = "14:48",
     createdAtString = Date.from(Instant.now()).toString()
+)
+
+val AcceptedMessageItemDto = MessageItemDto(
+    userName = "Psk. Ahmed Arslan",
+    title = "Depresyon Şikayeti",
+    shortMessage = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    statusOrdinal = 0,
+    latestDateString = "12:53",
+    createdAtString = Date.from(Instant.now()).toString()
+)
+
+val sampleItems = arrayListOf(
+    AcceptedMessageItemDto,
+    SampleMessageItemDto,
+    AcceptedMessageItemDto.copy(statusOrdinal = 2),
+    AcceptedMessageItemDto.copy(statusOrdinal = 3)
 )

@@ -121,5 +121,7 @@ private fun RowScope.SummaryColumn(
 @Preview(name = "SummaryTable")
 @Composable
 private fun PreviewSummaryTable() {
-    SummaryTable()
+    MaterialTheme {
+        SummaryTable()
+    }
 }
