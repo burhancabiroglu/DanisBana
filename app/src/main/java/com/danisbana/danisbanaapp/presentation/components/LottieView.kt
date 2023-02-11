@@ -13,12 +13,13 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 fun LottieView(
     @RawRes res: Int,
     modifier: Modifier = Modifier,
-    replay: Boolean = false
+    replay: Boolean = false,
+    speed: Float = 1f
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(res))
     LottieAnimation(
         modifier = modifier.fillMaxSize(),
-        speed = 1f,
+        speed = speed,
         iterations = if (replay) 100 else 1,
         composition = composition,
         clipToCompositionBounds = true,

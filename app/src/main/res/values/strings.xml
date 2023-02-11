@@ -7,4 +7,11 @@
     <string name="messages">Mesajlarım</string>
     <string name="home_page_activites">Son Aktivitelerim</string>
     <string name="home_page_description">Alanında uzman bir psikolog ile\ngörüşmek ister misiniz?"</string>
+    <string name="welcome">Hoş geldiniz</string>
+    <string name="email">E-Posta</string>
+    <string name="password">Parola</string>
+    <string name="login">Giriş Yap</string>
+    <string name="register">Kayıt Ol</string>
+    <string name="dont_have_an_account">Hesabınız yok mu?</string>
+    <string name="do_you_have_an_account">Hesabınız var mı?</string>
 </resources>

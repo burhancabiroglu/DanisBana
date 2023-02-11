@@ -20,3 +20,5 @@ val Grey100 = Color(0xFFFAFAFA)
 val SuccessGreen =  Color(0xFF28A745)
 val Blue =  Color(0xFF007bff)
 val Red =  Color(0xFFc62828)
+
+val LightSeaGreen = Color(0xFF15A6AD)

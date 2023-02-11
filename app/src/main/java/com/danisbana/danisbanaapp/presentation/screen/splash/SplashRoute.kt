@@ -21,7 +21,7 @@ fun SplashRoute(viewModel: SplashViewModel = hiltViewModel(),navController: NavC
         viewModel.updateState()
         delay(2000)
         navController.popBackStack()
-        navController.navigate(Screen.Home.route)
+        navController.navigate(Screen.Login.route)
     }
 
     DisposableEffect(Unit){
