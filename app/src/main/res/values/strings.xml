@@ -14,4 +14,12 @@
     <string name="register">Kayıt Ol</string>
     <string name="dont_have_an_account">Hesabınız yok mu?</string>
     <string name="do_you_have_an_account">Hesabınız var mı?</string>
+    <string name="forgot_password">Şifremi Unuttum</string>
+    <string name="register_form">Kayıt Formu</string>
+    <string name="fullname">Ad Soyad</string>
+    <string name="password_again">Parola(Tekrar)</string>
+    <string name="home_page">Ana Sayfa</string>
+    <string name="note_detail_dot">Not Detayı&#8230;</string>
+    <string name="send">Gönder</string>
+    <string name="note_header_dot">Başlık&#8230;</string>
 </resources>

@@ -30,4 +30,10 @@ class LoginViewModel @Inject constructor(
             _navChannel.send(LoginNavChannel.RouteRegister)
         }
     }
+
+    fun routeHome() {
+        viewModelScope.launch {
+            _navChannel.send(LoginNavChannel.RouteHome)
+        }
+    }
 }

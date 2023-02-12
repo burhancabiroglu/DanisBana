@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:name=".application.DanisBanaApp"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DanisBanaApp.Splash"
+        android:theme="@style/Theme.DanisBanaApp"
         tools:targetApi="31">
         <activity
             android:name=".presentation.main.MainActivity"

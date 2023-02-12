@@ -1,15 +1,11 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.consultant
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.TextFieldValue
 
-
-/**
- * UI State that represents ConsultantScreen
- **/
-class ConsultantState
-
-data class ConsultantActions(
-    val onClick: () -> Unit = {}
-)
+class ConsultantState {
+    var noteTitle by mutableStateOf(TextFieldValue())
+    var noteDetail by mutableStateOf(TextFieldValue())
+}

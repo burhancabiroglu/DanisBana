@@ -14,7 +14,6 @@ class ConsultantViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _stateFlow: MutableStateFlow<ConsultantState> = MutableStateFlow(ConsultantState())
-
     val stateFlow: StateFlow<ConsultantState> = _stateFlow.asStateFlow()
 
 }

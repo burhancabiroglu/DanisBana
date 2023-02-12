@@ -3,15 +3,13 @@ package com.danisbana.danisbanaapp.presentation.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.danisbana.danisbanaapp.presentation.theme.QueenBlue
+import androidx.navigation.NavHostController
 import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
@@ -19,7 +17,9 @@ fun MAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
     logoutEnabled: Boolean = false,
-    ) {
+    navIconEnabled: Boolean = false,
+    navHostController: NavHostController? = null
+) {
     TopAppBar(
         modifier = modifier
             .fillMaxWidth()
@@ -36,6 +36,22 @@ fun MAppBar(
                 style = MaterialTheme.typography.h2,
                 color = MaterialTheme.colors.primary
             )
+            Row(
+                modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                if (navIconEnabled) {
+                    IconButton(onClick = {
+                        navHostController?.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBackIosNew ,
+                            contentDescription = "back",
+                            tint = MaterialTheme.colors.primary
+                        )
+                    }
+                }
+            }
             Row(
                 modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End

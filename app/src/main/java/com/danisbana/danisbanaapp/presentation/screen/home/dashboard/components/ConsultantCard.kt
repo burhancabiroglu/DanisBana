@@ -22,7 +22,8 @@ import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
 fun ConsultantCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier.padding(AppDimens.wallSpace).shadow(
@@ -61,7 +62,8 @@ fun ConsultantCard(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 BadgeButton(
-                    label = "Başlayın"
+                    label = "Başlayın",
+                    onClick = onClick
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }

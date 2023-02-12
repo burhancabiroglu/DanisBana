@@ -14,7 +14,9 @@ fun LottieView(
     @RawRes res: Int,
     modifier: Modifier = Modifier,
     replay: Boolean = false,
-    speed: Float = 1f
+    speed: Float = 1f,
+    isPlaying:Boolean = true
+
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(res))
     LottieAnimation(
@@ -23,6 +25,7 @@ fun LottieView(
         iterations = if (replay) 100 else 1,
         composition = composition,
         clipToCompositionBounds = true,
-        maintainOriginalImageBounds = true
+        maintainOriginalImageBounds = true,
+        isPlaying = isPlaying
     )
 }

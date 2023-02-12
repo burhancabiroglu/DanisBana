@@ -14,7 +14,5 @@ class DashboardViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _stateFlow: MutableStateFlow<DashboardState> = MutableStateFlow(DashboardState())
-
     val stateFlow: StateFlow<DashboardState> = _stateFlow.asStateFlow()
-
 }

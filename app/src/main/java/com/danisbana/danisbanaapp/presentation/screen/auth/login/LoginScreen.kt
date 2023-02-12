@@ -6,15 +6,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -33,25 +31,31 @@ fun LoginScreen(
     val uiState by viewModel.stateFlow.collectAsState(LoginState())
     val scrollableState = rememberScrollState()
 
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(true) {
         viewModel.navChannel.collectLatest {
             when(it){
-                is LoginNavChannel.RouteRegister -> navController.navigate(Screen.Register.route)
+                LoginNavChannel.RouteRegister -> navController.navigate(Screen.Register.route)
+                LoginNavChannel.RouteHome -> {
+                    navController.popBackStack()
+                    navController.navigate(Screen.Home.route)
+                }
             }
         }
     }
 
     return Scaffold { paddingValues ->
+        paddingValues.calculateBottomPadding()
         Box(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .verticalScroll(scrollableState),
+                .verticalScroll(scrollableState)
         ){
             LottieView(
                 modifier  = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1.4f),
+                    .aspectRatio(1.4f)
+                    .zIndex(1f),
                 res = R.raw.lottie_anim_gray_seagulls,
                 replay = true,
                 speed = 0.4f
@@ -59,7 +63,7 @@ fun LoginScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = AppDimens.s22dp)
+                    .padding(bottom = AppDimens.y10dp)
                     .align(Alignment.BottomCenter),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
@@ -80,7 +84,8 @@ fun LoginScreen(
                 LottieView(
                     modifier  = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(1.4f),
+                        .aspectRatio(1.4f)
+                        .zIndex(0.9f),
                     res = R.raw.lottie_anim_breathing_lotus,
                     replay = false,
                     speed = 3f
@@ -105,15 +110,18 @@ fun LoginScreen(
                     label = stringResource(R.string.password)
                 )
                 Row(
-                    Modifier.fillMaxWidth().padding(horizontal = AppDimens.wallSpace),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = AppDimens.wallSpace),
                     horizontalArrangement = Arrangement.End
                 ) {
-                   MTextButton(text = "Şifremi Unuttum")
+                   MTextButton(text = stringResource(R.string.forgot_password))
                 }
                 Spacer(modifier = Modifier.height(32.dp))
                 PrimaryButton(
                     modifier = Modifier.padding(horizontal = AppDimens.wallSpace),
-                    label = stringResource(R.string.login)
+                    label = stringResource(R.string.login),
+                    onClick = viewModel::routeHome
                 )
             }
 

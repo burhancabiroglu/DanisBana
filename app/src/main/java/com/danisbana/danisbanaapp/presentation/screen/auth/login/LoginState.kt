@@ -12,4 +12,6 @@ class LoginState {
 
 sealed interface LoginNavChannel {
     object RouteRegister: LoginNavChannel
+    object RouteHome: LoginNavChannel
+
 }

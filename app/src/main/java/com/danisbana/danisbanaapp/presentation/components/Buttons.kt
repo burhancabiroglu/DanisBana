@@ -42,7 +42,12 @@ fun BadgeButton(modifier: Modifier = Modifier, label: String, onClick: () -> Uni
 }
 
 @Composable
-fun PrimaryButton(modifier: Modifier = Modifier, label: String, onClick: () -> Unit = {}) {
+fun PrimaryButton(
+    modifier: Modifier = Modifier,
+    label: String,
+    onClick: () -> Unit = {} ,
+    buttonState: Boolean = true
+) {
     Button(
         modifier = modifier
             .height(50.dp)
@@ -54,10 +59,13 @@ fun PrimaryButton(modifier: Modifier = Modifier, label: String, onClick: () -> U
                 ambientColor = CadetBlue,
                 shape = RoundedCornerShape(12.dp),
             ),
+        enabled = buttonState,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.primary,
-            contentColor = White
+            contentColor = White,
+            disabledBackgroundColor = CadetBlue,
+            disabledContentColor = White
         ),
         elevation = ButtonDefaults.elevation(0.dp),
         onClick = onClick

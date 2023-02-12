@@ -16,6 +16,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import com.danisbana.danisbanaapp.presentation.theme.AppDimens
+import com.danisbana.danisbanaapp.presentation.theme.CadetBlue
 import com.danisbana.danisbanaapp.presentation.theme.Red
 import com.danisbana.danisbanaapp.presentation.theme.Transparent
 
@@ -40,6 +41,29 @@ fun MTextField(
         ),
         shape = RoundedCornerShape(AppDimens.s12dp),
         textStyle = MaterialTheme.typography.body1,
+    )
+}
+
+@Composable
+fun MTextFieldVariant(
+    modifier: Modifier = Modifier,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    placeholder: String,
+) {
+    return OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier.fillMaxWidth(),
+        placeholder = { Text(text = placeholder) },
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color(0x90E8E8E8),
+            unfocusedIndicatorColor = Transparent,
+            focusedIndicatorColor = CadetBlue,
+            errorIndicatorColor = Red.copy(alpha = 0.6f)
+        ),
+        shape = RoundedCornerShape(AppDimens.s12dp),
+        textStyle = MaterialTheme.typography.body2,
     )
 }
 
