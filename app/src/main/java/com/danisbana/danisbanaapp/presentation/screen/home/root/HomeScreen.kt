@@ -2,6 +2,8 @@ package com.danisbana.danisbanaapp.presentation.screen.home.root
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -29,7 +31,7 @@ fun HomeScreen(
         viewModel.navChannel.collectLatest {
             when(it) {
                 is HomeNavChannel.RouteConsultant ->
-                    navController.navigate(Screen.Consultant.route)
+                    navController.navigate(Screen.Conversation.route)
             }
         }
     }
@@ -37,6 +39,8 @@ fun HomeScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
+            .statusBarsPadding()
             .background(White),
         content = {
             it.calculateBottomPadding()

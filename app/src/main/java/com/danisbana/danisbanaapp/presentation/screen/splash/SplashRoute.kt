@@ -30,7 +30,7 @@ fun SplashRoute(viewModel: SplashViewModel = hiltViewModel(),navController: NavC
         uiController.isNavigationBarVisible = false
         uiController.setStatusBarColor(Transparent)
         onDispose {
-            WindowCompat.setDecorFitsSystemWindows(localActivity.window, true)
+            WindowCompat.setDecorFitsSystemWindows(localActivity.window, false)
             uiController.isNavigationBarVisible = true
             uiController.setStatusBarColor(White)
         }

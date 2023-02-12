@@ -28,7 +28,7 @@ import com.danisbana.danisbanaapp.presentation.theme.Transparent
 @Composable
 fun ConsultantScreen(
     viewModel: ConsultantViewModel = hiltViewModel(),
-    navHostController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController()
 ) {
     val uiState by viewModel.stateFlow.collectAsState(ConsultantState())
     val scrollState = rememberScrollState()
@@ -43,7 +43,7 @@ fun ConsultantScreen(
             MAppBar(
                 title = "Yeni Danışma Notu",
                 navIconEnabled = true,
-                navHostController = navHostController
+                navHostController = navController
             )
         }
     ) { paddingValues ->

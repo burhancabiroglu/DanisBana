@@ -13,9 +13,8 @@ class ConversationViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<ConversationState> =
-        MutableStateFlow(ConversationState())
+   // private val _stateFlow: MutableStateFlow<ConversationState> = MutableStateFlow(ConversationState())
 
-    val stateFlow: StateFlow<ConversationState> = _stateFlow.asStateFlow()
+    //val stateFlow: StateFlow<ConversationState> = _stateFlow.asStateFlow()
 
 }

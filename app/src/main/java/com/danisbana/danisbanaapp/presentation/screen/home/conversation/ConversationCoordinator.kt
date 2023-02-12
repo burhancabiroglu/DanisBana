@@ -11,7 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 class ConversationCoordinator(
     val viewModel: ConversationViewModel
 ) {
-    val screenStateFlow = viewModel.stateFlow
+    //val screenStateFlow = viewModel.stateFlow
 
     fun doStuff() {
 

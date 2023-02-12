@@ -1,13 +1,13 @@
 package com.danisbana.danisbanaapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.danisbana.danisbanaapp.presentation.screen.auth.login.LoginScreen
 import com.danisbana.danisbanaapp.presentation.screen.auth.register.RegisterScreen
 import com.danisbana.danisbanaapp.presentation.screen.home.consultant.ConsultantScreen
+import com.danisbana.danisbanaapp.presentation.screen.home.conversation.ConversationScreen
 import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeScreen
 import com.danisbana.danisbanaapp.presentation.screen.splash.SplashRoute
 
@@ -17,10 +17,12 @@ fun SetupNavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = Screen.Splash.route
     ) {
-        composable(route = Screen.Splash.route){ SplashRoute(navController = navController) }
-        composable(route = Screen.Home.route) { HomeScreen(
-            navController = navController
-        ) }
+        composable(route = Screen.Splash.route){
+            SplashRoute(navController = navController)
+        }
+        composable(route = Screen.Home.route) {
+            HomeScreen(navController = navController)
+        }
         composable(route = Screen.Login.route) {
             LoginScreen(navController = navController)
         }
@@ -28,9 +30,10 @@ fun SetupNavGraph(navController: NavHostController) {
             RegisterScreen(navController = navController,)
         }
         composable(route = Screen.Consultant.route){
-            ConsultantScreen(
-                navHostController = navController
-            )
+            ConsultantScreen(navController = navController)
+        }
+        composable(route = Screen.Conversation.route){
+            ConversationScreen()
         }
     }
 }

@@ -10,13 +10,13 @@ fun ConversationRoute(
     coordinator: ConversationCoordinator = rememberConversationCoordinator()
 ) {
     // State observing and declarations
-    val uiState by coordinator.screenStateFlow.collectAsState(ConversationState())
+    //val uiState by coordinator.screenStateFlow.collectAsState(ConversationState())
 
     // UI Actions
     val actions = rememberConversationActions(coordinator)
 
     // UI Rendering
-    ConversationScreen(uiState, actions)
+    ConversationScreen(actions =  actions)
 }
 
 

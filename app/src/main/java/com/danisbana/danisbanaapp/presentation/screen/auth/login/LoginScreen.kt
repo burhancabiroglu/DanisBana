@@ -43,12 +43,16 @@ fun LoginScreen(
         }
     }
 
-    return Scaffold { paddingValues ->
+
+    return Scaffold(
+    ) { paddingValues ->
         paddingValues.calculateBottomPadding()
         Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
+                .navigationBarsPadding()
+                .statusBarsPadding()
+                .imePadding()
                 .verticalScroll(scrollableState)
         ){
             LottieView(
@@ -124,7 +128,6 @@ fun LoginScreen(
                     onClick = viewModel::routeHome
                 )
             }
-
         }
     }
 }
