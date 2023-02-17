@@ -4,27 +4,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 
 @Composable
 fun ConversationRoute(
-    coordinator: ConversationCoordinator = rememberConversationCoordinator()
+    viewModel: ConversationViewModel = hiltViewModel(),
+    navController: NavHostController
+
 ) {
-    // State observing and declarations
-    //val uiState by coordinator.screenStateFlow.collectAsState(ConversationState())
-
-    // UI Actions
-    val actions = rememberConversationActions(coordinator)
-
-    // UI Rendering
-    ConversationScreen(actions =  actions)
+    val uiState by viewModel.stateFlow.collectAsState()
+    val actions = rememberConversationActions(viewModel)
+    ConversationScreen(
+        state = uiState,
+        actions =  actions,
+        navController = navController
+    )
 }
 
 
 @Composable
-fun rememberConversationActions(coordinator: ConversationCoordinator): ConversationActions {
-    return remember(coordinator) {
-        ConversationActions(
-            onClick = coordinator::doStuff
-        )
+fun rememberConversationActions(viewModel: ConversationViewModel): ConversationActions {
+    return remember(viewModel) {
+        ConversationActions()
     }
 }

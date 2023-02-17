@@ -1,49 +1,63 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.conversation
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.danisbana.danisbanaapp.core.model.MessageModel
-import com.danisbana.danisbanaapp.presentation.components.UserInput
-import com.danisbana.danisbanaapp.presentation.screen.home.conversation.components.MessagesColumn
-import kotlinx.coroutines.launch
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.danisbana.danisbanaapp.core.model.MessageStatus
+import com.danisbana.danisbanaapp.presentation.components.MAppBar
+import com.danisbana.danisbanaapp.presentation.screen.home.conversation.components.MessageTile
 
 @Composable
 fun ConversationScreen(
-    state: ConversationState = ConversationState(
-        channelMembers = 1,
-        channelName = "deneme",
-        initialMessages = _initialMessages
-    ),
-    actions: ConversationActions = ConversationActions()
+    state: ConversationState = ConversationState(),
+    actions: ConversationActions = ConversationActions(),
+    navController: NavHostController = rememberNavController()
 ) {
     val scrollState = rememberLazyListState()
-    val scope = rememberCoroutineScope()
+    val messages = state.messages
+    val authorMe = "authorMe"
 
     return Surface {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .navigationBarsPadding()) {
             Column(Modifier.fillMaxSize()){
-                MessagesColumn(
-                    messages = state.messages,
-                    navigateToProfile = {},
-                    modifier = Modifier.weight(1f),
-                    scrollState = scrollState
+                MAppBar(
+                    title = state.channelName,
+                    messageStatus = MessageStatus.ANSWERED,
+                    navHostController = navController
                 )
-                UserInput(
-                    onMessageSent = { content ->
-                        state.addMessage(
-                            MessageModel("authorMe", content, "timeNow")
-                        )
-                    },
-                    resetScroll = {
-                        scope.launch { scrollState.scrollToItem(0) }
-                    },
-                    modifier = Modifier.navigationBarsPadding().imePadding(),
-                )
+                LazyColumn(
+                    reverseLayout = false,
+                    state = scrollState,
+                    modifier = Modifier.wrapContentHeight()
+                ) {
+                    for (index in messages.indices) {
+                        val prevAuthor = messages.getOrNull(index - 1)?.author
+                        val nextAuthor = messages.getOrNull(index + 1)?.author
+                        val content = messages[index]
+                        val isFirstMessageByAuthor = prevAuthor != content.author
+                        val isLastMessageByAuthor = nextAuthor != content.author
+
+                        item {
+                            MessageTile(
+                                onAuthorClick = { },
+                                msg = content,
+                                isUserMe = content.author == authorMe,
+                                isFirstMessageByAuthor = isFirstMessageByAuthor,
+                                isLastMessageByAuthor = isLastMessageByAuthor
+                            )
+                        }
+                    }
+                }
             }
         }
     }

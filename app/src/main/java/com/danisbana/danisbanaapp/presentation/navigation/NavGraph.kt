@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.danisbana.danisbanaapp.presentation.screen.auth.login.LoginScreen
 import com.danisbana.danisbanaapp.presentation.screen.auth.register.RegisterScreen
 import com.danisbana.danisbanaapp.presentation.screen.home.consultant.ConsultantScreen
+import com.danisbana.danisbanaapp.presentation.screen.home.conversation.ConversationRoute
 import com.danisbana.danisbanaapp.presentation.screen.home.conversation.ConversationScreen
 import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeScreen
 import com.danisbana.danisbanaapp.presentation.screen.splash.SplashRoute
@@ -33,7 +34,7 @@ fun SetupNavGraph(navController: NavHostController) {
             ConsultantScreen(navController = navController)
         }
         composable(route = Screen.Conversation.route){
-            ConversationScreen()
+            ConversationRoute(navController = navController)
         }
     }
 }
