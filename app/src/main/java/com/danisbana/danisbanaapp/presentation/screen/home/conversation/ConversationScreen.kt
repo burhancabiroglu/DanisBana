@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ConversationScreen(
     state: ConversationState = ConversationState(
-        channelMembers = 2,
+        channelMembers = 1,
         channelName = "deneme",
         initialMessages = _initialMessages
     ),
@@ -26,9 +26,7 @@ fun ConversationScreen(
 
     return Surface {
         Box(modifier = Modifier.fillMaxSize()) {
-            Column(
-                Modifier.fillMaxSize()
-            ){
+            Column(Modifier.fillMaxSize()){
                 MessagesColumn(
                     messages = state.messages,
                     navigateToProfile = {},
