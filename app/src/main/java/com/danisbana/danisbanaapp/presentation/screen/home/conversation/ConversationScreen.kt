@@ -1,15 +1,11 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.conversation
 
-import android.app.Activity
-import android.view.WindowManager
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import com.danisbana.danisbanaapp.core.model.MessageModel
 import com.danisbana.danisbanaapp.presentation.components.UserInput
@@ -46,15 +42,9 @@ fun ConversationScreen(
                         )
                     },
                     resetScroll = {
-                        scope.launch {
-                            scrollState.scrollToItem(0)
-                        }
+                        scope.launch { scrollState.scrollToItem(0) }
                     },
-                    // Use navigationBarsPadding() imePadding() and , to move the input panel above both the
-                    // navigation bar, and on-screen keyboard (IME)
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .imePadding(),
+                    modifier = Modifier.navigationBarsPadding().imePadding(),
                 )
             }
         }

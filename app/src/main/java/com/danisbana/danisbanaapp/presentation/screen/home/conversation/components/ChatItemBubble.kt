@@ -1,12 +1,11 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.conversation.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -16,10 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.danisbana.danisbanaapp.R
 import com.danisbana.danisbanaapp.core.model.MessageModel
-import com.danisbana.danisbanaapp.presentation.theme.CadetBlue
-import com.danisbana.danisbanaapp.presentation.theme.ChatBubbleShape
-import com.danisbana.danisbanaapp.presentation.theme.LightSeaGreen
-import com.danisbana.danisbanaapp.presentation.theme.QueenBlue
+import com.danisbana.danisbanaapp.core.util.messageFormatter
+import com.danisbana.danisbanaapp.presentation.theme.*
 
 @Composable
 fun ChatItemBubble(
@@ -27,7 +24,7 @@ fun ChatItemBubble(
     isUserMe: Boolean,
     authorClicked: (String) -> Unit
 ) {
-
+    val textColor = if (isUserMe) White else  LocalContentColor.current
     val backgroundBubbleColor = if (isUserMe) {
         QueenBlue
     } else {
@@ -39,10 +36,10 @@ fun ChatItemBubble(
             color = backgroundBubbleColor,
             shape = ChatBubbleShape
         ) {
-            ClickableMessage(
-                message = message,
-                isUserMe = isUserMe,
-                authorClicked = authorClicked
+            Text(
+                text = messageFormatter(text = message.content, primary = isUserMe),
+                style = MaterialTheme.typography.body2.copy(color = textColor),
+                modifier = Modifier.padding(16.dp),
             )
         }
 

@@ -27,11 +27,8 @@ fun MessageTile(
     isLastMessageByAuthor: Boolean
 ) {
 
-    val borderColor = if (isUserMe) {
-        QueenBlue
-    } else {
-        QueenBlue.copy(alpha = 0.15f)
-    }
+    val borderColor = if (isUserMe) QueenBlue
+        else QueenBlue.copy(alpha = 0.15f)
 
     val spaceBetweenAuthors = if (isLastMessageByAuthor) Modifier.padding(top = 8.dp) else Modifier
     Row(modifier = spaceBetweenAuthors) {
