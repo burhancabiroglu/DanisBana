@@ -81,8 +81,6 @@ class FirebaseAuthRepoImpl @Inject constructor(
                     return@async Result.failure(e)
                 }
             }
-
         }
-
     }
 }
