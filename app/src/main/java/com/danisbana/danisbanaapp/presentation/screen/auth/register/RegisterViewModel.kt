@@ -1,6 +1,7 @@
 package com.danisbana.danisbanaapp.presentation.screen.auth.register
 
 import android.util.Log
+import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +11,13 @@ import com.danisbana.danisbanaapp.domain.usecase.ValidateEmail
 import com.danisbana.danisbanaapp.domain.usecase.ValidatePassword
 import com.danisbana.danisbanaapp.domain.usecase.ValidateRepeatedPassword
 import com.danisbana.danisbanaapp.domain.usecase.ValidateTerms
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuthEmailException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -22,7 +28,8 @@ class RegisterViewModel @Inject constructor(
     private val firebaseConfigRepo: FirebaseConfigRepo
 ) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<RegisterState> = MutableStateFlow(RegisterState())
+    var snackBarState = SnackbarHostState()
+    private val _stateFlow: MutableStateFlow<RegisterState> = MutableStateFlow(RegisterState(snackBarState))
     val stateFlow: StateFlow<RegisterState> = _stateFlow.asStateFlow()
 
     private val _navChannel = Channel<RegisterNavChannel>()
@@ -31,12 +38,12 @@ class RegisterViewModel @Inject constructor(
     private val validateEmail = ValidateEmail()
     private val validatePassword = ValidatePassword()
     private val validateRepeatedPassword = ValidateRepeatedPassword()
-    //private val validateTerms = ValidateTerms()
 
 
     init {
         viewModelScope.launch {
-           // val result = firebaseConfigRepo.getAgreementConfigAsync().await()
+            val result = firebaseConfigRepo.getAgreementConfigAsync().await()
+            _stateFlow.value.agreement = result.getOrNull()
         }
     }
 
@@ -51,20 +58,17 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun tryRegister() {
-
         val state = _stateFlow.value
         val emailResult = validateEmail.execute(state.email.text)
         val passwordResult = validatePassword.execute(state.password.text)
         val repeatedPasswordResult = validateRepeatedPassword.execute(
             state.password.text, state.passwordConfirm.text
         )
-        //val termsResult = validateTerms.execute(state.isPolicyChecked)
 
         val hasError = listOf(
             emailResult,
             passwordResult,
             repeatedPasswordResult,
-            //termsResult
         ).any { !it.successful }
 
         if(hasError) {
@@ -72,27 +76,44 @@ class RegisterViewModel @Inject constructor(
                 emailError = emailResult.errorMessage,
                 passwordError = passwordResult.errorMessage,
                 repeatedPasswordError = repeatedPasswordResult.errorMessage,
-                //termsError = termsResult.errorMessage
             )
             return
         }
 
-
         viewModelScope.launch {
             _stateFlow.value.pageLoading = true
-            val result = firebaseAuthRepo.registerAsync(
-                _stateFlow.value.buildRegisterRequest()
-            ).await()
+            val request = _stateFlow.value.buildRegisterRequest()
+            val result = firebaseAuthRepo.registerAsync(request).await()
+            result.onFailure(::onSubmitFailure)
+            result.onSuccess(::onSubmitSuccess)
             _stateFlow.value.pageLoading = false
-            when {
-                result.isSuccess -> {
-                    Log.e("TAG", "isSuccess: $result", )
-                }
-                result.isFailure -> {
-                    Log.e("TAG", "isFailure: $result", )
-                }
+        }
+    }
+
+    private fun onSubmitFailure(t: Throwable) {
+        viewModelScope.launch {
+            when(t){
+                is FirebaseAuthUserCollisionException ->
+                    snackBarState.showSnackbar(
+                        actionLabel = "error",
+                        message = "Bu e-posta adresi\nbaşka bir hesap tarafından\nkullanılıyor"
+                    )
+                is FirebaseAuthEmailException ->
+                    snackBarState.showSnackbar(
+                        actionLabel = "error",
+                        message = "Bu e-posta adresi hatalıdır"
+                    )
             }
-            //_navChannel.send(LoginNavChannel.RouteHome)
+        }
+    }
+
+    private fun onSubmitSuccess(r: AuthResult) {
+        viewModelScope.launch {
+            snackBarState.showSnackbar(
+                actionLabel = "success",
+                message = "Kayıt işlemi başarılı oldu.\nGiriş sayfasına yönlendiriliyorsunuz"
+            )
+            _navChannel.send(RegisterNavChannel.RouteLogin)
         }
     }
 }

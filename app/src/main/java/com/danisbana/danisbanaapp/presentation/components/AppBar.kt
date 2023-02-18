@@ -21,7 +21,8 @@ fun MAppBar(
     title: String = "",
     logoutEnabled: Boolean = false,
     navIconEnabled: Boolean = false,
-    navHostController: NavHostController? = null
+    navHostController: NavHostController? = null,
+    logoutAction: ()-> Unit = {}
 ) {
     TopAppBar(
         modifier = modifier
@@ -60,7 +61,7 @@ fun MAppBar(
                 horizontalArrangement = Arrangement.End
             ) {
                 if (logoutEnabled) {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = logoutAction) {
                         Icon(
                             imageVector = Icons.Default.Logout ,
                             contentDescription = "Logout",

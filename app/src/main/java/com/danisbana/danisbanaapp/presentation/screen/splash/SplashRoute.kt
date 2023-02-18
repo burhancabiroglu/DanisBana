@@ -21,7 +21,7 @@ fun SplashRoute(viewModel: SplashViewModel = hiltViewModel(),navController: NavC
         viewModel.updateState()
         delay(1800)
         navController.popBackStack()
-        navController.navigate(Screen.Login.route)
+        navController.navigate(uiState.screen.route)
     }
 
     DisposableEffect(Unit){
@@ -30,7 +30,7 @@ fun SplashRoute(viewModel: SplashViewModel = hiltViewModel(),navController: NavC
         onDispose {
             uiController.statusBarDarkContentEnabled = true
             uiController.isNavigationBarVisible = true
-            //uiController.setStatusBarColor(White)
+            uiController.setStatusBarColor(White)
         }
     }
 

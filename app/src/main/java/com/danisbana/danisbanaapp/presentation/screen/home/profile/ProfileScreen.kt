@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +24,8 @@ import com.danisbana.danisbanaapp.presentation.theme.White
 @Composable
 fun ProfileScreen(
     state: ProfileState = ProfileState(),
-    actions: ProfileActions = ProfileActions()
+    actions: ProfileActions = ProfileActions(),
+    logoutAction: () -> Unit = {}
 ) {
     val scrollableState = rememberScrollState()
     return Scaffold(
@@ -35,7 +35,11 @@ fun ProfileScreen(
         backgroundColor = White,
         topBar = { MAppBar(
             title = stringResource(id = R.string.profile),
-            logoutEnabled = true
+            logoutEnabled = true,
+            logoutAction = {
+                actions.logout()
+                logoutAction.invoke()
+            }
         ) }
     ) {
        Column(

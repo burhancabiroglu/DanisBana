@@ -27,4 +27,10 @@ class HomeViewModel @Inject constructor(
             _navChannel.send(HomeNavChannel.RouteConsultant)
         }
     }
+
+    fun logout() {
+        viewModelScope.launch {
+            _navChannel.send(HomeNavChannel.RouteLogin)
+        }
+    }
 }

@@ -19,6 +19,8 @@ fun SetupHomeNavGraph(navController: NavHostController, sharedViewModel: HomeVie
             DashboardScreen(sharedViewModel = sharedViewModel)
         }
         composable(route = Screen.Messages.route) { MessagesRoute() }
-        composable(route = Screen.Profile.route) { ProfileRoute() }
+        composable(route = Screen.Profile.route) {
+            ProfileRoute(sharedViewModel = sharedViewModel)
+        }
     }
 }

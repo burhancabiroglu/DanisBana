@@ -15,6 +15,7 @@ fun RegisterRoute(
 ) {
     val uiState by viewModel.stateFlow.collectAsState()
     val actions = rememberRegisterActions(viewModel)
+
     RegisterScreen(uiState, actions)
 
     LaunchedEffect(true) {

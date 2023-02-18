@@ -1,11 +1,10 @@
 package com.danisbana.danisbanaapp.presentation.screen.splash
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import com.danisbana.danisbanaapp.presentation.navigation.Screen
 
 data class SplashState(
-    val startAnim:Boolean = false
+    val startAnim:Boolean = false,
+    var screen: Screen = Screen.Login
 )
 
 data class SplashActions(

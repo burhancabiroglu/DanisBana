@@ -1,20 +1,25 @@
 package com.danisbana.danisbanaapp.presentation.screen.auth.register
 
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
+import com.danisbana.danisbanaapp.core.model.agreement.Agreement
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 
-class RegisterState {
+class RegisterState(
+    val snackbarHostState: SnackbarHostState = SnackbarHostState()
+) {
     var fullName by mutableStateOf(TextFieldValue())
     var email by mutableStateOf(TextFieldValue())
     var password by mutableStateOf(TextFieldValue())
     var passwordConfirm by mutableStateOf(TextFieldValue())
     var isPolicyChecked by mutableStateOf(false)
-
     var pageLoading by mutableStateOf(false)
+
+    var agreement by mutableStateOf<Agreement?>(null)
 
     var formState by mutableStateOf(RegistrationFormState())
 

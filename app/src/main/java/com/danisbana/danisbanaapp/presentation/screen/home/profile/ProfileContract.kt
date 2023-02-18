@@ -8,5 +8,5 @@ data class ProfileState(
 )
 
 data class ProfileActions(
-    val onClick: () -> Unit = {}
+    val logout: () -> Unit = {}
 )

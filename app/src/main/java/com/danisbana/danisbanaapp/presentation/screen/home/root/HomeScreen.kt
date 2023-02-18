@@ -32,6 +32,10 @@ fun HomeScreen(
             when(it) {
                 is HomeNavChannel.RouteConsultant ->
                     navController.navigate(Screen.Conversation.route)
+                is HomeNavChannel.RouteLogin -> {
+                    navController.popBackStack()
+                    navController.navigate(Screen.Login.route)
+                }
             }
         }
     }

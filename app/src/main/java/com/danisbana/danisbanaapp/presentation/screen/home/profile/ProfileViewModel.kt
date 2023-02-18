@@ -1,6 +1,5 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.profile
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
@@ -14,13 +13,11 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val authRepo: FirebaseAuthRepo
 ) : ViewModel() {
 
     private val _stateFlow: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState())
     val stateFlow: StateFlow<ProfileState> = _stateFlow.asStateFlow()
-
 
     init {
         viewModelScope.launch {
@@ -34,4 +31,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun logout() {
+        authRepo.signOut()
+    }
 }
