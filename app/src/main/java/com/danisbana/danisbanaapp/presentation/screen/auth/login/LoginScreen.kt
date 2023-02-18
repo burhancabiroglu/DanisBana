@@ -13,39 +13,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.danisbana.danisbanaapp.R
 import com.danisbana.danisbanaapp.presentation.components.*
-import com.danisbana.danisbanaapp.presentation.navigation.Screen
 import com.danisbana.danisbanaapp.presentation.theme.AppDimens
+import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 import com.danisbana.danisbanaapp.presentation.theme.LightSeaGreen
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = hiltViewModel(),
-    navController: NavHostController = rememberNavController()
+    state: LoginState = LoginState(),
+    actions: LoginActions = LoginActions(),
 ) {
-    val uiState by viewModel.stateFlow.collectAsState(LoginState())
     val scrollableState = rememberScrollState()
 
-    LaunchedEffect(true) {
-        viewModel.navChannel.collectLatest {
-            when(it){
-                LoginNavChannel.RouteRegister -> navController.navigate(Screen.Register.route)
-                LoginNavChannel.RouteHome -> {
-                    navController.popBackStack()
-                    navController.navigate(Screen.Home.route)
-                }
-            }
-        }
-    }
-
-
-    return Scaffold(
-    ) { paddingValues ->
+    return Scaffold { paddingValues ->
         paddingValues.calculateBottomPadding()
         Box(
             modifier = Modifier
@@ -80,7 +61,7 @@ fun LoginScreen(
                     text = stringResource(R.string.register),
                     textStyle = MaterialTheme.typography.h3,
                     textColor = LightSeaGreen,
-                    onClick = viewModel::routeRegister
+                    onClick = actions.routeRegister
                 )
             }
             Column {
@@ -100,17 +81,17 @@ fun LoginScreen(
                     modifier = Modifier.padding(horizontal = AppDimens.wallSpace+10.dp),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                MTextField(
+                MEmailTextField(
                     Modifier.padding(horizontal = AppDimens.wallSpace),
-                    value = uiState.email,
-                    onValueChange = { uiState.email = it },
+                    value = state.email,
+                    onValueChange = { state.email = it },
                     label = stringResource(R.string.email)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 MPasswordTextField(
                     Modifier.padding(horizontal = AppDimens.wallSpace),
-                    value = uiState.password,
-                    onValueChange = { uiState.password = it },
+                    value = state.password,
+                    onValueChange = { state.password = it },
                     label = stringResource(R.string.password)
                 )
                 Row(
@@ -125,7 +106,7 @@ fun LoginScreen(
                 PrimaryButton(
                     modifier = Modifier.padding(horizontal = AppDimens.wallSpace),
                     label = stringResource(R.string.login),
-                    onClick = viewModel::routeHome
+                    onClick = actions.tryLogin
                 )
             }
         }
@@ -135,6 +116,8 @@ fun LoginScreen(
 @Composable
 @Preview(name = "Login")
 internal fun LoginScreenPreview() {
-    LoginScreen()
+    DanisBanaAppTheme {
+        LoginScreen()
+    }
 }
 

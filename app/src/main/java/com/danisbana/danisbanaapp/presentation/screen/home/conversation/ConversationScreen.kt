@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.danisbana.danisbanaapp.core.model.MessageStatus
+import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.presentation.components.MAppBar
 import com.danisbana.danisbanaapp.presentation.screen.home.conversation.components.MessageTile
 

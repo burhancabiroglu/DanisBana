@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.danisbana.danisbanaapp.R
-import com.danisbana.danisbanaapp.core.model.sampleItems
+import com.danisbana.danisbanaapp.core.model.message.sampleItems
 import com.danisbana.danisbanaapp.presentation.components.MAppBar
 import com.danisbana.danisbanaapp.presentation.screen.home.messages.components.MessageListItem
 import com.danisbana.danisbanaapp.presentation.theme.QueenBlue

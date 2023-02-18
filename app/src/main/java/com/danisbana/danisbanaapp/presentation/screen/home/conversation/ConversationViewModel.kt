@@ -3,7 +3,7 @@ package com.danisbana.danisbanaapp.presentation.screen.home.conversation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.danisbana.danisbanaapp.core.model.MessageModel
+import com.danisbana.danisbanaapp.core.model.message.MessageModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow

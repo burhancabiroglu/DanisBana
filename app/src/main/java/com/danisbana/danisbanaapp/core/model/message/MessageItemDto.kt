@@ -1,4 +1,4 @@
-package com.danisbana.danisbanaapp.core.model
+package com.danisbana.danisbanaapp.core.model.message
 
 import android.os.Parcelable
 import kotlinx.parcelize.IgnoredOnParcel

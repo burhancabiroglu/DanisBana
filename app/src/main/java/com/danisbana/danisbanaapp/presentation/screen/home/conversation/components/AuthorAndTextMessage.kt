@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.danisbana.danisbanaapp.core.model.MessageModel
+import com.danisbana.danisbanaapp.core.model.message.MessageModel
 
 @Composable
 fun AuthorAndTextMessage(

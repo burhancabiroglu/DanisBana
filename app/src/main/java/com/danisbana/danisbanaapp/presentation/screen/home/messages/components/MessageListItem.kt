@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.danisbana.danisbanaapp.core.model.AcceptedMessageItemDto
-import com.danisbana.danisbanaapp.core.model.MessageItemDto
-import com.danisbana.danisbanaapp.core.model.MessageStatus
+import com.danisbana.danisbanaapp.core.model.message.AcceptedMessageItemDto
+import com.danisbana.danisbanaapp.core.model.message.MessageItemDto
+import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.presentation.theme.AppDimens
 import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 import com.danisbana.danisbanaapp.presentation.theme.White

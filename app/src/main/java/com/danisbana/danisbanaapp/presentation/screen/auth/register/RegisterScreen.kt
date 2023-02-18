@@ -10,34 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.danisbana.danisbanaapp.R
 import com.danisbana.danisbanaapp.presentation.components.*
-import com.danisbana.danisbanaapp.presentation.navigation.Screen
 import com.danisbana.danisbanaapp.presentation.theme.AppDimens
 import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 import com.danisbana.danisbanaapp.presentation.theme.LightSeaGreen
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RegisterScreen(
-    viewModel: RegisterViewModel = hiltViewModel(),
-    navController: NavHostController = rememberNavController()
+    state: RegisterState =  RegisterState(),
+    actions: RegisterActions = RegisterActions()
 ) {
-    val uiState by viewModel.stateFlow.collectAsState(RegisterState())
     val scrollableState = rememberScrollState()
-
-    LaunchedEffect(true) {
-        viewModel.navChannel.collectLatest {
-            when(it){
-                is RegisterNavChannel.RouteLogin -> navController.navigate(Screen.Login.route)
-            }
-        }
-    }
 
     return Scaffold { paddingValues ->
         Box(
@@ -63,28 +47,28 @@ fun RegisterScreen(
                         style = MaterialTheme.typography.h2,
                         modifier = Modifier.padding(horizontal = AppDimens.wallSpace+10.dp)
                     )
-                    MTextField(
+                    MEmailTextField(
                         Modifier.padding(horizontal = AppDimens.wallSpace),
-                        value = uiState.fullName,
-                        onValueChange = { uiState.fullName = it },
+                        value = state.fullName,
+                        onValueChange = { state.fullName = it },
                         label = stringResource(R.string.fullname)
                     )
-                    MTextField(
+                    MEmailTextField(
                         Modifier.padding(horizontal = AppDimens.wallSpace),
-                        value = uiState.email,
-                        onValueChange = { uiState.email = it },
+                        value = state.email,
+                        onValueChange = { state.email = it },
                         label = stringResource(id = R.string.email)
                     )
                     MPasswordTextField(
                         Modifier.padding(horizontal = AppDimens.wallSpace),
-                        value = uiState.password,
-                        onValueChange = { uiState.password = it },
+                        value = state.password,
+                        onValueChange = { state.password = it },
                         label = stringResource(id = R.string.password)
                     )
                     MPasswordTextField(
                         Modifier.padding(horizontal = AppDimens.wallSpace),
-                        value = uiState.passwordConfirm,
-                        onValueChange = { uiState.passwordConfirm = it },
+                        value = state.passwordConfirm,
+                        onValueChange = { state.passwordConfirm = it },
                         label = stringResource(R.string.password_again)
                     )
                     Row(
@@ -92,7 +76,7 @@ fun RegisterScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Checkbox(
-                            checked = uiState.isPolicyChecked,
+                            checked = state.isPolicyChecked,
                             onCheckedChange = {}
                         )
                         Text(
@@ -122,21 +106,18 @@ fun RegisterScreen(
                     text = stringResource(id = R.string.login),
                     textStyle = MaterialTheme.typography.h3,
                     textColor = LightSeaGreen,
-                    onClick = viewModel::routeLogin
+                    onClick = actions.routeLogin
                 )
             }
         }
     }
 }
 
+
+@Preview
 @Composable
-@Preview(name = "Register")
-private fun RegisterScreenPreview() {
-    val viewModel = remember {
-        RegisterViewModel(SavedStateHandle())
-    }
+fun RegisterScreenPreview() {
     DanisBanaAppTheme {
-        RegisterScreen(viewModel)
+        RegisterScreen()
     }
 }
-

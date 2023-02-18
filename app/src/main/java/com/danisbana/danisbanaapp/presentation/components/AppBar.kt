@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.danisbana.danisbanaapp.core.model.MessageStatus
+import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.presentation.screen.home.messages.components.StatusPointerCircle
 import com.danisbana.danisbanaapp.presentation.theme.White
 

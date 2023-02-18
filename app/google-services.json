@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "960346782358",
+    "project_id": "danis-bana-app",
+    "storage_bucket": "danis-bana-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960346782358:android:86e55e00eabeee947da0b7",
+        "android_client_info": {
+          "package_name": "com.danisbana.danisbanaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960346782358-iao46mr4nkn8suv10fdphj1re62lp2no.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn5ik0d7pnrCLjM5lzMVMYQsn1rHPB7WA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960346782358-iao46mr4nkn8suv10fdphj1re62lp2no.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

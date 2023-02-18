@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.toMutableStateList
-import com.danisbana.danisbanaapp.core.model.MessageModel
+import com.danisbana.danisbanaapp.core.model.message.MessageModel
 
 
 /**

@@ -1,4 +1,4 @@
-package com.danisbana.danisbanaapp.core.model
+package com.danisbana.danisbanaapp.core.model.message
 
 import androidx.compose.ui.graphics.Color
 import com.danisbana.danisbanaapp.presentation.theme.*

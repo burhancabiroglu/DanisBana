@@ -8,7 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.danisbana.danisbanaapp.core.model.MessageModel
+import com.danisbana.danisbanaapp.core.model.message.MessageModel
 import com.danisbana.danisbanaapp.core.util.messageFormatter
 import com.danisbana.danisbanaapp.presentation.theme.*
 

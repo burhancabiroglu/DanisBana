@@ -1,4 +1,4 @@
-package com.danisbana.danisbanaapp.core.model
+package com.danisbana.danisbanaapp.core.model.message
 
 import com.danisbana.danisbanaapp.R
 import javax.annotation.concurrent.Immutable
