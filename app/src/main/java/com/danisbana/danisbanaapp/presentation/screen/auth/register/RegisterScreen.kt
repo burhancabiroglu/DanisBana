@@ -16,9 +16,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.danisbana.danisbanaapp.R
 import com.danisbana.danisbanaapp.core.extension.imeExtra
 import com.danisbana.danisbanaapp.presentation.components.*
+import com.danisbana.danisbanaapp.presentation.components.indicator.LoadingIndicator
 import com.danisbana.danisbanaapp.presentation.components.indicator.PageLoading
 import com.danisbana.danisbanaapp.presentation.theme.*
 
@@ -132,45 +134,48 @@ fun RegisterScreen(
                 hostState = state.snackbarHostState
             ) {
                 val bgColor =
-                    if (it.actionLabel == "error")
-                        Red.copy(alpha = 0.4f)
-                    else
-                        SuccessGreen.copy(alpha = 0.6f)
+                    if (it.actionLabel == "error") Red.copy(alpha = 0.4f)
+                    else SuccessGreen.copy(alpha = 0.6f)
 
                 val icon =
-                    if(it.actionLabel == "error")
-                        Icons.Default.Error
-                    else
-                        Icons.Default.Check
-                Card(
-                    shape = RoundedCornerShape(8.dp),
-                    backgroundColor = White,
-                    modifier = Modifier
-                        .height(120.dp)
-                        .width(230.dp)
+                    if(it.actionLabel == "error") Icons.Default.Error
+                    else Icons.Default.Check
+
+                Box(
+                    Modifier.background(Black20).fillMaxSize().zIndex(100f),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
+                    Card(
+                        shape = RoundedCornerShape(8.dp),
+                        backgroundColor = White,
                         modifier = Modifier
-                            .background(bgColor)
-                            .fillMaxSize()
+                            .height(120.dp)
+                            .width(230.dp)
                     ) {
-                        Column(
-                            modifier = Modifier.padding(8.dp).fillMaxSize(),
-                            verticalArrangement = Arrangement.spacedBy(
-                                4.dp,
-                                Alignment.CenterVertically
-                            ),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        Box(
+                            modifier = Modifier
+                                .background(bgColor)
+                                .fillMaxSize()
                         ) {
-                            Icon(
-                                imageVector = icon,
-                                contentDescription = it.actionLabel,
-                                tint = White
-                            )
-                            Text(text = it.message, color = White, textAlign = TextAlign.Center)
+                            Column(
+                                modifier = Modifier.padding(8.dp).fillMaxSize(),
+                                verticalArrangement = Arrangement.spacedBy(
+                                    4.dp,
+                                    Alignment.CenterVertically
+                                ),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = it.actionLabel,
+                                    tint = White
+                                )
+                                Text(text = it.message, color = White, textAlign = TextAlign.Center)
+                            }
                         }
                     }
                 }
+
             }
         }
     }

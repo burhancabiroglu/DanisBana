@@ -77,7 +77,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
                             credentials
                         )
                     )
-                }catch (e:Exception) {
+                } catch (e:Exception) {
                     return@async Result.failure(e)
                 }
             }

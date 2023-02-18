@@ -113,6 +113,9 @@ class RegisterViewModel @Inject constructor(
                 actionLabel = "success",
                 message = "Kayıt işlemi başarılı oldu.\nGiriş sayfasına yönlendiriliyorsunuz"
             )
+        }
+        viewModelScope.launch {
+            delay(400)
             _navChannel.send(RegisterNavChannel.RouteLogin)
         }
     }

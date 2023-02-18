@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -60,7 +61,6 @@ class LoginViewModel @Inject constructor(
         }
     }
     private fun onSubmitFailure(t: Throwable) {
-        Log.e("TAG", "onSubmitFailure: $t ", )
         viewModelScope.launch {
             when(t){
                 is FirebaseAuthInvalidCredentialsException ->
@@ -83,6 +83,9 @@ class LoginViewModel @Inject constructor(
                 actionLabel = "success",
                 message = "Giriş Başarılı"
             )
+        }
+        viewModelScope.launch {
+            delay(400)
             _navChannel.send(LoginNavChannel.RouteHome)
         }
     }
