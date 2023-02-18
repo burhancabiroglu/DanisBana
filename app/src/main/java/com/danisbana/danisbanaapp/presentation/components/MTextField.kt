@@ -19,6 +19,35 @@ import com.danisbana.danisbanaapp.presentation.theme.Red
 import com.danisbana.danisbanaapp.presentation.theme.Transparent
 
 @Composable
+fun MTextField(
+    modifier: Modifier = Modifier,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    label: String,
+) {
+    return TextField(
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        modifier = modifier.fillMaxWidth().wrapContentHeight(),
+        label = { Text(text = label) },
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color(0x90E8E8E8),
+            unfocusedIndicatorColor = Transparent,
+            focusedIndicatorColor = Transparent,
+            errorIndicatorColor = Red.copy(alpha = 0.6f)
+        ),
+        shape = RoundedCornerShape(AppDimens.s12dp),
+        textStyle = MaterialTheme.typography.body2,
+        keyboardOptions = KeyboardOptions(
+            autoCorrect = true,
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next
+        )
+    )
+}
+
+@Composable
 fun MEmailTextField(
     modifier: Modifier = Modifier,
     value: TextFieldValue,

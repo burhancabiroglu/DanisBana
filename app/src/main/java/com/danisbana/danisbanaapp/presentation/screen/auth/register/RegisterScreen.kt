@@ -23,6 +23,7 @@ fun RegisterScreen(
 ) {
     val scrollableState = rememberScrollState()
 
+    val textFieldModifier  =Modifier.padding(horizontal = AppDimens.wallSpace)
     return Scaffold { paddingValues ->
         Box(
             modifier = Modifier
@@ -47,26 +48,26 @@ fun RegisterScreen(
                         style = MaterialTheme.typography.h2,
                         modifier = Modifier.padding(horizontal = AppDimens.wallSpace+10.dp)
                     )
-                    MEmailTextField(
-                        Modifier.padding(horizontal = AppDimens.wallSpace),
+                    MTextField(
+                        textFieldModifier,
                         value = state.fullName,
                         onValueChange = { state.fullName = it },
                         label = stringResource(R.string.fullname)
                     )
                     MEmailTextField(
-                        Modifier.padding(horizontal = AppDimens.wallSpace),
+                        textFieldModifier,
                         value = state.email,
                         onValueChange = { state.email = it },
                         label = stringResource(id = R.string.email)
                     )
                     MPasswordTextField(
-                        Modifier.padding(horizontal = AppDimens.wallSpace),
+                        textFieldModifier,
                         value = state.password,
                         onValueChange = { state.password = it },
                         label = stringResource(id = R.string.password)
                     )
                     MPasswordTextField(
-                        Modifier.padding(horizontal = AppDimens.wallSpace),
+                        textFieldModifier,
                         value = state.passwordConfirm,
                         onValueChange = { state.passwordConfirm = it },
                         label = stringResource(R.string.password_again)

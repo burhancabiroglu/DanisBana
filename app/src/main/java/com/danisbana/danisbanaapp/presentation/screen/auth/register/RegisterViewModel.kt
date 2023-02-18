@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
+import com.danisbana.danisbanaapp.domain.repo.FirebaseConfigRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import javax.inject.Inject
@@ -16,8 +17,9 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val firebaseAuthRepo: FirebaseAuthRepo
+    private val savedStateHandle: SavedStateHandle,
+    private val firebaseAuthRepo: FirebaseAuthRepo,
+    private val firebaseConfigRepo: FirebaseConfigRepo
 ) : ViewModel() {
 
     private val _stateFlow: MutableStateFlow<RegisterState> = MutableStateFlow(RegisterState())
@@ -26,6 +28,12 @@ class RegisterViewModel @Inject constructor(
     private val _navChannel = Channel<RegisterNavChannel>()
     val navChannel get() = _navChannel.consumeAsFlow()
 
+
+    init {
+        viewModelScope.launch {
+           // val result = firebaseConfigRepo.getAgreementConfigAsync().await()
+        }
+    }
 
     fun routeLogin() {
         viewModelScope.launch {

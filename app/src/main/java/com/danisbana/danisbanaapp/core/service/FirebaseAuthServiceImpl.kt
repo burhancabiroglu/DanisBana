@@ -4,10 +4,7 @@ import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import javax.inject.Inject
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -18,6 +15,11 @@ class FirebaseAuthServiceImpl: FirebaseAuthService {
         return suspendCoroutine { continuation ->
             auth.createUserWithEmailAndPassword(request.email,request.password)
                 .addOnSuccessListener {
+                    val profileUpdates = UserProfileChangeRequest.Builder()
+                        .setDisplayName(request.fullName)
+                        .build()
+                    it.user?.updateProfile(profileUpdates)
+                    //it.user?.sendEmailVerification()
                     continuation.resume(Result.success(it))
                 }
                 .addOnFailureListener {
