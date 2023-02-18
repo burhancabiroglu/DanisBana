@@ -2,7 +2,6 @@ package com.danisbana.danisbanaapp.presentation.screen.home.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -21,13 +20,14 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            authRepo.getCurrentUser()?.let {
-                _stateFlow.tryEmit(
-                    ProfileState(
-                        AppUser(it)
-                    )
-                )
+            var state = _stateFlow.value.copy(pageLoading = true)
+            _stateFlow.tryEmit(state)
+            val result = authRepo.getAppUserAsync().await()
+            if(result.isSuccess) {
+                state = state.copy( appUser = result.getOrNull())
+                _stateFlow.tryEmit(state)
             }
+            _stateFlow.tryEmit(state.copy(pageLoading = false))
         }
     }
 

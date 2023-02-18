@@ -3,8 +3,11 @@ package com.danisbana.danisbanaapp.presentation.screen.splash
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
+import com.danisbana.danisbanaapp.domain.repo.FirebaseDatabaseRepo
 import com.danisbana.danisbanaapp.presentation.navigation.Screen
+import com.google.firebase.firestore.auth.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val authRepo: FirebaseAuthRepo
+    private val authRepo: FirebaseAuthRepo,
 ) : ViewModel() {
 
     private val _stateFlow: MutableStateFlow<SplashState> = MutableStateFlow(SplashState())

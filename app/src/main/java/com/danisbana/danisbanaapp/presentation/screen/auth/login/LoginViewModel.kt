@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import com.danisbana.danisbanaapp.domain.usecase.ValidateEmail
 import com.google.firebase.auth.AuthResult
@@ -76,7 +77,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun onSubmitSuccess(r: AuthResult) {
+    private fun onSubmitSuccess(r: AppUser) {
         viewModelScope.launch {
             snackBarState.showSnackbar(
                 actionLabel = "success",

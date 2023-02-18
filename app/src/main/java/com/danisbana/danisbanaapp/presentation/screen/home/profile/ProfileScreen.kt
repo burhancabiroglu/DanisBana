@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.danisbana.danisbanaapp.R
 import com.danisbana.danisbanaapp.presentation.components.MAppBar
 import com.danisbana.danisbanaapp.presentation.components.WhiteButton
+import com.danisbana.danisbanaapp.presentation.components.indicator.PageLoading
 import com.danisbana.danisbanaapp.presentation.screen.home.profile.components.PictureWheel
 import com.danisbana.danisbanaapp.presentation.screen.home.profile.components.SummaryTable
 import com.danisbana.danisbanaapp.presentation.theme.AppDimens
@@ -42,7 +44,8 @@ fun ProfileScreen(
             }
         ) }
     ) {
-       Column(
+        PageLoading(state.pageLoading)
+        Column(
            modifier = Modifier
                .padding(it)
                .verticalScroll(scrollableState)
@@ -55,10 +58,12 @@ fun ProfileScreen(
                modifier = Modifier
                    .fillMaxWidth()
                    .padding(vertical = AppDimens.p20.dp),
-               textAlign = TextAlign.Center
+               textAlign = TextAlign.Center,
+               style = MaterialTheme.typography.h2
            )
            SummaryTable(
-               modifier = Modifier.padding(horizontal = AppDimens.wallSpace)
+               modifier = Modifier.padding(horizontal = AppDimens.wallSpace),
+               userInfo = state.appUser?.info
            )
            Column(
                modifier = Modifier.padding(AppDimens.wallSpace),

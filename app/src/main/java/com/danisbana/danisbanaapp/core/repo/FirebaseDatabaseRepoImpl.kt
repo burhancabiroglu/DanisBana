@@ -1,23 +1,25 @@
 package com.danisbana.danisbanaapp.core.repo
 
-import com.danisbana.danisbanaapp.core.model.agreement.Agreement
-import com.danisbana.danisbanaapp.domain.repo.FirebaseConfigRepo
-import com.danisbana.danisbanaapp.domain.service.FirebaseConfigService
+import com.danisbana.danisbanaapp.core.model.profile.UserInfo
+import com.danisbana.danisbanaapp.domain.repo.FirebaseDatabaseRepo
 import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class FirebaseConfigRepoImpl(
-    private var configService: FirebaseConfigService,
-) : FirebaseConfigRepo {
-    override suspend fun getAgreementConfigAsync(): Deferred<Result<Agreement>> {
+class FirebaseDatabaseRepoImpl @Inject constructor(
+    private var databaseService: FirebaseDatabaseService
+) : FirebaseDatabaseRepo {
+
+    override suspend fun createUserCredentialsAsync(userInfo: UserInfo): Deferred<Result<DocumentReference>> {
         return withContext(Dispatchers.IO) {
-            var result: Result<Agreement>
+            var result: Result<DocumentReference>
             return@withContext async {
                 try {
-                    result = configService.getAgreementConfig()
+                    result = databaseService.createUserCredentials(userInfo)
                     return@async result
                 } catch (e: Exception) {
                     result = Result.failure(e)

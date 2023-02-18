@@ -18,10 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.danisbana.danisbanaapp.presentation.theme.CadetBlue
 import com.danisbana.danisbanaapp.presentation.theme.White
 import com.danisbana.danisbanaapp.R
+import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 
 @Composable
 fun SummaryTable(
-    modifier: Modifier = Modifier
+    userInfo: UserInfo? = null,
+    modifier: Modifier = Modifier,
 ) {
     return Box(
         modifier = modifier,
@@ -48,17 +50,20 @@ fun SummaryTable(
                 ) {
                     SummaryColumn(
                         image = painterResource(id = R.drawable.ic_approved_messages),
-                        text = "Onaylanan\nMesajlar"
+                        text = "Onaylanan\nMesajlar",
+                        value = userInfo?.acceptedMessages?.toString()?:"..."
                     )
                     VerticalDivider()
                     SummaryColumn(
                         image = painterResource(id = R.drawable.ic_all_messages),
-                        text = "Toplam\nMesajlar"
+                        text = "Toplam\nMesajlar",
+                        value = userInfo?.totalMessages?.toString()?:"..."
                     )
                     VerticalDivider()
                     SummaryColumn(
                         image = painterResource(id = R.drawable.ic_trophy),
-                        text = "Lotus\nPuan"
+                        text = "Lotus\nPuan",
+                        value = userInfo?.point?.toString()?:"..."
                     )
                 }
             }
@@ -81,7 +86,8 @@ private fun RowScope.SummaryColumn(
     text: String,
     icon: ImageVector? = null,
     image: Painter? = null,
-    tint: Color = CadetBlue
+    tint: Color = CadetBlue,
+    value: String = ""
 
 ) {
     Column(
@@ -111,17 +117,8 @@ private fun RowScope.SummaryColumn(
         )
         Spacer(modifier = Modifier.size(3.dp))
         Text(
-            text = "12",
+            text = value,
             style = MaterialTheme.typography.h2
         )
-    }
-}
-
-
-@Preview(name = "SummaryTable")
-@Composable
-private fun PreviewSummaryTable() {
-    MaterialTheme {
-        SummaryTable()
     }
 }

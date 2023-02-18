@@ -4,7 +4,8 @@ import com.danisbana.danisbanaapp.core.model.profile.AppUser
 
 
 data class ProfileState(
-    var appUser: AppUser? = null
+    var appUser: AppUser? = null,
+    var pageLoading:Boolean = false
 )
 
 data class ProfileActions(
