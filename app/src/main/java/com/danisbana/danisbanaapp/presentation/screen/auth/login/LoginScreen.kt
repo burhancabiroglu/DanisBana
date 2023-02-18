@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -14,10 +14,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.danisbana.danisbanaapp.R
+import com.danisbana.danisbanaapp.core.extension.imeExtra
 import com.danisbana.danisbanaapp.presentation.components.*
+import com.danisbana.danisbanaapp.presentation.components.indicator.PageLoading
 import com.danisbana.danisbanaapp.presentation.theme.AppDimens
 import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 import com.danisbana.danisbanaapp.presentation.theme.LightSeaGreen
+import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
 fun LoginScreen(
@@ -26,18 +29,19 @@ fun LoginScreen(
 ) {
     val scrollableState = rememberScrollState()
 
-    return Scaffold { paddingValues ->
-        paddingValues.calculateBottomPadding()
+    return Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = White
+    ) {
+        PageLoading(state.pageLoading)
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .navigationBarsPadding()
                 .statusBarsPadding()
-                .imePadding()
-                .verticalScroll(scrollableState)
-        ){
+        ) {
             LottieView(
-                modifier  = Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1.4f)
                     .zIndex(1f),
@@ -64,10 +68,14 @@ fun LoginScreen(
                     onClick = actions.routeRegister
                 )
             }
-            Column {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(scrollableState, reverseScrolling = true)
+                    .imeExtra()
+            ) {
                 Spacer(modifier = Modifier.height(92.dp))
                 LottieView(
-                    modifier  = Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1.4f)
                         .zIndex(0.9f),
@@ -78,7 +86,7 @@ fun LoginScreen(
                 Text(
                     text = stringResource(R.string.welcome),
                     style = MaterialTheme.typography.h1,
-                    modifier = Modifier.padding(horizontal = AppDimens.wallSpace+10.dp),
+                    modifier = Modifier.padding(horizontal = AppDimens.wallSpace + 10.dp),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 MEmailTextField(
@@ -100,13 +108,14 @@ fun LoginScreen(
                         .padding(horizontal = AppDimens.wallSpace),
                     horizontalArrangement = Arrangement.End
                 ) {
-                   MTextButton(text = stringResource(R.string.forgot_password))
+                    MTextButton(text = stringResource(R.string.forgot_password))
                 }
                 Spacer(modifier = Modifier.height(32.dp))
                 PrimaryButton(
                     modifier = Modifier.padding(horizontal = AppDimens.wallSpace),
                     label = stringResource(R.string.login),
-                    onClick = actions.tryLogin
+                    onClick = actions.tryLogin,
+                    buttonState = state.buttonEnabled
                 )
             }
         }

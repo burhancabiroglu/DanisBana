@@ -1,5 +1,6 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.profile.components
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import coil.compose.rememberAsyncImagePainter
 import com.danisbana.danisbanaapp.presentation.theme.White
 import com.danisbana.danisbanaapp.R
 import com.danisbana.danisbanaapp.presentation.theme.CadetBlue
@@ -26,12 +28,12 @@ import com.danisbana.danisbanaapp.presentation.theme.Marigold
 
 @Composable
 fun PictureWheel(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    pictureUrl: Uri? = null
 ) {
     val conf = LocalConfiguration.current
     val screenWidth = conf.screenWidthDp
     val screenHeight = conf.screenHeightDp
-
     return Box(
         Modifier
             .fillMaxWidth()
@@ -45,15 +47,24 @@ fun PictureWheel(
                 modifier = Modifier
                     .width((screenWidth * 0.45).dp)
                     .aspectRatio(1f)
-                    .background(White,CircleShape)
+                    .background(White, CircleShape)
                     .padding(5.dp),
                 contentAlignment = Alignment.BottomCenter
             ){
-                Image(
-                    modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(id = R.drawable.ic_user_no_picture),
-                    contentDescription = ""
-                )
+                if(pictureUrl == null){
+                    Image(
+                        modifier = Modifier.fillMaxSize(),
+                        painter = painterResource(id = R.drawable.ic_user_no_picture),
+                        contentDescription = ""
+                    )
+                }
+                else {
+                    Image(
+                        modifier = Modifier.fillMaxSize(),
+                        painter = rememberAsyncImagePainter(model = pictureUrl),
+                        contentDescription = ""
+                    )
+                }
             }
         }
         Icon(
@@ -61,7 +72,7 @@ fun PictureWheel(
             contentDescription = "",
             tint = White,
             modifier = modifier
-                .offset(x = 60.dp,y= (60).dp)
+                .offset(x = 60.dp, y = (60).dp)
                 .background(Marigold, CircleShape)
                 .padding(8.dp)
         )

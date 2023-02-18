@@ -1,11 +1,11 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.profile
 
-import androidx.compose.runtime.*
+import com.danisbana.danisbanaapp.core.model.profile.AppUser
 
 
-class ProfileState {
-    var userName by mutableStateOf("Ali Cabbarov")
-}
+data class ProfileState(
+    var appUser: AppUser? = null
+)
 
 data class ProfileActions(
     val onClick: () -> Unit = {}

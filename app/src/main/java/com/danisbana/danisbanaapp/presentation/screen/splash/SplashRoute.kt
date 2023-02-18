@@ -3,7 +3,6 @@ package com.danisbana.danisbanaapp.presentation.screen.splash
 import android.app.Activity
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.danisbana.danisbanaapp.presentation.navigation.Screen
@@ -17,7 +16,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun SplashRoute(viewModel: SplashViewModel = hiltViewModel(),navController: NavController) {
     val uiState by viewModel.stateFlow.collectAsState(SplashState())
     val uiController = rememberSystemUiController()
-    val localActivity = (LocalContext.current as Activity)
 
     LaunchedEffect(key1 = true) {
         viewModel.updateState()
@@ -30,9 +28,9 @@ fun SplashRoute(viewModel: SplashViewModel = hiltViewModel(),navController: NavC
         uiController.isNavigationBarVisible = false
         uiController.setStatusBarColor(Transparent)
         onDispose {
-            WindowCompat.setDecorFitsSystemWindows(localActivity.window, false)
+            uiController.statusBarDarkContentEnabled = true
             uiController.isNavigationBarVisible = true
-            uiController.setStatusBarColor(White)
+            //uiController.setStatusBarColor(White)
         }
     }
 

@@ -22,3 +22,6 @@ val Blue =  Color(0xFF007bff)
 val Red =  Color(0xFFc62828)
 
 val LightSeaGreen = Color(0xFF15A6AD)
+
+val Black20 = Color(0x66000000)
+

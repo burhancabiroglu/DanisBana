@@ -19,6 +19,7 @@ import com.danisbana.danisbanaapp.presentation.components.WhiteButton
 import com.danisbana.danisbanaapp.presentation.screen.home.profile.components.PictureWheel
 import com.danisbana.danisbanaapp.presentation.screen.home.profile.components.SummaryTable
 import com.danisbana.danisbanaapp.presentation.theme.AppDimens
+import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
@@ -42,9 +43,11 @@ fun ProfileScreen(
                .padding(it)
                .verticalScroll(scrollableState)
        ) {
-           PictureWheel()
+           PictureWheel(
+               pictureUrl = state.appUser?.firebaseUser?.photoUrl
+           )
            Text(
-               state.userName,
+               state.appUser?.firebaseUser?.displayName.toString(),
                modifier = Modifier
                    .fillMaxWidth()
                    .padding(vertical = AppDimens.p20.dp),
@@ -68,6 +71,8 @@ fun ProfileScreen(
 @Composable
 @Preview(name = "Profile")
 private fun ProfileScreenPreview() {
-    ProfileScreen()
+    DanisBanaAppTheme {
+        ProfileScreen()
+    }
 }
 

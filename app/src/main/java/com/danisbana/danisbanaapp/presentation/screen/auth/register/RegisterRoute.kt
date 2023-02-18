@@ -32,7 +32,8 @@ fun rememberRegisterActions(viewModel: RegisterViewModel): RegisterActions {
     return remember(viewModel) {
         RegisterActions(
             routeLogin = viewModel::routeLogin,
-            tryRegister = viewModel::tryRegister
+            tryRegister = viewModel::tryRegister,
+            policyCheckAction = viewModel::policyCheckAction
         )
     }
 }

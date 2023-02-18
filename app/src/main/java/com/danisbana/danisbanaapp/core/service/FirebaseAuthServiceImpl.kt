@@ -4,6 +4,7 @@ import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -38,5 +39,13 @@ class FirebaseAuthServiceImpl: FirebaseAuthService {
                     continuation.resume(Result.failure(it))
                 }
         }
+    }
+
+    override fun signOut() {
+        return auth.signOut()
+    }
+
+    override fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser
     }
 }

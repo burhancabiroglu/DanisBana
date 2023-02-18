@@ -5,6 +5,7 @@ import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -43,5 +44,13 @@ class FirebaseAuthRepoImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun signOut() {
+        return firebaseAuthService.signOut()
+    }
+
+    override fun getCurrentUser(): FirebaseUser? {
+        return firebaseAuthService.getCurrentUser()
     }
 }

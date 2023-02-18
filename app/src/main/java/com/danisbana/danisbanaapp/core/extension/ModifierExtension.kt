@@ -1,11 +1,16 @@
 package com.danisbana.danisbanaapp.core.extension
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -39,4 +44,12 @@ fun Modifier.advancedShadow(
             paint
         )
     }
+}
+
+
+fun Modifier.imeExtra():Modifier = composed {
+    val density = LocalDensity.current
+    val a = WindowInsets.ime.getBottom(density)
+    val h =  (a/density.density/1.7).dp
+    return@composed this.padding(bottom = h)
 }
