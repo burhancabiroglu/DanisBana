@@ -39,20 +39,19 @@ class FirebaseAuthRepoImpl @Inject constructor(
 
     override suspend fun registerAsync(request: RegisterRequest): Deferred<Result<AuthResult>> {
         return withContext(Dispatchers.IO) {
-            var result: Result<AuthResult>
             return@withContext async {
                 try {
-                    result = authService.register(request)
+                    val authResult = authService.register(request)
                     databaseService.createUserCredentials(
                         UserInfo(
-                            id = result.getOrNull()?.user?.uid.toString(),
+                            id = authResult.getOrNull()?.user?.uid.toString(),
                             point = 100
                         )
                     )
-                    return@async result
+                    authResult.getOrNull()?.user?.sendEmailVerification()
+                    return@async authResult
                 } catch (e: java.lang.Exception) {
-                    result = Result.failure(e)
-                    return@async result
+                    return@async Result.failure(e)
                 }
             }
         }
