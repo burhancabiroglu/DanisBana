@@ -9,10 +9,7 @@ import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
 import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class FirebaseAuthRepoImpl @Inject constructor(

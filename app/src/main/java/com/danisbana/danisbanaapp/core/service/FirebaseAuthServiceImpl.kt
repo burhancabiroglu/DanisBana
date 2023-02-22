@@ -1,19 +1,21 @@
 package com.danisbana.danisbanaapp.core.service
 
+import android.util.Log
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import kotlin.coroutines.resumeWithException
 
 
 class FirebaseAuthServiceImpl: FirebaseAuthService {
 
     override suspend fun register(request: RegisterRequest): Result<AuthResult> {
-        return suspendCoroutine { continuation ->
+        return suspendCancellableCoroutine { continuation ->
             auth.createUserWithEmailAndPassword(request.email,request.password)
                 .addOnSuccessListener {
                     val profileUpdates = UserProfileChangeRequest.Builder()
@@ -24,19 +26,20 @@ class FirebaseAuthServiceImpl: FirebaseAuthService {
                     continuation.resume(Result.success(it))
                 }
                 .addOnFailureListener {
-                    continuation.resume(Result.failure(it))
+                    continuation.resumeWithException(it)
                 }
         }
     }
 
     override suspend fun login(loginRequest: LoginRequest): Result<AuthResult> {
-        return suspendCoroutine { continuation ->
+        return suspendCancellableCoroutine { continuation ->
             auth.signInWithEmailAndPassword(loginRequest.email,loginRequest.password)
                 .addOnSuccessListener {
                     continuation.resume(Result.success(it))
                 }
                 .addOnFailureListener {
-                    continuation.resume(Result.failure(it))
+                    Log.e("TAG", "login: $it", )
+                    continuation.resumeWithException(it)
                 }
         }
     }

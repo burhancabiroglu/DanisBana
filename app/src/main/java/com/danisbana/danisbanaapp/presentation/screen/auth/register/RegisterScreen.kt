@@ -1,27 +1,19 @@
 package com.danisbana.danisbanaapp.presentation.screen.auth.register
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.danisbana.danisbanaapp.R
 import com.danisbana.danisbanaapp.core.extension.imeExtra
+import com.danisbana.danisbanaapp.domain.base.BaseScaffold
 import com.danisbana.danisbanaapp.presentation.components.*
-import com.danisbana.danisbanaapp.presentation.components.indicator.LoadingIndicator
-import com.danisbana.danisbanaapp.presentation.components.indicator.PageLoading
 import com.danisbana.danisbanaapp.presentation.theme.*
 
 @Composable
@@ -31,11 +23,10 @@ fun RegisterScreen(
 ) {
     val scrollableState = rememberScrollState()
     val textFieldModifier = Modifier.padding(horizontal = AppDimens.wallSpace)
-    return Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = White
+    return BaseScaffold(
+        snackBarHostState = state.snackBarHostState,
+        loadingState = state.pageLoading
     ) {
-        PageLoading(state.pageLoading)
         Box(
             modifier = Modifier
                 .statusBarsPadding()
@@ -44,7 +35,6 @@ fun RegisterScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .navigationBarsPadding()
                     .verticalScroll(scrollableState, reverseScrolling = true)
                     .imeExtra()
             ) {
@@ -128,54 +118,6 @@ fun RegisterScreen(
                     textColor = LightSeaGreen,
                     onClick = actions.routeLogin
                 )
-            }
-            SnackbarHost(
-                modifier = Modifier.align(Alignment.Center),
-                hostState = state.snackbarHostState
-            ) {
-                val bgColor =
-                    if (it.actionLabel == "error") Red.copy(alpha = 0.4f)
-                    else SuccessGreen.copy(alpha = 0.6f)
-
-                val icon =
-                    if(it.actionLabel == "error") Icons.Default.Error
-                    else Icons.Default.Check
-
-                Box(
-                    Modifier.background(Black20).fillMaxSize().zIndex(100f),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Card(
-                        shape = RoundedCornerShape(8.dp),
-                        backgroundColor = White,
-                        modifier = Modifier
-                            .height(120.dp)
-                            .width(230.dp)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .background(bgColor)
-                                .fillMaxSize()
-                        ) {
-                            Column(
-                                modifier = Modifier.padding(8.dp).fillMaxSize(),
-                                verticalArrangement = Arrangement.spacedBy(
-                                    4.dp,
-                                    Alignment.CenterVertically
-                                ),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Icon(
-                                    imageVector = icon,
-                                    contentDescription = it.actionLabel,
-                                    tint = White
-                                )
-                                Text(text = it.message, color = White, textAlign = TextAlign.Center)
-                            }
-                        }
-                    }
-                }
-
             }
         }
     }

@@ -20,14 +20,12 @@ class ProfileViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            var state = _stateFlow.value.copy(pageLoading = true)
-            _stateFlow.tryEmit(state)
+            _stateFlow.value.pageLoading.show()
             val result = authRepo.getAppUserAsync().await()
             if(result.isSuccess) {
-                state = state.copy( appUser = result.getOrNull())
-                _stateFlow.tryEmit(state)
+                _stateFlow.value.appUser = result.getOrNull()
             }
-            _stateFlow.tryEmit(state.copy(pageLoading = false))
+            _stateFlow.value.pageLoading.hide()
         }
     }
 

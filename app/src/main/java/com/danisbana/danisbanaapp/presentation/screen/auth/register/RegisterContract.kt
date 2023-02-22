@@ -8,16 +8,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import com.danisbana.danisbanaapp.core.model.agreement.Agreement
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
+import com.danisbana.danisbanaapp.domain.base.LoadingState
 
 class RegisterState(
-    val snackbarHostState: SnackbarHostState = SnackbarHostState()
+    val snackBarHostState: SnackbarHostState = SnackbarHostState()
 ) {
     var fullName by mutableStateOf(TextFieldValue())
     var email by mutableStateOf(TextFieldValue())
     var password by mutableStateOf(TextFieldValue())
     var passwordConfirm by mutableStateOf(TextFieldValue())
     var isPolicyChecked by mutableStateOf(false)
-    var pageLoading by mutableStateOf(false)
+    var pageLoading = LoadingState(false)
 
     var agreement by mutableStateOf<Agreement?>(null)
 

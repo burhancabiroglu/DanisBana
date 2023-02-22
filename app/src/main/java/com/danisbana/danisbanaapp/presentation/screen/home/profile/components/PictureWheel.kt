@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
@@ -29,7 +30,8 @@ import com.danisbana.danisbanaapp.presentation.theme.Marigold
 @Composable
 fun PictureWheel(
     modifier: Modifier = Modifier,
-    pictureUrl: Uri? = null
+    pictureUrl: Uri? = null,
+    action: () -> Unit = {}
 ) {
     val conf = LocalConfiguration.current
     val screenWidth = conf.screenWidthDp
@@ -75,6 +77,7 @@ fun PictureWheel(
                 .offset(x = 60.dp, y = (60).dp)
                 .background(Marigold, CircleShape)
                 .padding(8.dp)
+                .clickable(onClick = action)
         )
     }
 }

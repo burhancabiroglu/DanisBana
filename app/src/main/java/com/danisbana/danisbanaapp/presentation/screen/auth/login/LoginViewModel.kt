@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import com.danisbana.danisbanaapp.domain.usecase.ValidateEmail
+import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -52,12 +53,12 @@ class LoginViewModel @Inject constructor(
             return
         }
         viewModelScope.launch {
-            _stateFlow.value.pageLoading = true
+            _stateFlow.value.pageLoading.show()
             val request = _stateFlow.value.buildLoginRequest()
             val result = firebaseAuthRepo.loginAsync(request).await()
             result.onFailure(::onSubmitFailure)
             result.onSuccess(::onSubmitSuccess)
-            _stateFlow.value.pageLoading = false
+            _stateFlow.value.pageLoading.hide()
         }
     }
     private fun onSubmitFailure(t: Throwable) {
@@ -72,6 +73,11 @@ class LoginViewModel @Inject constructor(
                     snackBarState.showSnackbar(
                         actionLabel = "error",
                         message = "Böyle bir kullanıcı mevcut değil"
+                    )
+                is FirebaseTooManyRequestsException ->
+                    snackBarState.showSnackbar(
+                        actionLabel = "error",
+                        message = "Çok fazla hatalı erişim talebi aldık.\nHesabınızı koruma adına\nkısa süreli olarak durdurduk"
                     )
             }
         }

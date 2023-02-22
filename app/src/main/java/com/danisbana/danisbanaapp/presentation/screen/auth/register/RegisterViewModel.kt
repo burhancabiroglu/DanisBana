@@ -81,12 +81,12 @@ class RegisterViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            _stateFlow.value.pageLoading = true
+            _stateFlow.value.pageLoading.show()
             val request = _stateFlow.value.buildRegisterRequest()
             val result = firebaseAuthRepo.registerAsync(request).await()
             result.onFailure(::onSubmitFailure)
             result.onSuccess(::onSubmitSuccess)
-            _stateFlow.value.pageLoading = false
+            _stateFlow.value.pageLoading.hide()
         }
     }
 

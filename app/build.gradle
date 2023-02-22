@@ -92,6 +92,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-config-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
+    implementation "com.himanshoe:pluck:1.0.0-RC2"
+
 
     testImplementation 'junit:junit:4.13.2'
 

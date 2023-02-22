@@ -16,8 +16,11 @@ fun ProfileRoute(
 ) {
     val uiState by viewModel.stateFlow.collectAsState(ProfileState())
     val actions = rememberProfileActions(viewModel)
-    val logoutAction = sharedViewModel::logout
-    ProfileScreen(uiState, actions,logoutAction)
+    actions.logout = {
+        viewModel.logout()
+        sharedViewModel.logout()
+    }
+    ProfileScreen(uiState, actions)
 }
 
 

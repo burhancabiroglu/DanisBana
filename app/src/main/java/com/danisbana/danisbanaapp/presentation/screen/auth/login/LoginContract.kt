@@ -7,16 +7,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
+import com.danisbana.danisbanaapp.domain.base.LoadingState
+import com.danisbana.danisbanaapp.presentation.components.indicator.PageLoading
 import com.danisbana.danisbanaapp.presentation.screen.auth.register.RegistrationFormState
 
 class LoginState(
-    val snackbarHostState: SnackbarHostState = SnackbarHostState()
+    val snackBarHostState: SnackbarHostState = SnackbarHostState()
 ) {
 
     var email by mutableStateOf(TextFieldValue())
     var password by mutableStateOf(TextFieldValue())
 
-    var pageLoading by mutableStateOf(false)
+    var pageLoading = LoadingState(false)
     var formState by mutableStateOf(LoginFormState())
 
 
