@@ -28,7 +28,8 @@ fun ProfileRoute(
 fun rememberProfileActions(viewModel: ProfileViewModel): ProfileActions {
     return remember(viewModel) {
         ProfileActions(
-            logout = viewModel::logout
+            logout = viewModel::logout,
+            updatePicture = viewModel::updateProfilePicture
         )
     }
 }

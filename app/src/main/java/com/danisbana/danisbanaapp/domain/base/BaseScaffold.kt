@@ -1,5 +1,6 @@
 package com.danisbana.danisbanaapp.domain.base
 
+import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -17,7 +18,9 @@ fun BaseScaffold(
     loadingState: LoadingState = rememberLoadingState(),
     snackBarHostState: SnackbarHostState = rememberSnackBarState(),
     dialogState: BaseDialogState = rememberDialogState(),
+    pickerDialogState: BaseDialogState = rememberDialogState(),
     dialogAction:() -> Unit = {},
+    pickerAction: (Uri) -> Unit = {},
     content: @Composable () -> Unit
 ) {
     Surface(modifier = modifier.fillMaxSize(), color = backgroundColor) {
@@ -36,6 +39,7 @@ fun BaseScaffold(
                 snackbar = { BaseSnackBar(data = it) }
             )
             BaseDialog(dialogState,dialogAction)
+            PickerDialog(pickerDialogState,pickerAction)
         }
     }
 }

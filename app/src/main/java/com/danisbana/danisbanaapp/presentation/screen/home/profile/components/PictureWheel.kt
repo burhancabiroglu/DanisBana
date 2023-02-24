@@ -1,6 +1,7 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.profile.components
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,8 +51,7 @@ fun PictureWheel(
                 modifier = Modifier
                     .width((screenWidth * 0.45).dp)
                     .aspectRatio(1f)
-                    .background(White, CircleShape)
-                    .padding(5.dp),
+                    .background(White, CircleShape),
                 contentAlignment = Alignment.BottomCenter
             ){
                 if(pictureUrl == null){
@@ -64,6 +65,7 @@ fun PictureWheel(
                     Image(
                         modifier = Modifier.fillMaxSize(),
                         painter = rememberAsyncImagePainter(model = pictureUrl),
+                        contentScale = ContentScale.Crop,
                         contentDescription = ""
                     )
                 }

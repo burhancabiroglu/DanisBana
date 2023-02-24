@@ -1,5 +1,6 @@
 package com.danisbana.danisbanaapp.domain.service
 
+import android.net.Uri
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.google.firebase.auth.AuthResult
@@ -14,4 +15,5 @@ interface FirebaseAuthService {
     suspend fun login(loginRequest: LoginRequest): Result<AuthResult>
     fun signOut(): Unit
     fun getCurrentUser(): FirebaseUser?
+    suspend fun updateProfilePicture(uri: Uri): Result<Void>
 }

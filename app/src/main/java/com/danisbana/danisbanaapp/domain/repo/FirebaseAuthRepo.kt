@@ -1,5 +1,6 @@
 package com.danisbana.danisbanaapp.domain.repo
 
+import android.net.Uri
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
@@ -14,4 +15,6 @@ interface FirebaseAuthRepo {
     fun signOut()
     fun getCurrentUser(): FirebaseUser?
     suspend fun getAppUserAsync(): Deferred<Result<AppUser>>
+    suspend fun updateProfilePictureAsync(bytes: ByteArray): Deferred<Result<Void>>
 }
+

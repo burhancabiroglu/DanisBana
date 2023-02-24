@@ -1,6 +1,6 @@
 package com.danisbana.danisbanaapp.core.service
 
-import android.util.Log
+import android.net.Uri
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
@@ -31,6 +31,7 @@ class FirebaseAuthServiceImpl: FirebaseAuthService {
         }
     }
 
+
     override suspend fun login(loginRequest: LoginRequest): Result<AuthResult> {
         return suspendCancellableCoroutine { continuation ->
             auth.signInWithEmailAndPassword(loginRequest.email,loginRequest.password)
@@ -38,7 +39,6 @@ class FirebaseAuthServiceImpl: FirebaseAuthService {
                     continuation.resume(Result.success(it))
                 }
                 .addOnFailureListener {
-                    Log.e("TAG", "login: $it", )
                     continuation.resumeWithException(it)
                 }
         }
@@ -50,5 +50,22 @@ class FirebaseAuthServiceImpl: FirebaseAuthService {
 
     override fun getCurrentUser(): FirebaseUser? {
         return auth.currentUser
+    }
+
+    override suspend fun updateProfilePicture(uri: Uri): Result<Void> {
+        return suspendCancellableCoroutine { continuation ->
+            val request = UserProfileChangeRequest.Builder()
+                .setPhotoUri(uri)
+                .build()
+            val currentUser = auth.currentUser
+                ?: return@suspendCancellableCoroutine continuation.resumeWithException(Exception("Current User is null"))
+            currentUser.updateProfile(request)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
     }
 }

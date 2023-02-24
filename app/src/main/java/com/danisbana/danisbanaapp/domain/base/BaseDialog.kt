@@ -58,6 +58,10 @@ class BaseDialogState {
         isShowing = true
     }
 
+    fun hide() {
+        isShowing = false
+    }
+
 }
 
 @Composable

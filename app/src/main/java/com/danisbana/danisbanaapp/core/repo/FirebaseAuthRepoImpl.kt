@@ -1,5 +1,7 @@
 package com.danisbana.danisbanaapp.core.repo
 
+import android.net.Uri
+import android.util.Log
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
@@ -75,6 +77,24 @@ class FirebaseAuthRepoImpl @Inject constructor(
                         )
                     )
                 } catch (e:Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
+    override suspend fun updateProfilePictureAsync(bytes: ByteArray): Deferred<Result<Void>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getCurrentUser()?:return@async Result.failure(Exception(""))
+                    val uri = databaseService.uploadPhoto(
+                        user.uid,
+                        bytes
+                    ).getOrNull()!!
+                    return@async authService.updateProfilePicture(uri)
+                } catch (e: java.lang.Exception) {
+                    Log.e("TAG", "updateProfilePictureAsync:$e ", )
                     return@async Result.failure(e)
                 }
             }
