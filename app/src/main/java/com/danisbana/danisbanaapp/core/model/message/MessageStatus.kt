@@ -7,20 +7,20 @@ enum class MessageStatus(
     val label: String,
     val color: Color
 ) {
-    ACCEPTED(
-        label = "Onaylandı",
-        color = SuccessGreen
-    ),
-    REJECTED(
-        label = "Onaylanmadı",
-        color = Red.copy(alpha = 0.8f)
-    ),
     PENDING(
         label = "Onay Bekleniyor",
         color = Marigold
     ),
+    ACCEPTED(
+        label = "Onaylandı",
+        color = SuccessGreen
+    ),
     ANSWERED(
         label = "Cevaplandı",
         color = Blue
-    )
+    ),
+    REJECTED(
+        label = "Onaylanmadı",
+        color = Red.copy(alpha = 0.8f)
+    );
 }

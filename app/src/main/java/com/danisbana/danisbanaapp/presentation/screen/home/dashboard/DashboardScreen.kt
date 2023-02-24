@@ -1,6 +1,5 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.dashboard
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -18,16 +17,15 @@ import androidx.lifecycle.SavedStateHandle
 import com.danisbana.danisbanaapp.R
 import com.danisbana.danisbanaapp.presentation.components.MAppBar
 import com.danisbana.danisbanaapp.presentation.screen.home.dashboard.components.ConsultantCard
-import com.danisbana.danisbanaapp.presentation.screen.home.dashboard.components.LatestActivityCard
+import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeActions
 import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeViewModel
 import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 
 @Composable
 fun DashboardScreen(
-    viewModel: DashboardViewModel = hiltViewModel(),
-    sharedViewModel: HomeViewModel? = null
+    state: DashboardState = DashboardState(),
+    dashboardActions: DashboardActions = DashboardActions(),
 ) {
-    val uiState by viewModel.stateFlow.collectAsState(DashboardState())
     val scrollableState = rememberScrollState()
     Scaffold(
        topBar = {
@@ -38,12 +36,8 @@ fun DashboardScreen(
            Modifier
                .padding(it)
                .verticalScroll(scrollableState)) {
-           ConsultantCard(
-               onClick = {
-                   sharedViewModel?.routeConsultant()
-               }
-           )
-           LatestActivityCard()
+           ConsultantCard(onClick = dashboardActions.routeConsultant)
+           //LatestActivityCard()
        }
    }
 }
@@ -51,11 +45,8 @@ fun DashboardScreen(
 @Composable
 @Preview(name = "Dashboard")
 private fun DashboardScreenPreview() {
-    val viewModel = remember {
-        DashboardViewModel(SavedStateHandle())
-    }
     DanisBanaAppTheme {
-        DashboardScreen(viewModel)
+        DashboardScreen()
     }
 }
 

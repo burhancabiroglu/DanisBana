@@ -7,18 +7,19 @@ import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeActions
 import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeViewModel
 
 @Composable
 fun ProfileRoute(
     viewModel: ProfileViewModel = hiltViewModel(),
-    sharedViewModel: HomeViewModel = hiltViewModel(),
+    homeActions: HomeActions = HomeActions(),
 ) {
     val uiState by viewModel.stateFlow.collectAsState(ProfileState())
     val actions = rememberProfileActions(viewModel)
     actions.logout = {
         viewModel.logout()
-        sharedViewModel.logout()
+        homeActions.routeLogin()
     }
     ProfileScreen(uiState, actions)
 }

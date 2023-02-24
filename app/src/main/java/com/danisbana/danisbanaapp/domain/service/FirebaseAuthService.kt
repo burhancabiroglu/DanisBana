@@ -13,7 +13,7 @@ interface FirebaseAuthService {
     val auth: FirebaseAuth get() = Firebase.auth
     suspend fun register(request: RegisterRequest): Result<AuthResult>
     suspend fun login(loginRequest: LoginRequest): Result<AuthResult>
-    fun signOut(): Unit
+    fun signOut()
     fun getCurrentUser(): FirebaseUser?
     suspend fun updateProfilePicture(uri: Uri): Result<Void>
 }

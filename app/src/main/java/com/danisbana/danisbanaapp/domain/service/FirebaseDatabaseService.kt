@@ -1,6 +1,7 @@
 package com.danisbana.danisbanaapp.domain.service
 
 import android.net.Uri
+import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.google.common.primitives.Bytes
 import com.google.firebase.firestore.DocumentReference
@@ -17,4 +18,6 @@ interface FirebaseDatabaseService {
     suspend fun createUserCredentials(info: UserInfo): Result<DocumentReference>
     suspend fun getUserCredentials(uid: String): Result<UserInfo>
     suspend fun uploadPhoto(uid: String,bytes: ByteArray): Result<Uri>
+    suspend fun createMessage(message: MessageEntity): Result<DocumentReference>
+    suspend fun getMessages(userId: String): Result<List<MessageEntity>>
 }

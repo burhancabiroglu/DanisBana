@@ -1,4 +1,4 @@
-package com.danisbana.danisbanaapp.presentation.screen.home.messages
+package com.danisbana.danisbanaapp.presentation.screen.home.dashboard
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -8,20 +8,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeActions
 
 @Composable
-fun MessagesRoute(
-    viewModel: MessagesViewModel = hiltViewModel(),
+fun DashboardRoute(
+    viewModel: DashboardViewModel = hiltViewModel(),
     homeActions: HomeActions = HomeActions()
 ) {
-    val uiState by viewModel.stateFlow.collectAsState(MessagesState())
-    val actions = rememberMessagesActions(viewModel)
+    val uiState by viewModel.stateFlow.collectAsState(DashboardState())
+    val actions = rememberDashboardActions(viewModel)
     actions.routeConsultant = homeActions.routeConsultant
-    MessagesScreen(uiState, actions)
+    DashboardScreen(uiState, actions)
 }
 
 
 @Composable
-fun rememberMessagesActions(viewModel: MessagesViewModel): MessagesActions {
+fun rememberDashboardActions(viewModel: DashboardViewModel): DashboardActions {
     return remember(viewModel) {
-        MessagesActions()
+        DashboardActions()
     }
 }

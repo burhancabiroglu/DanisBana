@@ -6,18 +6,21 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.danisbana.danisbanaapp.R
+import com.danisbana.danisbanaapp.core.extension.imeExtra
+import com.danisbana.danisbanaapp.domain.base.BaseScaffold
 import com.danisbana.danisbanaapp.presentation.components.MAppBar
 import com.danisbana.danisbanaapp.presentation.components.MTextFieldVariant
 import com.danisbana.danisbanaapp.presentation.components.PrimaryButton
@@ -27,18 +30,14 @@ import com.danisbana.danisbanaapp.presentation.theme.Transparent
 
 @Composable
 fun ConsultantScreen(
-    viewModel: ConsultantViewModel = hiltViewModel(),
+    state: ConsultantState = ConsultantState(),
+    actions: ConsultantActions = ConsultantActions(),
     navController: NavHostController = rememberNavController()
 ) {
-    val uiState by viewModel.stateFlow.collectAsState(ConsultantState())
     val scrollState = rememberScrollState()
-    val buttonState by remember {
-        derivedStateOf {
-            uiState.noteDetail.text.isNotEmpty() && uiState.noteTitle.text.isNotEmpty()
-        }
-    }
-
-    return Scaffold(
+    return BaseScaffold(
+        modifier = Modifier.statusBarsPadding().navigationBarsPadding(),
+        loadingState = state.pageLoading,
         topBar = {
             MAppBar(
                 title = "Yeni Danışma Notu",
@@ -46,7 +45,7 @@ fun ConsultantScreen(
                 navHostController = navController
             )
         }
-    ) { paddingValues ->
+    ){
         Image(
             painter = painterResource(id = R.drawable.background_paper),
             contentDescription = "background",
@@ -57,30 +56,32 @@ fun ConsultantScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Transparent)
-                .padding(
-                    horizontal = AppDimens.wallSpace,
-                    vertical = paddingValues.calculateBottomPadding()
-                )
-                .verticalScroll(scrollState),
+                .padding(horizontal = AppDimens.wallSpace)
+                .imeExtra()
+                .verticalScroll(scrollState, reverseScrolling = true),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ){
             Spacer(modifier = Modifier.height(12.dp))
             MTextFieldVariant(
-                value =  uiState.noteTitle,
-                onValueChange = { uiState.noteTitle = it },
+                value =  state.noteTitle,
+                onValueChange = { state.noteTitle = it },
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = stringResource(R.string.note_header_dot)
             )
             MTextFieldVariant(
-                value =  uiState.noteDetail,
-                onValueChange = { uiState.noteDetail = it },
+                value =  state.noteDetail,
+                onValueChange = { state.noteDetail = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .defaultMinSize(minHeight = 290.dp),
                 placeholder = stringResource(R.string.note_detail_dot)
             )
             Spacer(modifier = Modifier.weight(1f))
-            PrimaryButton(label = stringResource(R.string.send), buttonState = buttonState)
+            PrimaryButton(
+                label = stringResource(R.string.send),
+                buttonState = state.buttonState,
+                onClick = actions.onSubmit
+            )
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
@@ -89,11 +90,8 @@ fun ConsultantScreen(
 @Composable
 @Preview(name = "Consultant")
 private fun ConsultantScreenPreview() {
-    val viewModel = remember {
-        ConsultantViewModel(SavedStateHandle())
-    }
     DanisBanaAppTheme {
-        ConsultantScreen(viewModel)
+        ConsultantScreen()
     }
 }
 

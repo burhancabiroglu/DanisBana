@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.danisbana.danisbanaapp.core.model.message.AcceptedMessageItemDto
-import com.danisbana.danisbanaapp.core.model.message.MessageItemDto
+import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.presentation.theme.AppDimens
 import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
@@ -22,7 +21,7 @@ import com.danisbana.danisbanaapp.presentation.theme.White
 @Composable
 fun MessageListItem(
     modifier: Modifier = Modifier,
-    item: MessageItemDto = AcceptedMessageItemDto,
+    item: MessageEntity = MessageEntity(),
     dividerVisibility: Boolean = true
 ) {
     Box(modifier.background(White)) {
@@ -41,13 +40,13 @@ fun MessageListItem(
                     color = Color(0xFF343a40)
                 )
                 Text(
-                    text = item.latestDateString,
+                    text = item.dateString,
                     style = MaterialTheme.typography.body1
                 )
             }
             Spacer(modifier = modifier.height(5.dp))
             Text(
-                text = item.shortMessage,
+                text = item.content,
                 style = MaterialTheme.typography.body1
             )
             Spacer(modifier = modifier.height(8.dp))
@@ -84,6 +83,7 @@ fun StatusPointerCircle(
         )
     }
 }
+
 
 @Preview(name = "MessageListItem")
 @Composable

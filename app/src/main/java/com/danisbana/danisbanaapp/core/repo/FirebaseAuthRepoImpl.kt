@@ -1,8 +1,7 @@
 package com.danisbana.danisbanaapp.core.repo
 
-import android.net.Uri
-import android.util.Log
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
+import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
@@ -11,7 +10,12 @@ import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
 import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.*
+import com.google.firebase.firestore.DocumentReference
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 class FirebaseAuthRepoImpl @Inject constructor(
@@ -94,10 +98,43 @@ class FirebaseAuthRepoImpl @Inject constructor(
                     ).getOrNull()!!
                     return@async authService.updateProfilePicture(uri)
                 } catch (e: java.lang.Exception) {
-                    Log.e("TAG", "updateProfilePictureAsync:$e ", )
                     return@async Result.failure(e)
                 }
             }
         }
     }
+
+    override suspend fun createMessageAsync(title: String, content: String): Deferred<Result<DocumentReference>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getCurrentUser() ?: return@async Result.failure(Exception(""))
+                    val date = Date()
+                    val message = MessageEntity(
+                        timestamp = date.time,
+                        senderId = user.uid,
+                        title = title,
+                        content = content
+                    )
+                    return@async databaseService.createMessage(message)
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
+    override suspend fun getUserMessagesAsync(): Deferred<Result<List<MessageEntity>>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getCurrentUser() ?: return@async Result.failure(Exception(""))
+                    return@async databaseService.getMessages(user.uid)
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
 }

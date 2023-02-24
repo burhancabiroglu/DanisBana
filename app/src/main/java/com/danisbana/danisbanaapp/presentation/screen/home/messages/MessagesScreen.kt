@@ -15,36 +15,42 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.danisbana.danisbanaapp.R
 import com.danisbana.danisbanaapp.core.model.message.sampleItems
+import com.danisbana.danisbanaapp.domain.base.BaseScaffold
 import com.danisbana.danisbanaapp.presentation.components.MAppBar
 import com.danisbana.danisbanaapp.presentation.screen.home.messages.components.MessageListItem
+import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 import com.danisbana.danisbanaapp.presentation.theme.QueenBlue
 import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
 fun MessagesScreen(
     state: MessagesState = MessagesState(),
-    viewModel: MessagesViewModel = hiltViewModel()
+    actions: MessagesActions = MessagesActions()
 ) {
-    Scaffold(
+    BaseScaffold(
+        modifier = Modifier
+            .navigationBarsPadding()
+            .statusBarsPadding(),
         topBar = { MAppBar(title = stringResource(id = R.string.messages)) },
+        loadingState = state.pageLoading,
+        snackBarHostState = state.snackBarHostState
     ) {
         Box(modifier = Modifier
             .background(White)
-            .padding(it)
             .fillMaxSize()
         ){
             LazyColumn {
-                for (i in sampleItems){
+                for (i in state.messages){
                     item { MessageListItem(item = i) }
                 }
             }
             FloatingActionButton(
-                modifier =  Modifier
+                modifier = Modifier
                     .size(56.dp)
                     .align(alignment = Alignment.BottomEnd)
                     .offset(y = (-100).dp, x = (-10).dp),
                 elevation = FloatingActionButtonDefaults.elevation(10.dp),
-                onClick = {},
+                onClick = actions.routeConsultant,
                 backgroundColor = QueenBlue,
                 contentColor = White,
                 content = {
@@ -61,6 +67,8 @@ fun MessagesScreen(
 @Composable
 @Preview(name = "Messages")
 private fun MessagesScreenPreview() {
-    MessagesScreen()
+   DanisBanaAppTheme {
+       MessagesScreen()
+   }
 }
 
