@@ -5,7 +5,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.danisbana.danisbanaapp.presentation.navigation.Screen
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun HomeRoute(
@@ -21,6 +20,13 @@ fun HomeRoute(
     }
     HomeScreen(uiState, actions)
 
+
+    DisposableEffect(true) {
+        viewModel.onRecompose()
+        onDispose {
+            viewModel.onDispose()
+        }
+    }
 }
 
 

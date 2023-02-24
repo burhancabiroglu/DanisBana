@@ -20,10 +20,10 @@ import com.danisbana.danisbanaapp.presentation.theme.White
 @Composable
 fun MBottomNavigationBar(
     modifier: Modifier = Modifier,
+    state: BottomNavState  = rememberBottomNavState(),
     vararg items: NavItemObj,
     onItemCLick: ((String) -> Unit) = {}
 ) {
-    var selectedIndex by remember { mutableStateOf(0) }
     BottomNavigation(
         modifier = modifier
             .height(AppDimens.bottomNavHeight),
@@ -32,7 +32,7 @@ fun MBottomNavigationBar(
         contentColor = MaterialTheme.colors.primary,
         content = {
             items.forEachIndexed { index, it ->
-                val isSelected = (index == selectedIndex)
+                val isSelected = (index == state.selectedIndex)
                 BottomNavigationItem(
                     selected = isSelected,
                     unselectedContentColor = MaterialTheme.colors.primary.copy(alpha = 0.3f),
@@ -54,7 +54,7 @@ fun MBottomNavigationBar(
                     },
                     onClick = {
                         onItemCLick.invoke(items[index].route?.route.toString())
-                        selectedIndex = index
+                        state.selectedIndex = index
                     },
                     alwaysShowLabel = false,
                 )

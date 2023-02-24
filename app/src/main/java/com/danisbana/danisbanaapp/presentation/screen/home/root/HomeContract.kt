@@ -1,7 +1,11 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.root
 
 
-class HomeState
+import com.danisbana.danisbanaapp.presentation.components.bottomnav.BottomNavState
+
+class HomeState(
+    val bottomNavState:BottomNavState = BottomNavState()
+)
 
 data class HomeActions(
     var routeConsultant: () -> Unit = {},
