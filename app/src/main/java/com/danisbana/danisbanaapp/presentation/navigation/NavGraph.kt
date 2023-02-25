@@ -8,6 +8,7 @@ import com.danisbana.danisbanaapp.presentation.screen.auth.login.LoginRoute
 import com.danisbana.danisbanaapp.presentation.screen.auth.register.RegisterRoute
 import com.danisbana.danisbanaapp.presentation.screen.home.consultant.ConsultantRoute
 import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeRoute
+import com.danisbana.danisbanaapp.presentation.screen.response.SuccessScreen
 import com.danisbana.danisbanaapp.presentation.screen.splash.SplashRoute
 
 @Composable
@@ -30,6 +31,11 @@ fun SetupNavGraph(navController: NavHostController) {
         }
         composable(route = Screen.Consultant.route) {
             ConsultantRoute(navController = navController)
+        }
+        composable(route = Screen.Success.route) {
+            SuccessScreen(){
+                navController.navigate(Screen.Login.route)
+            }
         }
     }
 }

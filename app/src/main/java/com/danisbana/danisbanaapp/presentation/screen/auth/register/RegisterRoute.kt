@@ -22,6 +22,7 @@ fun RegisterRoute(
         viewModel.navChannel.collectLatest {
             when(it){
                 is RegisterNavChannel.RouteLogin -> navController.navigate(Screen.Login.route)
+                is RegisterNavChannel.RouteSuccess -> navController.navigate(Screen.Success.route)
             }
         }
     }
@@ -34,7 +35,8 @@ fun rememberRegisterActions(viewModel: RegisterViewModel): RegisterActions {
         RegisterActions(
             routeLogin = viewModel::routeLogin,
             tryRegister = viewModel::tryRegister,
-            policyCheckAction = viewModel::policyCheckAction
+            policyCheckAction = viewModel::policyCheckAction,
+            routeSuccess = viewModel::routeSuccess
         )
     }
 }

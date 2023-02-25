@@ -17,6 +17,7 @@ interface AppDimens {
         val y12dp = 12.dp
         val y14dp = 14.dp
         val y16dp = 16.dp
+        val y20dp = 20.dp
         val y35dp = 35.dp
         val y50dp = 50.dp
         val y150dp = 150.dp

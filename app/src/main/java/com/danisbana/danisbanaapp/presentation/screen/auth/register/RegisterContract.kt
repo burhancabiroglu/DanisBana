@@ -52,10 +52,12 @@ data class RegistrationFormState(
 data class RegisterActions(
     val policyCheckAction: (Boolean) -> Unit = {},
     val routeLogin: () -> Unit = {},
-    val tryRegister: () -> Unit = {}
+    val tryRegister: () -> Unit = {},
+    val routeSuccess: () -> Unit = {}
 )
 
 
 sealed interface RegisterNavChannel {
     object RouteLogin: RegisterNavChannel
+    object RouteSuccess: RegisterNavChannel
 }

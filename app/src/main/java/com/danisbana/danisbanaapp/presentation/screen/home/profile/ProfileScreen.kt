@@ -21,6 +21,7 @@ import com.danisbana.danisbanaapp.presentation.components.WhiteButton
 import com.danisbana.danisbanaapp.presentation.screen.home.profile.components.PictureWheel
 import com.danisbana.danisbanaapp.presentation.screen.home.profile.components.SummaryTable
 import com.danisbana.danisbanaapp.presentation.theme.AppDimens
+import com.danisbana.danisbanaapp.presentation.theme.CadetBlue
 import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 
 @Composable
@@ -64,10 +65,33 @@ fun ProfileScreen(
                 state.appUser?.firebaseUser?.displayName?: "",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = AppDimens.p20.dp),
+                    .padding(top = AppDimens.y20dp),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.h2
             )
+            if(state.appUser?.info?.userRole?.admin == true) {
+                Text(
+                    "Admin",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.h3,
+                    color = CadetBlue
+                )
+            }
+            if(state.appUser?.info?.userRole?.editor == true) {
+                Text(
+                    "Editor",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.h3,
+                    color = CadetBlue
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
             SummaryTable(
                 modifier = Modifier.padding(horizontal = AppDimens.wallSpace),
                 userInfo = state.appUser?.info

@@ -53,6 +53,12 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
+    fun routeSuccess() {
+        viewModelScope.launch {
+            _navChannel.send(RegisterNavChannel.RouteSuccess)
+        }
+    }
+
     fun policyCheckAction(boolean: Boolean) {
         _stateFlow.value.isPolicyChecked = boolean
     }
@@ -116,7 +122,7 @@ class RegisterViewModel @Inject constructor(
         }
         viewModelScope.launch {
             delay(400)
-            _navChannel.send(RegisterNavChannel.RouteLogin)
+            routeSuccess()
         }
     }
 }
