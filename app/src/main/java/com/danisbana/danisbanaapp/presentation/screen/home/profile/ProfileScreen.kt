@@ -47,7 +47,6 @@ fun ProfileScreen(
         topBar = {
             MAppBar(
                 title = stringResource(id = R.string.profile),
-                logoutEnabled = true,
                 logoutAction = dialogState::open,
             )
         }

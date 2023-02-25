@@ -10,68 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.danisbana.danisbanaapp.presentation.theme.White
-
-@Composable
-fun MAppBar(
-    modifier: Modifier = Modifier,
-    title: String = "",
-    logoutEnabled: Boolean = false,
-    navIconEnabled: Boolean = false,
-    navHostController: NavHostController? = null,
-    logoutAction: ()-> Unit = {}
-) {
-    TopAppBar(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(60.dp) ,
-        backgroundColor = White,
-        elevation = 3.dp,
-    ) {
-        Box(
-            modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.h2,
-                color = MaterialTheme.colors.primary
-            )
-            Row(
-                modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                if (navIconEnabled) {
-                    IconButton(onClick = {
-                        navHostController?.popBackStack()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIosNew ,
-                            contentDescription = "back",
-                            tint = MaterialTheme.colors.primary
-                        )
-                    }
-                }
-            }
-            Row(
-                modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                if (logoutEnabled) {
-                    IconButton(onClick = logoutAction) {
-                        Icon(
-                            imageVector = Icons.Default.Logout ,
-                            contentDescription = "Logout",
-                            tint = MaterialTheme.colors.error.copy(0.5f)
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
 
 
 @Composable
@@ -79,7 +18,8 @@ fun MAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
     subTitle: (@Composable ()-> Unit)? = null,
-    onBackAction: (() -> Unit)? = null
+    onBackAction: (() -> Unit)? = null,
+    logoutAction: (() -> Unit)? = null
 ) {
     TopAppBar(
         modifier = modifier
@@ -112,6 +52,20 @@ fun MAppBar(
                             imageVector = Icons.Default.ArrowBackIosNew ,
                             contentDescription = "back",
                             tint = MaterialTheme.colors.primary
+                        )
+                    }
+                }
+            }
+            if(logoutAction != null){
+                Row(
+                    modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    IconButton(onClick = logoutAction) {
+                        Icon(
+                            imageVector = Icons.Default.Logout ,
+                            contentDescription = "Logout",
+                            tint = MaterialTheme.colors.error.copy(0.5f)
                         )
                     }
                 }

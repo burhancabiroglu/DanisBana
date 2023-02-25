@@ -32,17 +32,16 @@ import com.danisbana.danisbanaapp.presentation.theme.Transparent
 fun ConsultantScreen(
     state: ConsultantState = ConsultantState(),
     actions: ConsultantActions = ConsultantActions(),
-    navController: NavHostController = rememberNavController()
 ) {
     val scrollState = rememberScrollState()
     return BaseScaffold(
         modifier = Modifier.statusBarsPadding().navigationBarsPadding(),
         loadingState = state.pageLoading,
+        snackBarHostState = state.snackBarHostState,
         topBar = {
             MAppBar(
                 title = stringResource(R.string.new_consultant_note),
-                navIconEnabled = true,
-                navHostController = navController
+                onBackAction = actions.onBack
             )
         }
     ){

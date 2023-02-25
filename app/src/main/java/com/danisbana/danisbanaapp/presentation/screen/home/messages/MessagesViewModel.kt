@@ -22,8 +22,7 @@ class MessagesViewModel @Inject constructor(
     private val _stateFlow: MutableStateFlow<MessagesState> = MutableStateFlow(MessagesState(snackBarState))
     val stateFlow: StateFlow<MessagesState> = _stateFlow.asStateFlow()
 
-
-    init {
+    fun getData() {
         viewModelScope.launch {
             _stateFlow.value.pageLoading.show()
             val result = authRepo.getUserMessagesAsync().await()

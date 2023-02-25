@@ -1,9 +1,6 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.messages
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.danisbana.danisbanaapp.presentation.screen.home.conversation.ConversationActivity
@@ -19,6 +16,7 @@ fun MessagesRoute(
     val uiState by viewModel.stateFlow.collectAsState(MessagesState())
     val actions = rememberMessagesActions(viewModel)
     actions.routeConsultant = homeActions.routeConsultant
+
     actions.routeConversation = {
         ConversationActivity.launch(
             context,
@@ -26,6 +24,12 @@ fun MessagesRoute(
         )
     }
     MessagesScreen(uiState, actions)
+
+    LaunchedEffect(true) {
+       viewModel.getData()
+    }
+
+
 }
 
 

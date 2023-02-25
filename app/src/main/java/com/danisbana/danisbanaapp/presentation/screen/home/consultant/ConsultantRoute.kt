@@ -1,12 +1,10 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.consultant
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ConsultantRoute(
@@ -15,7 +13,21 @@ fun ConsultantRoute(
 ) {
     val uiState by viewModel.stateFlow.collectAsState(ConsultantState())
     val actions = rememberConsultantActions(viewModel)
-    ConsultantScreen(uiState, actions,navController)
+
+    actions.onBack = {
+        navController.popBackStack()
+        navController.currentBackStackEntry?.updateState()
+    }
+
+    ConsultantScreen(uiState, actions)
+
+    LaunchedEffect(true) {
+        viewModel.navChannel.collectLatest {
+            when(it){
+                ConsultantNavChannel.OnBack -> actions.onBack()
+            }
+        }
+    }
 }
 
 
