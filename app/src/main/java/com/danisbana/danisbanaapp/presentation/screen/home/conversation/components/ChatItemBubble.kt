@@ -33,7 +33,7 @@ fun ChatItemBubble(
         backgroundBubbleColor = QueenBlue
         bubbleShape = ChatBubbleShapeReversed
         arrangement = Arrangement.End
-    }else {
+    } else {
         textColor = LocalContentColor.current
         backgroundBubbleColor = QueenBlue.copy(alpha = 0.15f)
         bubbleShape = ChatBubbleShape

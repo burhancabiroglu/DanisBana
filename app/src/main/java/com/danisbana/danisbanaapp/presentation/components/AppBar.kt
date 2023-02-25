@@ -78,8 +78,8 @@ fun MAppBar(
 fun MAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
-    subTitle: @Composable ()-> Unit = {},
-    onBackAction: ()->Unit = {}
+    subTitle: (@Composable ()-> Unit)? = null,
+    onBackAction: (() -> Unit)? = null
 ) {
     TopAppBar(
         modifier = modifier
@@ -100,18 +100,20 @@ fun MAppBar(
                     style = MaterialTheme.typography.h2.copy(fontSize = 18.sp),
                     color = MaterialTheme.colors.primary
                 )
-                subTitle.invoke()
+                subTitle?.invoke()
             }
-            Row(
-                modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                IconButton(onClick = onBackAction) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBackIosNew ,
-                        contentDescription = "back",
-                        tint = MaterialTheme.colors.primary
-                    )
+            if(onBackAction != null) {
+                Row(
+                    modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    IconButton(onClick = onBackAction) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBackIosNew ,
+                            contentDescription = "back",
+                            tint = MaterialTheme.colors.primary
+                        )
+                    }
                 }
             }
         }

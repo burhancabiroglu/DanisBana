@@ -21,6 +21,8 @@ fun ConversationScreen(
 ) {
     val scrollState = rememberLazyListState()
     val message = state.message
+    val answer = state.message?.answer
+
     return BaseScaffold(
         modifier = Modifier
             .navigationBarsPadding()
@@ -43,8 +45,10 @@ fun ConversationScreen(
                     item {
                         ChatItemBubble(message, true)
                     }
-                    item {
-                        ChatItemBubble(message, false)
+                    if(answer != null) {
+                        item {
+                            ChatItemBubble(message, false)
+                        }
                     }
                 }
             }
