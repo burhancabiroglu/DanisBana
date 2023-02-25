@@ -77,7 +77,7 @@ fun ProfileScreen(
                 modifier = Modifier.padding(AppDimens.wallSpace),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                WhiteButton(label = stringResource(id = R.string.profile_info))
+                //WhiteButton(label = stringResource(id = R.string.profile_info))
                 WhiteButton(label = stringResource(id = R.string.update_password))
                 WhiteButton(label = stringResource(id = R.string.earn_point))
             }

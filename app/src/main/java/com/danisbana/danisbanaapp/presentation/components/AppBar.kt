@@ -11,8 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.danisbana.danisbanaapp.core.model.message.MessageStatus
-import com.danisbana.danisbanaapp.presentation.screen.home.messages.components.StatusPointerCircle
 import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
@@ -80,8 +78,8 @@ fun MAppBar(
 fun MAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
-    navHostController: NavHostController? = null,
-    messageStatus: MessageStatus
+    subTitle: @Composable ()-> Unit = {},
+    onBackAction: ()->Unit = {}
 ) {
     TopAppBar(
         modifier = modifier
@@ -102,15 +100,13 @@ fun MAppBar(
                     style = MaterialTheme.typography.h2.copy(fontSize = 18.sp),
                     color = MaterialTheme.colors.primary
                 )
-                StatusPointerCircle(status = messageStatus)
+                subTitle.invoke()
             }
             Row(
                 modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start
             ) {
-                IconButton(onClick = {
-                    navHostController?.popBackStack()
-                }) {
+                IconButton(onClick = onBackAction) {
                     Icon(
                         imageVector = Icons.Default.ArrowBackIosNew ,
                         contentDescription = "back",

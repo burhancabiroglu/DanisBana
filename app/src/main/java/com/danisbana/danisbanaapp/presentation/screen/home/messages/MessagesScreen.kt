@@ -1,6 +1,7 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.messages
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -41,7 +42,14 @@ fun MessagesScreen(
         ){
             LazyColumn {
                 for (i in state.messages){
-                    item { MessageListItem(item = i) }
+                    item {
+                        MessageListItem(
+                            item = i,
+                            modifier = Modifier.clickable {
+                                actions.routeConversation.invoke(i)
+                            }
+                        )
+                    }
                 }
             }
             FloatingActionButton(

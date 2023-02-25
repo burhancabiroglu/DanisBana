@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
@@ -47,7 +48,10 @@ fun MessageListItem(
             Spacer(modifier = modifier.height(5.dp))
             Text(
                 text = item.content,
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.body1,
+                maxLines = 2,
+                softWrap = true,
+                overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = modifier.height(8.dp))
             StatusPointerCircle(status = item.status)

@@ -9,5 +9,6 @@ class HomeState(
 
 data class HomeActions(
     var routeConsultant: () -> Unit = {},
-    var routeLogin: () -> Unit = {}
+    var routeLogin: () -> Unit = {},
+    var routeConversation: (messageId: String) -> Unit = {}
 )

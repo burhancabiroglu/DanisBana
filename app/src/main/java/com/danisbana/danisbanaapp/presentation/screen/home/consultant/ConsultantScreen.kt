@@ -40,7 +40,7 @@ fun ConsultantScreen(
         loadingState = state.pageLoading,
         topBar = {
             MAppBar(
-                title = "Yeni Danışma Notu",
+                title = stringResource(R.string.new_consultant_note),
                 navIconEnabled = true,
                 navHostController = navController
             )

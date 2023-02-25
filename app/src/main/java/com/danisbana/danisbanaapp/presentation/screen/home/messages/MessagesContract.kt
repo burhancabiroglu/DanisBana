@@ -16,5 +16,6 @@ class MessagesState(
 
 
 data class MessagesActions(
-    var routeConsultant: () -> Unit = {}
+    var routeConsultant: () -> Unit = {},
+    var routeConversation: (MessageEntity) -> Unit = {}
 )

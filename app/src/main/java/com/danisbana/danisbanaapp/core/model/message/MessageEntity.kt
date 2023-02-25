@@ -32,6 +32,7 @@ data class MessageEntity(
     @IgnoredOnParcel
     val status: MessageStatus get() = MessageStatus.values()[statusOrdinal]
 
+    @IgnoredOnParcel
     val dateString get(): String {
         @SuppressLint("SimpleDateFormat")
         val formatter = SimpleDateFormat("dd.MM.yyyy")

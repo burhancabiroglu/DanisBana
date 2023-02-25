@@ -20,79 +20,11 @@ class ConversationViewModel @Inject constructor(
     val stateFlow: StateFlow<ConversationState> = _stateFlow.asStateFlow()
 
 
-    init {
-        viewModelScope.launch {
-            _stateFlow.tryEmit(
-                ConversationState(
-                    channelMembers = 1,
-                    channelName = "Depresyon Şikayeti",
-                    initialMessages = _initialMessages
-                )
-            )
-        }
+    fun setStateArgs(args:ConversationArgs?) {
+        args?:return
+        _stateFlow.value.loadingState.show()
+        _stateFlow.value.channelName = args.message.title
+        _stateFlow.value.message = args.message
+        _stateFlow.value.loadingState.hide()
     }
 }
-
-
-val _initialMessages = listOf(
-    MessageModel(
-        "authorMe",
-        "Check it out!",
-        "8:07 PM"
-    ),
-    MessageModel(
-        "me",
-        "Thank you!",
-        "8:06 PM",
-    ),
-    MessageModel(
-        "authorMe",
-        "Check it out!",
-        "8:07 PM"
-    ),
-    MessageModel(
-        "me",
-        "Thank you!",
-        "8:06 PM",
-    ),
-    MessageModel(
-        "authorMe",
-        "Check it out!",
-        "8:07 PM"
-    ),
-    MessageModel(
-        "me",
-        "Thank you!",
-        "8:06 PM",
-    ),
-    MessageModel(
-        "authorMe",
-        "Check it out!",
-        "8:07 PM"
-    ),
-    MessageModel(
-        "me",
-        "Thank you!",
-        "8:06 PM",
-    ),
-    MessageModel(
-        "authorMe",
-        "Check it out!",
-        "8:07 PM"
-    ),
-    MessageModel(
-        "me",
-        "Thank you!",
-        "8:06 PM",
-    ),
-    MessageModel(
-        "authorMe",
-        "Check it out!",
-        "8:07 PM"
-    ),
-    MessageModel(
-        "me",
-        "Thank you!",
-        "8:06 PM",
-    ),
-)
