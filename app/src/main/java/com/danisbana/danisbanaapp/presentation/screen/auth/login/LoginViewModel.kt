@@ -5,6 +5,7 @@ import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
+import com.danisbana.danisbanaapp.core.util.FirebaseEmailVerificationException
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import com.danisbana.danisbanaapp.domain.usecase.ValidateEmail
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -78,6 +79,11 @@ class LoginViewModel @Inject constructor(
                     snackBarState.showSnackbar(
                         actionLabel = "error",
                         message = "Çok fazla hatalı erişim talebi aldık.\nHesabınızı koruma adına\nkısa süreli olarak durdurduk"
+                    )
+                is FirebaseEmailVerificationException ->
+                    snackBarState.showSnackbar(
+                        actionLabel = "error",
+                        message = t.message
                     )
             }
         }

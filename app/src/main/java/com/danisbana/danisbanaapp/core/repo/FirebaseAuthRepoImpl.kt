@@ -5,6 +5,7 @@ import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
+import com.danisbana.danisbanaapp.core.util.FirebaseEmailVerificationException
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
 import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
@@ -27,6 +28,9 @@ class FirebaseAuthRepoImpl @Inject constructor(
             return@withContext async {
                 try {
                     val authResult = authService.login(loginRequest)
+                    if(authResult.getOrNull()?.user?.isEmailVerified == false) throw FirebaseEmailVerificationException(
+                        "Kullanıcı E-Postası Doğrulanmamış"
+                    )
                     val userInfo = databaseService.getUserCredentials(authResult.getOrNull()?.user?.uid.toString())
                     val appUser = AppUser(
                         firebaseUser = authResult.getOrNull()?.user,
