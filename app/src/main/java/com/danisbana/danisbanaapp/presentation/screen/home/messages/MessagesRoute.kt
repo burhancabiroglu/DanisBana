@@ -36,6 +36,8 @@ fun MessagesRoute(
 @Composable
 fun rememberMessagesActions(viewModel: MessagesViewModel): MessagesActions {
     return remember(viewModel) {
-        MessagesActions()
+        MessagesActions(
+            deleteMessage = viewModel::deleteMessage
+        )
     }
 }

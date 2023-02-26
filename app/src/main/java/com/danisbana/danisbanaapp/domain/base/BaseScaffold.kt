@@ -38,7 +38,10 @@ fun BaseScaffold(
                 hostState = snackBarHostState,
                 snackbar = { BaseSnackBar(data = it) }
             )
-            BaseDialog(dialogState,dialogAction)
+            BaseDialog(
+                dialogState = dialogState,
+                action = dialogAction
+            )
             PickerDialog(pickerDialogState,pickerAction)
         }
     }

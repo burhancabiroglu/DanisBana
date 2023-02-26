@@ -14,7 +14,11 @@ import androidx.compose.ui.window.DialogProperties
 
 @Composable
 fun BaseDialog(
-    dialogState: BaseDialogState,
+    title: String = "Çıkış yap",
+    description: String = "Çıkış yapmak istediğinize\nemin misiniz?",
+    buttonConfirm: String = "Onayla",
+    buttonCancel: String = "Vazgeç",
+    dialogState: BaseDialogState = BaseDialogState(),
     action: () -> Unit = {},
 ) {
     if (dialogState.isShowing) {
@@ -27,18 +31,18 @@ fun BaseDialog(
                     action.invoke()
                     dialogState.isShowing = false
                 }) {
-                    Text(text = "Onayla")
+                    Text(text = buttonConfirm)
                 }
             },
             dismissButton = {
                 TextButton(onClick = {
                     dialogState.isShowing = false
                 }) {
-                    Text(text = "Vazgeç")
+                    Text(text = buttonCancel)
                 }
             },
-            title = { Text(text = "Çıkış yap") },
-            text = { Text(text = "Çıkış yapmak istediğinize\nemin misiniz?") },
+            title = { Text(text = title) },
+            text = { Text(text = description) },
             modifier = Modifier.fillMaxWidth().padding(32.dp),
             shape = RoundedCornerShape(5.dp),
             backgroundColor = Color.White,

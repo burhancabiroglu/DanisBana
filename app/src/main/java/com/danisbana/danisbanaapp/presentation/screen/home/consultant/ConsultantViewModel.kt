@@ -4,9 +4,9 @@ import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
-import com.danisbana.danisbanaapp.presentation.screen.auth.login.LoginNavChannel
 import com.google.firebase.firestore.DocumentReference
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import javax.inject.Inject

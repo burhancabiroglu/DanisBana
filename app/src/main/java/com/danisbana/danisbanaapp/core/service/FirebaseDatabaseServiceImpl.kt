@@ -84,4 +84,66 @@ class FirebaseDatabaseServiceImpl : FirebaseDatabaseService {
                 }
         }
     }
+
+    override suspend fun deleteMessage(id: String): Result<Void> {
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection("messages").document(id).delete()
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun appendMessageCount(userId: String, currentValue: Int): Result<Void> {
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection("users").document(userId).update("totalMessages",currentValue+1)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun popMessageCount(userId: String, currentValue: Int): Result<Void> {
+        return suspendCancellableCoroutine { continuation ->
+            if(currentValue-1 < 0) return@suspendCancellableCoroutine
+            firestore.collection("users").document(userId).update("totalMessages",currentValue-1)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun appendPoint(userId: String, currentValue: Int): Result<Void> {
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection("users").document(userId).update("point",currentValue + 20)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun popPoint(userId: String, currentValue: Int): Result<Void> {
+        return suspendCancellableCoroutine { continuation ->
+            if(currentValue - 60 < 0) return@suspendCancellableCoroutine
+            firestore.collection("users").document(userId).update("point",currentValue - 60)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
 }

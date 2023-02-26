@@ -12,10 +12,7 @@ import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
 
@@ -120,7 +117,10 @@ class FirebaseAuthRepoImpl @Inject constructor(
                         title = title,
                         content = content
                     )
-                    return@async databaseService.createMessage(message)
+                    val result = databaseService.createMessage(message)
+                    this@FirebaseAuthRepoImpl.appendMessageCountAsync().await()
+                    this@FirebaseAuthRepoImpl.removePointAsync().await()
+                    return@async result
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
                 }
@@ -141,4 +141,81 @@ class FirebaseAuthRepoImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteMessageAsync(id: String): Deferred<Result<Void>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val result = databaseService.deleteMessage(id)
+                    this@FirebaseAuthRepoImpl.removeMessageCountAsync().await()
+                    return@async result
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
+    override suspend fun appendMessageCountAsync(): Deferred<Result<Void>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
+                    return@async databaseService.appendMessageCount(
+                        user.info?.id.toString(),
+                        user.info?.totalMessages?:0
+                    )
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
+    override suspend fun removeMessageCountAsync(): Deferred<Result<Void>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
+                    return@async databaseService.popMessageCount(
+                        user.info?.id.toString(),
+                        user.info?.totalMessages?:0
+                    )
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
+    override suspend fun appendPointAsync(): Deferred<Result<Void>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
+                    return@async databaseService.appendPoint(
+                        user.info?.id.toString(),
+                        user.info?.point?:0
+                    )
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
+    override suspend fun removePointAsync(): Deferred<Result<Void>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
+                    return@async databaseService.popPoint(
+                        user.info?.id.toString(),
+                        user.info?.point?:0
+                    )
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
 }

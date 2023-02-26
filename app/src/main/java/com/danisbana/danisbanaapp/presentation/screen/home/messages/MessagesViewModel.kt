@@ -41,6 +41,18 @@ class MessagesViewModel @Inject constructor(
         }
     }
 
+    fun deleteMessage(id:String) {
+        viewModelScope.launch {
+            _stateFlow.value.pageLoading.show()
+            val deleteResult = authRepo.deleteMessageAsync(id).await()
+            deleteResult.onFailure(::onFailure)
+            val result = authRepo.getUserMessagesAsync().await()
+            result.onFailure(::onFailure)
+            result.onSuccess(::onSuccess)
+            _stateFlow.value.pageLoading.hide()
+        }
+    }
+
     private fun onSuccess(value:List<MessageEntity>) {
         _stateFlow.value.messages = value
     }
