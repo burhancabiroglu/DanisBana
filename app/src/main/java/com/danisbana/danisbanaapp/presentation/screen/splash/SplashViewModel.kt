@@ -31,6 +31,12 @@ class SplashViewModel @Inject constructor(
                 val state = _stateFlow.value
                 _stateFlow.tryEmit(state.copy(screen = Screen.Home))
             }
+            authRepo.getAppUserAsync().await().let {
+                val user = it.getOrNull()?:return@launch
+                Screen.ConditionalScreen.route =
+                    if(user.info?.userRole?.editor == true) Screen.AdminPanel.route
+                    else Screen.Messages.route
+            }
         }
     }
 }

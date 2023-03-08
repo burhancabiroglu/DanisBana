@@ -24,7 +24,7 @@ class NavItemObj(
                 ),
                 NavItemObj(
                     icon = Icons.Default.Email,
-                    route = Screen.Messages
+                    route = Screen.ConditionalScreen
                 ),
                 NavItemObj(
                     icon = Icons.Default.Person,

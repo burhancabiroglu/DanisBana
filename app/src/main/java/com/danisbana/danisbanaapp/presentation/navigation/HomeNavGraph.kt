@@ -29,7 +29,7 @@ fun SetupHomeNavGraph(navController: NavHostController, homeActions: HomeActions
             ProfileRoute(homeActions = homeActions)
         }
         composable(route = Screen.AdminPanel.route) {
-            AdminPanelRoute(parentNavController = navController)
+            AdminPanelRoute()
         }
     }
 }

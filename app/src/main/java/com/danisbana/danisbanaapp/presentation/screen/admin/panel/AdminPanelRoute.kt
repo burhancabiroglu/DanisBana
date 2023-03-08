@@ -10,12 +10,11 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun AdminPanelRoute(
-    parentNavController: NavHostController,
     viewModel: AdminPanelViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.stateFlow.collectAsState()
     val actions = rememberAdminPanelActions(viewModel)
-    AdminPanelScreen(uiState, actions,parentNavController)
+    AdminPanelScreen(uiState, actions)
 }
 
 

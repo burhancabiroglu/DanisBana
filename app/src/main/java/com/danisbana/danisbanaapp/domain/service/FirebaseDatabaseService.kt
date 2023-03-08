@@ -18,6 +18,8 @@ interface FirebaseDatabaseService {
     suspend fun uploadPhoto(uid: String,bytes: ByteArray): Result<Uri>
     suspend fun createMessage(message: MessageEntity): Result<DocumentReference>
     suspend fun getMessages(userId: String): Result<List<MessageEntity>>
+    suspend fun getMessagesPool(): Result<List<MessageEntity>>
+    suspend fun getEditorMessages(consultantId: String): Result<List<MessageEntity>>
     suspend fun deleteMessage(id: String): Result<Void>
     suspend fun appendMessageCount(userId: String, currentValue: Int): Result<Void>
     suspend fun popMessageCount(userId: String, currentValue: Int): Result<Void>

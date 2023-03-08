@@ -1,6 +1,5 @@
 package com.danisbana.danisbanaapp.presentation.screen.auth.login
 
-import android.util.Log
 import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,9 +7,8 @@ import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.util.FirebaseEmailVerificationException
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import com.danisbana.danisbanaapp.domain.usecase.ValidateEmail
+import com.danisbana.danisbanaapp.presentation.navigation.Screen
 import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -89,8 +87,11 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun onSubmitSuccess(r: AppUser) {
+    private fun onSubmitSuccess(user: AppUser) {
         viewModelScope.launch {
+            Screen.ConditionalScreen.route =
+                if(user.info?.userRole?.editor == true) Screen.AdminPanel.route
+                else Screen.Messages.route
             snackBarState.showSnackbar(
                 actionLabel = "success",
                 message = "Giriş Başarılı"

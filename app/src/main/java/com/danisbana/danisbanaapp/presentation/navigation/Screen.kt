@@ -1,6 +1,6 @@
 package com.danisbana.danisbanaapp.presentation.navigation
 
-sealed class Screen(val route: String) {
+sealed class Screen(var route: String) {
     object Splash : Screen(route = "splash_screen")
     object Home : Screen(route = "home_screen")
     object Consultant: Screen(route = "consultant_screen")
@@ -14,4 +14,5 @@ sealed class Screen(val route: String) {
     object AdminPanel: Screen(route = "admin_panel_screen")
     object MessagePool: Screen(route = "message_pool_screen")
     object AdminMessages: Screen(route = "admin_messages_screen")
+    object ConditionalScreen: Screen(route = "messages_screen")
 }

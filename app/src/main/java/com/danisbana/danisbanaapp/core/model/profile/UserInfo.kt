@@ -15,5 +15,6 @@ data class UserInfo(
 @Parcelize
 data class UserRole(
     val admin: Boolean = false,
-    val editor: Boolean = false
+    val editor: Boolean = false,
+    val isBlocked: Boolean = false
 ): Parcelable

@@ -85,6 +85,30 @@ class FirebaseDatabaseServiceImpl : FirebaseDatabaseService {
         }
     }
 
+    override suspend fun getMessagesPool(): Result<List<MessageEntity>> {
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection("messages").whereEqualTo("isPool",true).get()
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it.toObjects(MessageEntity::class.java)))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun getEditorMessages(consultantId: String): Result<List<MessageEntity>> {
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection("messages").whereEqualTo("consultantId",consultantId).get()
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it.toObjects(MessageEntity::class.java)))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
     override suspend fun deleteMessage(id: String): Result<Void> {
         return suspendCancellableCoroutine { continuation ->
             firestore.collection("messages").document(id).delete()
