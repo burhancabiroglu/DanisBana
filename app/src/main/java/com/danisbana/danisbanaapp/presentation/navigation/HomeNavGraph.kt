@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
+import com.danisbana.danisbanaapp.presentation.screen.admin.panel.AdminPanelRoute
 import com.danisbana.danisbanaapp.presentation.screen.home.dashboard.DashboardRoute
 import com.danisbana.danisbanaapp.presentation.screen.home.dashboard.DashboardScreen
 import com.danisbana.danisbanaapp.presentation.screen.home.messages.MessagesRoute
@@ -25,6 +27,9 @@ fun SetupHomeNavGraph(navController: NavHostController, homeActions: HomeActions
         }
         composable(route = Screen.Profile.route) {
             ProfileRoute(homeActions = homeActions)
+        }
+        composable(route = Screen.AdminPanel.route) {
+            AdminPanelRoute(parentNavController = navController)
         }
     }
 }

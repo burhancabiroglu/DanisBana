@@ -11,4 +11,7 @@ sealed class Screen(val route: String) {
     object Register: Screen(route = "register_screen")
     object Conversation: Screen(route = "conversation_screen")
     object Success: Screen(route = "success_screen")
+    object AdminPanel: Screen(route = "admin_panel_screen")
+    object MessagePool: Screen(route = "message_pool_screen")
+    object AdminMessages: Screen(route = "admin_messages_screen")
 }
