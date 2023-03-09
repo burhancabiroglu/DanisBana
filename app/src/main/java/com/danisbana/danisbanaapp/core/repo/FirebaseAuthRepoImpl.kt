@@ -118,7 +118,6 @@ class FirebaseAuthRepoImpl @Inject constructor(
                         content = content
                     )
                     val result = databaseService.createMessage(message)
-                    this@FirebaseAuthRepoImpl.appendMessageCountAsync().await()
                     this@FirebaseAuthRepoImpl.removePointAsync().await()
                     return@async result
                 } catch (e: java.lang.Exception) {
@@ -145,41 +144,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    val result = databaseService.deleteMessage(id)
-                    this@FirebaseAuthRepoImpl.removeMessageCountAsync().await()
-                    return@async result
-                } catch (e: java.lang.Exception) {
-                    return@async Result.failure(e)
-                }
-            }
-        }
-    }
-
-    override suspend fun appendMessageCountAsync(): Deferred<Result<Void>> {
-        return withContext(Dispatchers.IO) {
-            return@withContext async {
-                try {
-                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
-                    return@async databaseService.appendMessageCount(
-                        user.info?.id.toString(),
-                        user.info?.totalMessages?:0
-                    )
-                } catch (e: java.lang.Exception) {
-                    return@async Result.failure(e)
-                }
-            }
-        }
-    }
-
-    override suspend fun removeMessageCountAsync(): Deferred<Result<Void>> {
-        return withContext(Dispatchers.IO) {
-            return@withContext async {
-                try {
-                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
-                    return@async databaseService.popMessageCount(
-                        user.info?.id.toString(),
-                        user.info?.totalMessages?:0
-                    )
+                    return@async databaseService.deleteMessage(id)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
                 }
@@ -208,10 +173,36 @@ class FirebaseAuthRepoImpl @Inject constructor(
             return@withContext async {
                 try {
                     val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
-                    return@async databaseService.popPoint(
+                    return@async databaseService.removePoint(
                         user.info?.id.toString(),
                         user.info?.point?:0
                     )
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
+    override suspend fun getTotalMessageCountAsync(): Deferred<Result<Int>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getCurrentUser() ?: return@async Result.failure(Exception(""))
+                    return@async databaseService.totalMessageCount(user.uid)
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
+    override suspend fun getAcceptedMessageCountAsync(): Deferred<Result<Int>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getCurrentUser() ?: return@async Result.failure(Exception(""))
+                    return@async databaseService.acceptedMessageCount(user.uid)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
                 }

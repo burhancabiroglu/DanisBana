@@ -92,17 +92,27 @@ fun ProfileScreen(
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
-            SummaryTable(
-                modifier = Modifier.padding(horizontal = AppDimens.wallSpace),
-                userInfo = state.appUser?.info
-            )
+            if(
+                state.appUser?.info?.userRole?.editor != true &&
+                state.appUser?.info?.userRole?.admin != true) {
+                SummaryTable(
+                    modifier = Modifier.padding(horizontal = AppDimens.wallSpace),
+                    point = state.appUser?.info?.point,
+                    totalMessages = state.totalMessages,
+                    acceptedMessages = state.acceptedMessages
+                )
+            }
             Column(
                 modifier = Modifier.padding(AppDimens.wallSpace),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 //WhiteButton(label = stringResource(id = R.string.profile_info))
                 WhiteButton(label = stringResource(id = R.string.update_password))
-                WhiteButton(label = stringResource(id = R.string.earn_point))
+                if(
+                    state.appUser?.info?.userRole?.editor != true &&
+                    state.appUser?.info?.userRole?.admin != true) {
+                    WhiteButton(label = stringResource(id = R.string.earn_point))
+                }
             }
         }
     }

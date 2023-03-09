@@ -22,6 +22,7 @@ fun AdminPanelScreen(
     actions: AdminPanelActions = AdminPanelActions(),
 ) {
     val tabs = rememberTabItems()
+    val tabController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -33,9 +34,11 @@ fun AdminPanelScreen(
         Column(
             modifier = Modifier.padding(pd)
         ) {
-            MTabBar(items = tabs)
+            MTabBar(items = tabs) {
+                tabController.navigate(it.route)
+            }
             AdminNavGraph(
-                navHostController = rememberNavController()
+                navHostController = tabController
             )
         }
     }

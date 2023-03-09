@@ -1,17 +1,15 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.profile
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
-import com.google.common.primitives.Bytes
-import com.google.firebase.auth.UserProfileChangeRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -24,14 +22,39 @@ class ProfileViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _stateFlow.value.pageLoading.show()
-            val result = authRepo.getAppUserAsync().await()
-            if(result.isSuccess) {
-                _stateFlow.value.appUser = result.getOrNull()
-            }
+            awaitAll(
+                getAppUserAsync(),
+                getTotalMessageCountAsync(),
+                getAcceptedMessageCountAsync()
+            )
             _stateFlow.value.pageLoading.hide()
         }
     }
 
+
+    private suspend fun getAppUserAsync(): Deferred<Result<AppUser>> {
+        return viewModelScope.async {
+            val result = authRepo.getAppUserAsync().await()
+            if(result.isSuccess) _stateFlow.value.appUser = result.getOrNull()
+            return@async result
+        }
+    }
+
+    private fun getAcceptedMessageCountAsync(): Deferred<Result<Int>> {
+        return viewModelScope.async {
+            val result = authRepo.getAcceptedMessageCountAsync().await()
+            if(result.isSuccess) _stateFlow.value.acceptedMessages = result.getOrNull()
+            return@async result
+        }
+    }
+
+    private fun getTotalMessageCountAsync(): Deferred<Result<Int>> {
+        return viewModelScope.async {
+            val result = authRepo.getTotalMessageCountAsync().await()
+            if(result.isSuccess) _stateFlow.value.totalMessages = result.getOrNull()
+            return@async result
+        }
+    }
 
     fun updateProfilePicture(bytes: ByteArray) {
         viewModelScope.launch {

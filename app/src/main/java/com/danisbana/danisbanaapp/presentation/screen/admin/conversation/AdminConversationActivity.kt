@@ -1,4 +1,4 @@
-package com.danisbana.danisbanaapp.presentation.screen.home.conversation
+package com.danisbana.danisbanaapp.presentation.screen.admin.conversation
 
 import android.content.Context
 import android.content.Intent
@@ -14,22 +14,22 @@ import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 import com.danisbana.danisbanaapp.presentation.theme.White
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
-class ConversationActivity: ComponentActivity() {
+class AdminConversationActivity: ComponentActivity() {
 
-    private val viewModel: ConversationViewModel by viewModels()
+    private val viewModel: AdminConversationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        val args = intent.getParcelableExtra<ConversationArgs>(CONVERSATION_ARGS_KEY)
+        val args = intent.getParcelableExtra<AdminConversationArgs>(ADMIN_CONVERSATION_ARGS_KEY)
         setContent {
-            val actions = rememberConversationActions(viewModel)
+            val actions = rememberAdminConversationActions(viewModel)
             val uiState by viewModel.stateFlow.collectAsState()
             val uiController = rememberSystemUiController()
             viewModel.setStateArgs(args)
             actions.onBackClick = ::finish
             DanisBanaAppTheme {
-                ConversationScreen(actions = actions, state = uiState)
+                AdminConversationScreen(actions = actions, state = uiState)
             }
             DisposableEffect(true) {
                 uiController.setStatusBarColor(White)
@@ -39,10 +39,10 @@ class ConversationActivity: ComponentActivity() {
     }
 
     companion object {
-        private const val CONVERSATION_ARGS_KEY = "CONVERSATION_ARGS_KEY"
-        fun launch (context: Context?, args: ConversationArgs) {
-            val intent = Intent(context,ConversationActivity::class.java)
-            intent.putExtra(CONVERSATION_ARGS_KEY,args)
+        private const val ADMIN_CONVERSATION_ARGS_KEY = "ADMIN_CONVERSATION_ARGS_KEY"
+        fun launch (context: Context?, args: AdminConversationArgs) {
+            val intent = Intent(context, AdminConversationActivity::class.java)
+            intent.putExtra(ADMIN_CONVERSATION_ARGS_KEY,args)
             context?.startActivity(intent)
         }
     }

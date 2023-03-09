@@ -10,6 +10,8 @@ import com.danisbana.danisbanaapp.domain.base.LoadingState
 class ProfileState {
     var appUser: AppUser? by mutableStateOf(null)
     var pageLoading:LoadingState = LoadingState(false)
+    var totalMessages: Int? by mutableStateOf(null)
+    var acceptedMessages: Int? by mutableStateOf(null)
 }
 
 data class ProfileActions(

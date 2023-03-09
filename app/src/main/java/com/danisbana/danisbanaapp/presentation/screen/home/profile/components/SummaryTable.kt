@@ -13,17 +13,17 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.danisbana.danisbanaapp.presentation.theme.CadetBlue
 import com.danisbana.danisbanaapp.presentation.theme.White
 import com.danisbana.danisbanaapp.R
-import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 
 @Composable
 fun SummaryTable(
-    userInfo: UserInfo? = null,
     modifier: Modifier = Modifier,
+    point: Int? = null,
+    totalMessages: Int? = null,
+    acceptedMessages: Int? = null,
 ) {
     return Box(
         modifier = modifier,
@@ -51,19 +51,19 @@ fun SummaryTable(
                     SummaryColumn(
                         image = painterResource(id = R.drawable.ic_approved_messages),
                         text = "Onaylanan\nMesajlar",
-                        value = userInfo?.acceptedMessages?.toString()?:"..."
+                        value = acceptedMessages?.toString()?:"-"
                     )
                     VerticalDivider()
                     SummaryColumn(
                         image = painterResource(id = R.drawable.ic_all_messages),
                         text = "Toplam\nMesajlar",
-                        value = userInfo?.totalMessages?.toString()?:"..."
+                        value = totalMessages?.toString()?:"-"
                     )
                     VerticalDivider()
                     SummaryColumn(
                         image = painterResource(id = R.drawable.ic_trophy),
                         text = "Lotus\nPuan",
-                        value = userInfo?.point?.toString()?:"..."
+                        value = point?.toString()?:"-"
                     )
                 }
             }

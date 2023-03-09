@@ -1,10 +1,10 @@
-package com.danisbana.danisbanaapp.presentation.screen.home.conversation
+package com.danisbana.danisbanaapp.presentation.screen.admin.conversation
 
 import android.os.Parcelable
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ConversationArgs(
+data class AdminConversationArgs(
     val message: MessageEntity
 ): Parcelable

@@ -20,9 +20,9 @@ interface FirebaseAuthRepo {
     suspend fun createMessageAsync(title: String,content: String): Deferred<Result<DocumentReference>>
     suspend fun getUserMessagesAsync(): Deferred<Result<List<MessageEntity>>>
     suspend fun deleteMessageAsync(id: String): Deferred<Result<Void>>
-    suspend fun appendMessageCountAsync(): Deferred<Result<Void>>
-    suspend fun removeMessageCountAsync(): Deferred<Result<Void>>
     suspend fun appendPointAsync(): Deferred<Result<Void>>
     suspend fun removePointAsync(): Deferred<Result<Void>>
+    suspend fun getTotalMessageCountAsync(): Deferred<Result<Int>>
+    suspend fun getAcceptedMessageCountAsync(): Deferred<Result<Int>>
 }
 
