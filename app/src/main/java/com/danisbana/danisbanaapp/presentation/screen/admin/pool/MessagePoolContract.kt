@@ -18,7 +18,7 @@ class MessagePoolState(
 
 
 data class MessagePoolActions(
-    val onClick: () -> Unit = {}
+    var routeConversation: (MessageEntity) -> Unit = {},
 )
 
 
