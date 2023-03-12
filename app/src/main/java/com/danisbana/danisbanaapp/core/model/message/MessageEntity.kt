@@ -2,6 +2,7 @@ package com.danisbana.danisbanaapp.core.model.message
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
+import com.google.gson.annotations.Expose
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
@@ -18,7 +19,7 @@ import java.util.*
  */
 
 @Parcelize
-data class MessageEntity(
+class MessageEntity(
     var id: String = UUID.randomUUID().toString(),
     var senderId: String = "",
     var consultantId:String? = null,
@@ -32,8 +33,7 @@ data class MessageEntity(
     @IgnoredOnParcel
     val status: MessageStatus get() = MessageStatus.values()[statusOrdinal]
 
-    @IgnoredOnParcel
-    val dateString get(): String {
+    fun dateString(): String {
         @SuppressLint("SimpleDateFormat")
         val formatter = SimpleDateFormat("dd.MM.yyyy")
         return formatter.format(Date(timestamp))
@@ -43,8 +43,13 @@ data class MessageEntity(
 
 @Parcelize
 data class Answer(
-    val id: String,
-    val consultantId: String,
-    val timestamp: String,
-    val content: String,
-): Parcelable
+    val id: String = UUID.randomUUID().toString(),
+    val timestamp: Long = 0L,
+    val content: String = "",
+): Parcelable {
+    fun dateString(): String {
+        @SuppressLint("SimpleDateFormat")
+        val formatter = SimpleDateFormat("dd.MM.yyyy")
+        return formatter.format(Date(timestamp))
+    }
+}

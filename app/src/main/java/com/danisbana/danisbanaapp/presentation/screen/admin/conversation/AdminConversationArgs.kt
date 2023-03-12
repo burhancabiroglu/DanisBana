@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class AdminConversationArgs(
-    val message: MessageEntity
+    val messageId: String
 ): Parcelable

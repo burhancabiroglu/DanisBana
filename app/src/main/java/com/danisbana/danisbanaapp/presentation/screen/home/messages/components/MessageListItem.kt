@@ -1,6 +1,5 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.messages.components
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -10,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -103,7 +101,7 @@ fun MessageListItem(
                         color = Color(0xFF343a40)
                     )
                     Text(
-                        text = item.dateString,
+                        text = item.dateString(),
                         style = MaterialTheme.typography.body1
                     )
                 }

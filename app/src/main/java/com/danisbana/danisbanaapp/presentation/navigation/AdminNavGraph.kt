@@ -4,20 +4,33 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.danisbana.danisbanaapp.presentation.screen.admin.messages.AdminMessagesRoute
-import com.danisbana.danisbanaapp.presentation.screen.admin.pool.MessagePoolRoute
+import com.danisbana.danisbanaapp.presentation.screen.admin.messages.AdminMessagesScreen
+import com.danisbana.danisbanaapp.presentation.screen.admin.panel.AdminPanelActions
+import com.danisbana.danisbanaapp.presentation.screen.admin.panel.AdminPanelState
+import com.danisbana.danisbanaapp.presentation.screen.admin.pool.MessagePoolScreen
 
 @Composable
-fun AdminNavGraph(navHostController: NavHostController) {
+fun AdminNavGraph(
+    sharedState: AdminPanelState,
+    sharedActions: AdminPanelActions,
+    navHostController: NavHostController,
+    startDestination:Screen = Screen.AdminMessages
+) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.AdminMessages.route
+        startDestination = startDestination.route
     ) {
         composable(route = Screen.AdminMessages.route){
-            AdminMessagesRoute()
+            AdminMessagesScreen(
+                sharedState,
+                sharedActions
+            )
         }
         composable(route = Screen.MessagePool.route){
-            MessagePoolRoute()
+            MessagePoolScreen(
+                sharedState,
+                sharedActions
+            )
         }
     }
 }

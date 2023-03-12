@@ -36,6 +36,7 @@
 
         <activity
             android:name=".presentation.screen.admin.conversation.AdminConversationActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
 
     </application>

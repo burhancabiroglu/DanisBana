@@ -1,7 +1,9 @@
 package com.danisbana.danisbanaapp.domain.service
 
 import android.net.Uri
+import com.danisbana.danisbanaapp.core.model.message.Answer
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
+import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,4 +28,7 @@ interface FirebaseDatabaseService {
     suspend fun removePoint(userId: String, currentValue: Int): Result<Void>
     suspend fun totalMessageCount(userId: String): Result<Int>
     suspend fun acceptedMessageCount(userId: String): Result<Int>
+    suspend fun updateMessageStatus(id: String,uid:String,status: MessageStatus): Result<Void>
+    suspend fun reloadMessage(id: String): Result<MessageEntity>
+    suspend fun answerMessage(messageId: String,uid:String,answer: Answer): Result<Void>
 }

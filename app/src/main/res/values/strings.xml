@@ -41,5 +41,6 @@
     <string name="more_options">More options</string>
     <string name="textfield_hint">Message #composers</string>
     <string name="new_consultant_note">Yeni Danışma Notu</string>
+    <string name="anonymous_user">Anonim Kullanıcı</string>
 
 </resources>

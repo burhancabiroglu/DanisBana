@@ -10,14 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.danisbana.danisbanaapp.domain.base.BaseScaffold
+import com.danisbana.danisbanaapp.presentation.screen.admin.panel.AdminPanelActions
+import com.danisbana.danisbanaapp.presentation.screen.admin.panel.AdminPanelState
 import com.danisbana.danisbanaapp.presentation.screen.home.messages.components.MessageListItem
 import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
 fun MessagePoolScreen(
-    state: MessagePoolState = MessagePoolState(),
-    actions: MessagePoolActions = MessagePoolActions()
+    state: AdminPanelState = AdminPanelState(),
+    actions: AdminPanelActions = AdminPanelActions()
 ) {
     BaseScaffold(
         modifier = Modifier
@@ -32,7 +34,7 @@ fun MessagePoolScreen(
             .fillMaxSize()
         ){
             LazyColumn {
-                for (i in state.messages){
+                for (i in state.poolMessages){
                     item {
                         MessageListItem(
                             item = i,

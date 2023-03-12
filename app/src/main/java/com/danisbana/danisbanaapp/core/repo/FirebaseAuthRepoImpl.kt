@@ -2,6 +2,7 @@ package com.danisbana.danisbanaapp.core.repo
 
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
+import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest

@@ -1,6 +1,7 @@
 package com.danisbana.danisbanaapp.core.service
 
 import android.net.Uri
+import com.danisbana.danisbanaapp.core.model.message.Answer
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
@@ -151,6 +152,61 @@ class FirebaseDatabaseServiceImpl : FirebaseDatabaseService {
                 .count()
                 .get(AggregateSource.SERVER).addOnSuccessListener {
                     continuation.resume(Result.success(it.count.toInt()))
+                }.addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun updateMessageStatus(
+        id: String,
+        uid: String,
+        status: MessageStatus
+    ): Result<Void> {
+        return suspendCancellableCoroutine { continuation ->
+            val updates = hashMapOf<String,Any>(
+                "statusOrdinal" to status.ordinal,
+                "status" to status.name,
+                "consultantId" to uid,
+                "pool" to false
+            )
+            firestore.collection("messages").document(id)
+                .update(updates)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
+                }.addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun reloadMessage(id: String): Result<MessageEntity> {
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection("messages").document(id)
+                .get()
+                .addOnSuccessListener {
+                    val message = it.toObject(MessageEntity::class.java)?:throw Exception("")
+                    continuation.resume(Result.success(message))
+                }.addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun answerMessage(
+        messageId: String,
+        uid: String,
+        answer: Answer
+    ): Result<Void> {
+        return suspendCancellableCoroutine { continuation ->
+            val updates = hashMapOf(
+                "consultantId" to uid,
+                "answer" to answer
+            )
+            firestore.collection("messages").document(messageId)
+                .update(updates)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
                 }.addOnFailureListener {
                     continuation.resumeWithException(it)
                 }

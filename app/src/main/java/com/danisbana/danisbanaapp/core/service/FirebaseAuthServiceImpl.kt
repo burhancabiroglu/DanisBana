@@ -22,7 +22,6 @@ class FirebaseAuthServiceImpl: FirebaseAuthService {
                         .setDisplayName(request.fullName)
                         .build()
                     it.user?.updateProfile(profileUpdates)
-                    //it.user?.sendEmailVerification()
                     continuation.resume(Result.success(it))
                 }
                 .addOnFailureListener {

@@ -11,12 +11,17 @@ class AdminConversationState {
 }
 
 data class AdminConversationActions(
-    var onBackClick: () -> Unit = {}
+    var onBackClick: () -> Unit = {},
+    var confirmAction: () -> Unit = {},
+    var rejectAction: () -> Unit = {},
+    var onMessageSent: (String) -> Unit = {}
 )
 
 @Composable
 fun rememberAdminConversationActions(viewModel: AdminConversationViewModel): AdminConversationActions {
     return remember(viewModel) {
-        AdminConversationActions()
+        AdminConversationActions(
+            onMessageSent = viewModel::answerMessage
+        )
     }
 }
