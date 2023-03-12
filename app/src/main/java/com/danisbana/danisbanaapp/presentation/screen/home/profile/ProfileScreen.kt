@@ -80,21 +80,8 @@ fun ProfileScreen(
                     color = CadetBlue
                 )
             }
-            if(state.appUser?.info?.userRole?.editor == true) {
-                Text(
-                    "Editor",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h3,
-                    color = CadetBlue
-                )
-            }
             Spacer(modifier = Modifier.height(20.dp))
-            if(
-                state.appUser?.info?.userRole?.editor != true &&
-                state.appUser?.info?.userRole?.admin != true) {
+            if(state.appUser?.info?.userRole?.admin != true) {
                 SummaryTable(
                     modifier = Modifier.padding(horizontal = AppDimens.wallSpace),
                     point = state.appUser?.info?.point,
@@ -108,9 +95,7 @@ fun ProfileScreen(
             ) {
                 //WhiteButton(label = stringResource(id = R.string.profile_info))
                 WhiteButton(label = stringResource(id = R.string.update_password))
-                if(
-                    state.appUser?.info?.userRole?.editor != true &&
-                    state.appUser?.info?.userRole?.admin != true) {
+                if(state.appUser?.info?.userRole?.admin != true) {
                     WhiteButton(label = stringResource(id = R.string.earn_point))
                 }
             }

@@ -2,7 +2,6 @@ package com.danisbana.danisbanaapp.core.repo
 
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
-import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
@@ -14,6 +13,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.*
 import javax.inject.Inject
 
@@ -21,6 +21,10 @@ class FirebaseAuthRepoImpl @Inject constructor(
     private var authService: FirebaseAuthService,
     private var databaseService: FirebaseDatabaseService
 ) : FirebaseAuthRepo {
+
+    private val userCache = MutableStateFlow<AppUser?>(null)
+    override val userCacheValue: AppUser? get() = userCache.value
+
     override suspend fun loginAsync(loginRequest: LoginRequest): Deferred<Result<AppUser>> {
         return withContext(Dispatchers.IO) {
             return@withContext async {
@@ -34,6 +38,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
                         firebaseUser = authResult.getOrNull()?.user,
                         info = userInfo.getOrNull()
                     )
+                    userCache.value = appUser
                     return@async Result.success(appUser)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
@@ -81,7 +86,9 @@ class FirebaseAuthRepoImpl @Inject constructor(
                             currentUser,
                             credentials
                         )
-                    )
+                    ).also {
+                        userCache.value = it.getOrNull()
+                    }
                 } catch (e:Exception) {
                     return@async Result.failure(e)
                 }

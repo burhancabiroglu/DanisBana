@@ -10,7 +10,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.danisbana.danisbanaapp.presentation.components.bottomnav.MBottomNavigationBar
 import com.danisbana.danisbanaapp.presentation.components.bottomnav.getBottomNavigationItems
+import com.danisbana.danisbanaapp.presentation.navigation.Screen
 import com.danisbana.danisbanaapp.presentation.navigation.SetupHomeNavGraph
+import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
 import com.danisbana.danisbanaapp.presentation.theme.White
 
 @Composable
@@ -19,8 +21,7 @@ fun HomeScreen(
     actions: HomeActions = HomeActions(),
 ) {
     val bottomNavController = rememberNavController()
-    val bottomNavItems = getBottomNavigationItems()
-
+    val bottomNavItems = getBottomNavigationItems(state.isAdmin)
 
     Scaffold(
         modifier = Modifier
@@ -32,7 +33,8 @@ fun HomeScreen(
             it.calculateBottomPadding()
             SetupHomeNavGraph(
                 navController = bottomNavController,
-                actions
+                actions,
+                if (state.isAdmin) Screen.AdminPanel else Screen.Dashboard
             )
         },
         bottomBar = {
@@ -49,6 +51,8 @@ fun HomeScreen(
 @Composable
 @Preview(name = "Home")
 private fun HomeScreenPreview() {
-    HomeScreen()
+    DanisBanaAppTheme {
+        HomeScreen()
+    }
 }
 

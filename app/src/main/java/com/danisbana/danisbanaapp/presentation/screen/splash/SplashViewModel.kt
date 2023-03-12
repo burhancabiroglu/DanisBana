@@ -34,7 +34,7 @@ class SplashViewModel @Inject constructor(
             authRepo.getAppUserAsync().await().let {
                 val user = it.getOrNull()?:return@launch
                 Screen.ConditionalScreen.route =
-                    if(user.info?.userRole?.editor == true) Screen.AdminPanel.route
+                    if(user.info?.userRole?.admin == true) Screen.AdminPanel.route
                     else Screen.Messages.route
             }
         }

@@ -14,10 +14,14 @@ import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeActions
 import com.danisbana.danisbanaapp.presentation.screen.home.root.HomeViewModel
 
 @Composable
-fun SetupHomeNavGraph(navController: NavHostController, homeActions: HomeActions) {
+fun SetupHomeNavGraph(
+    navController: NavHostController,
+    homeActions: HomeActions,
+    startDestination:Screen = Screen.Dashboard,
+    ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Dashboard.route,
+        startDestination = startDestination.route,
     ) {
         composable(route = Screen.Dashboard.route) {
             DashboardRoute(homeActions = homeActions)

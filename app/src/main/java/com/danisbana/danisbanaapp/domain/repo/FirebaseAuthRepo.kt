@@ -2,7 +2,6 @@ package com.danisbana.danisbanaapp.domain.repo
 
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
-import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.google.firebase.auth.AuthResult
@@ -12,6 +11,7 @@ import kotlinx.coroutines.Deferred
 
 
 interface FirebaseAuthRepo {
+    val userCacheValue: AppUser?
     suspend fun loginAsync(loginRequest: LoginRequest): Deferred<Result<AppUser>>
     suspend fun registerAsync(request: RegisterRequest): Deferred<Result<AuthResult>>
     fun signOut()

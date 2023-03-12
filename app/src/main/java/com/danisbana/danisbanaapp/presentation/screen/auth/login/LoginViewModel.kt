@@ -90,7 +90,7 @@ class LoginViewModel @Inject constructor(
     private fun onSubmitSuccess(user: AppUser) {
         viewModelScope.launch {
             Screen.ConditionalScreen.route =
-                if(user.info?.userRole?.editor == true) Screen.AdminPanel.route
+                if(user.info?.userRole?.admin == true) Screen.AdminPanel.route
                 else Screen.Messages.route
             snackBarState.showSnackbar(
                 actionLabel = "success",
