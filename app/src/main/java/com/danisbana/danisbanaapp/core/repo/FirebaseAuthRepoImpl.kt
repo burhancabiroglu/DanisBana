@@ -125,9 +125,8 @@ class FirebaseAuthRepoImpl @Inject constructor(
                         title = title,
                         content = content
                     )
-                    val result = databaseService.createMessage(message)
-                    this@FirebaseAuthRepoImpl.removePointAsync().await()
-                    return@async result
+                    this@FirebaseAuthRepoImpl.removePointAsync().await().exceptionOrNull()?.let { throw it }
+                    return@async databaseService.createMessage(message)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
                 }
@@ -182,7 +181,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
                 try {
                     val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
                     return@async databaseService.removePoint(
-                        user.info?.id.toString(),
+                        user.firebaseUser?.uid.toString(),
                         user.info?.point?:0
                     )
                 } catch (e: java.lang.Exception) {

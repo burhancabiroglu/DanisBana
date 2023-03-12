@@ -5,6 +5,7 @@ import com.danisbana.danisbanaapp.core.model.message.Answer
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
+import com.danisbana.danisbanaapp.core.util.InsufficientUserPointException
 import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentReference
@@ -121,13 +122,19 @@ class FirebaseDatabaseServiceImpl : FirebaseDatabaseService {
 
     override suspend fun removePoint(userId: String, currentValue: Int): Result<Void> {
         return suspendCancellableCoroutine { continuation ->
-            if (currentValue - 60 < 0) return@suspendCancellableCoroutine
-            firestore.collection("users").document(userId).update("point", currentValue - 60)
-                .addOnSuccessListener {
-                    continuation.resume(Result.success(it))
-                }.addOnFailureListener {
-                    continuation.resumeWithException(it)
-                }
+            if (currentValue - 60 < 0) {
+                val exception = InsufficientUserPointException()
+                continuation.resumeWithException(exception)
+                throw exception
+            }
+            else {
+                firestore.collection("users").document(userId).update("point", currentValue - 60)
+                    .addOnSuccessListener {
+                        continuation.resume(Result.success(it))
+                    }.addOnFailureListener {
+                        continuation.resumeWithException(it)
+                    }
+            }
         }
     }
 

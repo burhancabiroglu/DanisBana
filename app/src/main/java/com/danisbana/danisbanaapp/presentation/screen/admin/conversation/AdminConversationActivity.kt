@@ -1,7 +1,6 @@
 package com.danisbana.danisbanaapp.presentation.screen.admin.conversation
 
-import android.app.PendingIntent
-import android.app.PendingIntent.*
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +8,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.viewModels
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -28,7 +26,7 @@ class AdminConversationActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        val args = intent.getParcelableExtra<AdminConversationArgs>(ADMIN_CONVERSATION_ARGS_KEY)
+        val args = intent.extras?.getParcelable<AdminConversationArgs>(ADMIN_CONVERSATION_ARGS_KEY)
         setContent {
             val actions = rememberAdminConversationActions(viewModel)
             val uiState by viewModel.stateFlow.collectAsState()
@@ -36,9 +34,11 @@ class AdminConversationActivity: ComponentActivity() {
             viewModel.setStateArgs(args)
             actions.onBackClick = ::finish
             actions.confirmAction = {
+                setResult(Activity.RESULT_OK)
                 viewModel.confirmMessage(::finish)
             }
             actions.rejectAction = {
+                setResult(Activity.RESULT_OK)
                 viewModel.rejectMessage(::finish)
             }
             DanisBanaAppTheme {
@@ -52,18 +52,13 @@ class AdminConversationActivity: ComponentActivity() {
     }
 
     companion object {
-        private const val ADMIN_CONVERSATION_ARGS_KEY = "ADMIN_CONVERSATION_ARGS_KEY"
-        fun launch (
-            launcher: ManagedActivityResultLauncher<IntentSenderRequest,ActivityResult>,
-            context: Context?, args: AdminConversationArgs) {
+        const val ADMIN_CONVERSATION_ARGS_KEY = "ADMIN_CONVERSATION_ARGS_KEY"
+        fun launch (launcher: ManagedActivityResultLauncher<Intent, ActivityResult>, context: Context?, args: AdminConversationArgs) {
             val intent = Intent(context, AdminConversationActivity::class.java)
-            intent.putExtra(ADMIN_CONVERSATION_ARGS_KEY,args)
-
-            val sender = IntentSenderRequest.Builder(
-                getActivity(context,0,intent, FLAG_MUTABLE)
-            ).build()
-            launcher.launch(sender)
-            //context?.startActivity(intent)
+            val extras = Bundle()
+            extras.putParcelable(ADMIN_CONVERSATION_ARGS_KEY,args)
+            intent.putExtras(extras)
+            launcher.launch(intent)
         }
     }
 }

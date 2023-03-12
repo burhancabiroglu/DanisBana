@@ -22,8 +22,11 @@ class AdminConversationViewModel @Inject constructor(
     private val _stateFlow: MutableStateFlow<AdminConversationState> = MutableStateFlow(AdminConversationState())
     val stateFlow: StateFlow<AdminConversationState> = _stateFlow.asStateFlow()
 
+    var args:AdminConversationArgs? = null
+
     fun setStateArgs(args: AdminConversationArgs?) {
         args?:return
+        this.args = args
         viewModelScope.launch {
             _stateFlow.value.loadingState.show()
             val result  = reloadMessage(args.messageId).getOrNull()

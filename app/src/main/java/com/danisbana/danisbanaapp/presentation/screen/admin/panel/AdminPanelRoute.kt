@@ -1,5 +1,6 @@
 package com.danisbana.danisbanaapp.presentation.screen.admin.panel
 
+import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.*
@@ -16,23 +17,20 @@ fun AdminPanelRoute(
     val uiState by viewModel.stateFlow.collectAsState()
     val actions = rememberAdminPanelActions(viewModel)
 
-    val activityLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartIntentSenderForResult()
-    ) {
-        viewModel.getData()
-        uiState.tabBarState.selectedIndex = 0
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) viewModel.getData()
     }
-
-
     actions.routeConversation = {
         AdminConversationActivity.launch(
-            activityLauncher,
+            launcher,
             context,
             AdminConversationArgs(it.id)
         )
     }
 
     AdminPanelScreen(uiState, actions)
+
+
 
     DisposableEffect(true) {
         viewModel.getData()
