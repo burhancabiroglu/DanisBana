@@ -67,4 +67,16 @@ class FirebaseAuthServiceImpl: FirebaseAuthService {
                 }
         }
     }
+
+    override suspend fun initFCMToken(): Result<String> {
+        return suspendCancellableCoroutine { continuation ->
+            messaging.token
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
 }

@@ -7,7 +7,9 @@ import kotlinx.parcelize.Parcelize
 data class UserInfo(
     val id: String = "",
     val point: Int = 0,
-    val userRole: UserRole = UserRole()
+    val userRole: UserRole = UserRole(),
+    val fcToken: String? = null,
+    val deviceId: String? = null
 ):Parcelable
 
 @Parcelize

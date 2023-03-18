@@ -6,6 +6,7 @@ import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.danisbana.danisbanaapp.core.util.FirebaseEmailVerificationException
+import com.danisbana.danisbanaapp.core.util.UserNotRegisteredException
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
 import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
@@ -100,7 +101,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    val user = getCurrentUser()?:return@async Result.failure(Exception(""))
+                    val user = getCurrentUser()?:return@async Result.failure(UserNotRegisteredException())
                     val uri = databaseService.uploadPhoto(
                         user.uid,
                         bytes
@@ -117,7 +118,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    val user = getCurrentUser() ?: return@async Result.failure(Exception(""))
+                    val user = getCurrentUser() ?: return@async Result.failure(UserNotRegisteredException())
                     val date = Date()
                     val message = MessageEntity(
                         timestamp = date.time,
@@ -138,7 +139,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    val user = getCurrentUser() ?: return@async Result.failure(Exception(""))
+                    val user = getCurrentUser() ?: return@async Result.failure(UserNotRegisteredException())
                     return@async databaseService.getMessages(user.uid)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
@@ -163,7 +164,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
+                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(UserNotRegisteredException())
                     return@async databaseService.appendPoint(
                         user.info?.id.toString(),
                         user.info?.point?:0
@@ -179,7 +180,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(Exception(""))
+                    val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(UserNotRegisteredException())
                     return@async databaseService.removePoint(
                         user.firebaseUser?.uid.toString(),
                         user.info?.point?:0
@@ -195,7 +196,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    val user = getCurrentUser() ?: return@async Result.failure(Exception(""))
+                    val user = getCurrentUser() ?: return@async Result.failure(UserNotRegisteredException())
                     return@async databaseService.totalMessageCount(user.uid)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
@@ -208,8 +209,21 @@ class FirebaseAuthRepoImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    val user = getCurrentUser() ?: return@async Result.failure(Exception(""))
+                    val user = getCurrentUser() ?: return@async Result.failure(UserNotRegisteredException())
                     return@async databaseService.acceptedMessageCount(user.uid)
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
+
+    override suspend fun initFCMTokenAsync(): Deferred<Result<String>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    val user = getCurrentUser() ?: return@async Result.failure(UserNotRegisteredException())
+                    return@async authService.initFCMToken()
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
                 }
