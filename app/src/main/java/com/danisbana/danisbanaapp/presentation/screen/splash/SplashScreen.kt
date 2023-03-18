@@ -25,6 +25,7 @@ import com.danisbana.danisbanaapp.presentation.theme.White
 fun SplashScreen(
     state: SplashState = SplashState(),
 ) {
+
     val anim = animateFloatAsState(
         targetValue = if (state.startAnim) 0.7f else 0f,
         animationSpec = tween(durationMillis = 2000)

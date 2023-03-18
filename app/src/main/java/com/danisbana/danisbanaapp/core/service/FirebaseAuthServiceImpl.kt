@@ -1,6 +1,7 @@
 package com.danisbana.danisbanaapp.core.service
 
 import android.net.Uri
+import android.util.Log
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService

@@ -39,6 +39,7 @@ class FirebaseAuthRepoImpl @Inject constructor(
                         firebaseUser = authResult.getOrNull()?.user,
                         info = userInfo.getOrNull()
                     )
+                    initFCMTokenAsync()
                     userCache.value = appUser
                     return@async Result.success(appUser)
                 } catch (e: java.lang.Exception) {
@@ -223,7 +224,13 @@ class FirebaseAuthRepoImpl @Inject constructor(
             return@withContext async {
                 try {
                     val user = getCurrentUser() ?: return@async Result.failure(UserNotRegisteredException())
-                    return@async authService.initFCMToken()
+                    val token = userCache.value?.info?.cloudToken
+                    if(token.isNullOrEmpty()){
+                        val result = authService.initFCMToken()
+                        databaseService.updateFCMToken(user.uid,result.getOrNull().toString())
+                        return@async result
+                    }
+                    else return@async Result.success(token)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
                 }

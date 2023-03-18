@@ -8,16 +8,15 @@ class FirebaseMessageServiceImpl: FirebaseMessagingService() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.e("TAG", "onCreate: ", )
     }
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        Log.e("TAG", "onNewToken: $token ", )
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
+        Log.e("TAG", "onMessageReceived: ${message.notification?.body} ", )
     }
 
 

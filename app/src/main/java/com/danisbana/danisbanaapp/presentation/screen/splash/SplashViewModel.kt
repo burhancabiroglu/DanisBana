@@ -1,18 +1,12 @@
 package com.danisbana.danisbanaapp.presentation.screen.splash
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
-import com.danisbana.danisbanaapp.domain.repo.FirebaseDatabaseRepo
 import com.danisbana.danisbanaapp.presentation.navigation.Screen
-import com.google.firebase.firestore.auth.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -24,7 +18,10 @@ class SplashViewModel @Inject constructor(
     val stateFlow: StateFlow<SplashState> = _stateFlow.asStateFlow()
 
 
-    fun updateState() {
+    fun updateState(callBack: () -> Unit) {
+        viewModelScope.launch {
+            authRepo.initFCMTokenAsync().await()
+        }
         viewModelScope.launch {
             _stateFlow.emit(SplashState(true))
             authRepo.getCurrentUser()?.let {
@@ -37,6 +34,7 @@ class SplashViewModel @Inject constructor(
                     if(user.info?.userRole?.admin == true) Screen.AdminPanel.route
                     else Screen.Messages.route
             }
+            callBack.invoke()
         }
     }
 }

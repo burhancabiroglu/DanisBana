@@ -10,14 +10,18 @@ import androidx.navigation.compose.rememberNavController
 import com.danisbana.danisbanaapp.presentation.components.LocalBackPressedDispatcher
 import com.danisbana.danisbanaapp.presentation.navigation.SetupNavGraph
 import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    val viewModel: MainViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        Firebase.messaging.isAutoInitEnabled = true
+        FirebaseMessaging.getInstance().isAutoInitEnabled = true
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         setContent {

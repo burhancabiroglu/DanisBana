@@ -1,16 +1,22 @@
 package com.danisbana.danisbanaapp.core.service
 
 import android.net.Uri
+import android.util.Log
 import com.danisbana.danisbanaapp.core.model.message.Answer
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.core.util.InsufficientUserPointException
+import com.danisbana.danisbanaapp.core.util.UserNotRegisteredException
 import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.auth.User
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.lang.reflect.Type
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -30,12 +36,11 @@ class FirebaseDatabaseServiceImpl : FirebaseDatabaseService {
     override suspend fun getUserCredentials(uid: String): Result<UserInfo> {
         return suspendCancellableCoroutine { continuation ->
             firestore.collection("users").document(uid).get().addOnSuccessListener {
-                    val gson = Gson()
-                    val obj = gson.fromJson(it.data.toString(), UserInfo::class.java)
-                    continuation.resume(Result.success(obj))
-                }.addOnFailureListener {
-                    continuation.resumeWithException(it)
-                }
+                val obj = it.toObject(UserInfo::class.java)?:throw UserNotRegisteredException()
+                continuation.resume(Result.success(obj))
+            }.addOnFailureListener {
+                continuation.resumeWithException(it)
+            }
         }
     }
 
@@ -211,6 +216,21 @@ class FirebaseDatabaseServiceImpl : FirebaseDatabaseService {
                 "answer" to answer
             )
             firestore.collection("messages").document(messageId)
+                .update(updates)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(it))
+                }.addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun updateFCMToken(uid: String, token: String): Result<Void> {
+        return suspendCancellableCoroutine { continuation ->
+            val updates: Map<String,Any> = hashMapOf(
+                "cloudToken" to token.trim()
+            )
+            firestore.collection("users").document(uid)
                 .update(updates)
                 .addOnSuccessListener {
                     continuation.resume(Result.success(it))

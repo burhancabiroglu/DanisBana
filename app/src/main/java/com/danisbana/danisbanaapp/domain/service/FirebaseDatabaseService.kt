@@ -31,4 +31,5 @@ interface FirebaseDatabaseService {
     suspend fun updateMessageStatus(id: String,uid:String,status: MessageStatus): Result<Void>
     suspend fun reloadMessage(id: String): Result<MessageEntity>
     suspend fun answerMessage(messageId: String,uid:String,answer: Answer): Result<Void>
+    suspend fun updateFCMToken(uid:String,token:String): Result<Void>
 }
