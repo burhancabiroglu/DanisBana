@@ -1,10 +1,14 @@
 package com.danisbana.danisbanaapp.core.repo
 
+import com.danisbana.danisbanaapp.application.Constants
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
+import com.danisbana.danisbanaapp.core.model.message.PostMessage
+import com.danisbana.danisbanaapp.core.model.message.PostMessageData
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
+import com.danisbana.danisbanaapp.core.service.PushNotificationService
 import com.danisbana.danisbanaapp.core.util.FirebaseEmailVerificationException
 import com.danisbana.danisbanaapp.core.util.UserNotRegisteredException
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
@@ -20,7 +24,8 @@ import javax.inject.Inject
 
 class FirebaseAuthRepoImpl @Inject constructor(
     private var authService: FirebaseAuthService,
-    private var databaseService: FirebaseDatabaseService
+    private var databaseService: FirebaseDatabaseService,
+    private var notificationService: PushNotificationService,
 ) : FirebaseAuthRepo {
 
     private val userCache = MutableStateFlow<AppUser?>(null)
@@ -39,8 +44,8 @@ class FirebaseAuthRepoImpl @Inject constructor(
                         firebaseUser = authResult.getOrNull()?.user,
                         info = userInfo.getOrNull()
                     )
-                    initFCMTokenAsync()
                     userCache.value = appUser
+                    initFCMTokenAsync(true,userInfo.getOrNull()).await()
                     return@async Result.success(appUser)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
@@ -125,8 +130,18 @@ class FirebaseAuthRepoImpl @Inject constructor(
                         timestamp = date.time,
                         senderId = user.uid,
                         title = title,
-                        content = content
+                        content = content,
+                        senderToken = userCache.value?.info?.cloudToken.toString()
                     )
+                    notificationService.postAsync(
+                        PostMessage(
+                            Constants.ADMIN_TOPIC,
+                            data = PostMessageData(
+                                title = "Yeni Mesaj",
+                                body = "Kullanıcılarınızdan yeni mesajlarınız var"
+                            )
+                        )
+                    ).await()
                     this@FirebaseAuthRepoImpl.removePointAsync().await().exceptionOrNull()?.let { throw it }
                     return@async databaseService.createMessage(message)
                 } catch (e: java.lang.Exception) {
@@ -219,18 +234,22 @@ class FirebaseAuthRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun initFCMTokenAsync(): Deferred<Result<String>> {
+    override suspend fun initFCMTokenAsync(forceUpdate: Boolean,userInfo: UserInfo?): Deferred<Result<String>> {
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    val user = getCurrentUser() ?: return@async Result.failure(UserNotRegisteredException())
-                    val token = userCache.value?.info?.cloudToken
-                    if(token.isNullOrEmpty()){
+                    if (userInfo?.userRole?.admin == true){
+                        authService.messaging.subscribeToTopic(Constants.ADMIN_TOPIC)
+                    }
+                    if(forceUpdate || userInfo?.cloudToken.isNullOrEmpty()){
                         val result = authService.initFCMToken()
-                        databaseService.updateFCMToken(user.uid,result.getOrNull().toString())
+                        databaseService.updateFCMToken(userInfo?.id.toString(),result.getOrNull().toString())
+                        userCache.value = userCacheValue.apply {
+                            this?.info?.cloudToken = result.getOrNull()
+                        }
                         return@async result
                     }
-                    else return@async Result.success(token)
+                    else return@async Result.success(userInfo?.cloudToken.toString())
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
                 }

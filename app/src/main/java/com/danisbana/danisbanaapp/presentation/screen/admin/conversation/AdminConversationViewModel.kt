@@ -1,5 +1,6 @@
 package com.danisbana.danisbanaapp.presentation.screen.admin.conversation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danisbana.danisbanaapp.core.model.message.Answer
@@ -42,7 +43,7 @@ class AdminConversationViewModel @Inject constructor(
         viewModelScope.launch {
             val message = _stateFlow.value.message?: return@launch
             _stateFlow.value.loadingState.show()
-            adminRepo.updateMessageStatusAsync(message.id,MessageStatus.REJECTED).await()
+            adminRepo.updateMessageStatusAsync(message.id,message.senderId,MessageStatus.REJECTED).await()
             _stateFlow.value.message = reloadMessage(messageId = message.id).getOrNull()
             _stateFlow.value.loadingState.hide()
             delay(400)
@@ -54,7 +55,7 @@ class AdminConversationViewModel @Inject constructor(
         viewModelScope.launch {
             val message = _stateFlow.value.message?: return@launch
             _stateFlow.value.loadingState.show()
-            adminRepo.updateMessageStatusAsync(message.id,MessageStatus.ACCEPTED).await()
+            adminRepo.updateMessageStatusAsync(message.id,message.senderToken,MessageStatus.ACCEPTED).await()
             _stateFlow.value.message = reloadMessage(messageId = message.id).getOrNull()
             _stateFlow.value.loadingState.hide()
             delay(400)
@@ -71,7 +72,7 @@ class AdminConversationViewModel @Inject constructor(
                 timestamp = date.time,
                 content = text
             )
-            adminRepo.updateMessageStatusAsync(message.id,MessageStatus.ANSWERED).await()
+            adminRepo.updateMessageStatusAsync(message.id,message.senderId,MessageStatus.ANSWERED).await()
             _stateFlow.value.message?.answer = answer
             _stateFlow.value.message?.statusOrdinal = MessageStatus.ANSWERED.ordinal
             adminRepo.answerMessageAsync(message.id,answer).await()

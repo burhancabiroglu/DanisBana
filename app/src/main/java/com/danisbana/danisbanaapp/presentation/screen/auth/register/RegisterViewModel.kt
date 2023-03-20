@@ -1,8 +1,6 @@
 package com.danisbana.danisbanaapp.presentation.screen.auth.register
 
-import android.util.Log
 import androidx.compose.material.SnackbarHostState
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
@@ -10,17 +8,18 @@ import com.danisbana.danisbanaapp.domain.repo.FirebaseConfigRepo
 import com.danisbana.danisbanaapp.domain.usecase.ValidateEmail
 import com.danisbana.danisbanaapp.domain.usecase.ValidatePassword
 import com.danisbana.danisbanaapp.domain.usecase.ValidateRepeatedPassword
-import com.danisbana.danisbanaapp.domain.usecase.ValidateTerms
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuthEmailException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
-import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(

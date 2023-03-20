@@ -22,6 +22,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField "String","FCM_SERVER_URL","\"https://fcm.googleapis.com\""
+        buildConfigField "String","FCM_SERVER_KEY","\"AAAA35kg-pY:APA91bHkhcmIdguHMLs_Hva3o-4xF23qLgMJXD135U5Pp6Gbphnt0OtaBk5RVcNkbfOGS85_lqX0rCir13jxHPluzndWCXwUsQ9xJC6TdtV2O9CMwBEvYOxQ0-9Jbr_OXlbJ7N8Q8KvJ\""
+
     }
 
     buildTypes {
@@ -78,7 +82,6 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     implementation "com.google.dagger:hilt-android:2.44.1"
     kapt "com.google.dagger:hilt-compiler:2.44.1"
-    implementation 'com.google.code.gson:gson:2.10.1'
 
     implementation "com.airbnb.android:lottie-compose:5.2.0"
     implementation("io.coil-kt:coil-compose:2.2.2")
@@ -95,7 +98,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation "com.google.firebase:firebase-messaging-ktx"
     implementation 'com.google.firebase:firebase-storage-ktx'
-    implementation 'com.google.firebase:firebase-messaging-directboot:23.1.2'
+
+
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.google.code.gson:gson:2.10.1"
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 
     testImplementation 'junit:junit:4.13.2'
 

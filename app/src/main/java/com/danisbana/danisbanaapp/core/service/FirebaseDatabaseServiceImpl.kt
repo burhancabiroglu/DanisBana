@@ -6,6 +6,7 @@ import com.danisbana.danisbanaapp.core.model.message.Answer
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.message.MessageStatus
 import com.danisbana.danisbanaapp.core.model.profile.UserInfo
+import com.danisbana.danisbanaapp.core.model.profile.UserRole
 import com.danisbana.danisbanaapp.core.util.InsufficientUserPointException
 import com.danisbana.danisbanaapp.core.util.UserNotRegisteredException
 import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
@@ -36,7 +37,7 @@ class FirebaseDatabaseServiceImpl : FirebaseDatabaseService {
     override suspend fun getUserCredentials(uid: String): Result<UserInfo> {
         return suspendCancellableCoroutine { continuation ->
             firestore.collection("users").document(uid).get().addOnSuccessListener {
-                val obj = it.toObject(UserInfo::class.java)?:throw UserNotRegisteredException()
+                val obj = it.toObject(UserInfo::class.java)?: return@addOnSuccessListener continuation.resumeWithException(UserNotRegisteredException())
                 continuation.resume(Result.success(obj))
             }.addOnFailureListener {
                 continuation.resumeWithException(it)

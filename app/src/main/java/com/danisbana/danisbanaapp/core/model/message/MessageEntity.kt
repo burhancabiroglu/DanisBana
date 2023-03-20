@@ -23,6 +23,7 @@ class MessageEntity(
     var id: String = UUID.randomUUID().toString(),
     var senderId: String = "",
     var consultantId:String? = null,
+    var senderToken: String = "",
     var timestamp: Long = 0L,
     var title: String = "",
     var content: String = "",

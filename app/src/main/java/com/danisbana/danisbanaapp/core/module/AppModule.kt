@@ -1,12 +1,11 @@
 package com.danisbana.danisbanaapp.core.module
 
+import com.danisbana.danisbanaapp.core.api.NotificationApi
 import com.danisbana.danisbanaapp.core.repo.AdminRepoImpl
 import com.danisbana.danisbanaapp.core.repo.FirebaseAuthRepoImpl
 import com.danisbana.danisbanaapp.core.repo.FirebaseConfigRepoImpl
 import com.danisbana.danisbanaapp.core.repo.FirebaseDatabaseRepoImpl
-import com.danisbana.danisbanaapp.core.service.FirebaseAuthServiceImpl
-import com.danisbana.danisbanaapp.core.service.FirebaseConfigServiceImpl
-import com.danisbana.danisbanaapp.core.service.FirebaseDatabaseServiceImpl
+import com.danisbana.danisbanaapp.core.service.*
 import com.danisbana.danisbanaapp.domain.repo.AdminRepo
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import com.danisbana.danisbanaapp.domain.repo.FirebaseConfigRepo
@@ -23,6 +22,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideNotificationService(notificationApi: NotificationApi):PushNotificationService {
+        return PushNotificationService(notificationApi)
+    }
+
+
     @Provides
     @Singleton
     fun provideFirebaseAuthService(): FirebaseAuthService {
@@ -49,8 +56,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseAuthRepo(firebaseAuthService: FirebaseAuthService,firebaseDatabaseService: FirebaseDatabaseService): FirebaseAuthRepo {
-        return FirebaseAuthRepoImpl(firebaseAuthService,firebaseDatabaseService)
+    fun provideFirebaseAuthRepo(
+        firebaseAuthService: FirebaseAuthService,
+        firebaseDatabaseService: FirebaseDatabaseService,
+        notificationService: PushNotificationService,
+    ): FirebaseAuthRepo {
+        return FirebaseAuthRepoImpl(firebaseAuthService,firebaseDatabaseService,notificationService)
     }
 
     @Provides
@@ -61,7 +72,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAdminRepo(firebaseAuthService: FirebaseAuthService,firebaseDatabaseService: FirebaseDatabaseService): AdminRepo {
-        return AdminRepoImpl(firebaseAuthService,firebaseDatabaseService)
+    fun provideAdminRepo(
+        firebaseAuthService: FirebaseAuthService,
+        firebaseDatabaseService: FirebaseDatabaseService,
+        notificationService: PushNotificationService
+    ): AdminRepo {
+        return AdminRepoImpl(firebaseAuthService,firebaseDatabaseService,notificationService)
     }
 }

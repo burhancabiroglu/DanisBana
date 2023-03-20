@@ -1,21 +1,23 @@
 package com.danisbana.danisbanaapp.core.repo
 
-import com.danisbana.danisbanaapp.core.model.message.Answer
-import com.danisbana.danisbanaapp.core.model.message.MessageEntity
-import com.danisbana.danisbanaapp.core.model.message.MessageStatus
+import com.danisbana.danisbanaapp.core.model.message.*
+import com.danisbana.danisbanaapp.core.service.PushNotificationService
 import com.danisbana.danisbanaapp.domain.repo.AdminRepo
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
 import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.messaging.Constants.MessageTypes
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 class AdminRepoImpl @Inject constructor(
     private var authService: FirebaseAuthService,
-    private var databaseService: FirebaseDatabaseService
+    private var databaseService: FirebaseDatabaseService,
+    private var notificationService: PushNotificationService,
 ) : AdminRepo {
     override suspend fun getMessagesPoolAsync(): Deferred<Result<List<MessageEntity>>> {
         return withContext(Dispatchers.IO) {
@@ -73,6 +75,7 @@ class AdminRepoImpl @Inject constructor(
 
     override suspend fun updateMessageStatusAsync(
         id: String,
+        senderToken: String,
         status: MessageStatus
     ): Deferred<Result<Void>> {
         return withContext(Dispatchers.IO) {
@@ -81,6 +84,25 @@ class AdminRepoImpl @Inject constructor(
                 try {
                     val user = getCurrentUser() ?: return@async Result.failure(Exception(""))
                     result = databaseService.updateMessageStatus(id,user.uid,status)
+
+                    val message = when (status) {
+                        MessageStatus.ANSWERED -> "Mesajınız danışmanlarımız tarafından yanıtlandı"
+                        MessageStatus.ACCEPTED -> "Tebrikler. Mesajınız danışmanlarımız onaylandı"
+                        MessageStatus.REJECTED -> "Üzgünüz. Maalesef mesajınız uygun görülmediği için onaylanmadı"
+                        else -> ""
+                    }
+
+                    notificationService.postAsync(
+                        PostMessage(
+                            senderToken,
+                            data = PostMessageData(
+                                title = "Yeni Mesaj",
+                                body = message
+                            )
+                        )
+                    ).await()
+
+
                     return@async result
                 } catch (e: Exception) {
                     result = Result.failure(e)

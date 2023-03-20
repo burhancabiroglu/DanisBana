@@ -3,6 +3,7 @@ package com.danisbana.danisbanaapp.domain.repo
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
+import com.danisbana.danisbanaapp.core.model.profile.UserInfo
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
@@ -25,6 +26,6 @@ interface FirebaseAuthRepo {
     suspend fun removePointAsync(): Deferred<Result<Void>>
     suspend fun getTotalMessageCountAsync(): Deferred<Result<Int>>
     suspend fun getAcceptedMessageCountAsync(): Deferred<Result<Int>>
-    suspend fun initFCMTokenAsync(): Deferred<Result<String>>
+    suspend fun initFCMTokenAsync(forceUpdate: Boolean,userInfo: UserInfo?): Deferred<Result<String>>
 }
 

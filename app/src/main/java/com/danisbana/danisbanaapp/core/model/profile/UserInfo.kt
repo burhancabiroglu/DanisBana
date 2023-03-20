@@ -8,7 +8,7 @@ data class UserInfo(
     val id: String = "",
     val point: Int = 0,
     val userRole: UserRole = UserRole(),
-    val cloudToken: String? = "",
+    var cloudToken: String? = "",
 ):Parcelable
 
 @Parcelize
