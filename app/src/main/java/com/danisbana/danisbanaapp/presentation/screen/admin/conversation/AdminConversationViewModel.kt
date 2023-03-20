@@ -43,7 +43,7 @@ class AdminConversationViewModel @Inject constructor(
         viewModelScope.launch {
             val message = _stateFlow.value.message?: return@launch
             _stateFlow.value.loadingState.show()
-            adminRepo.updateMessageStatusAsync(message.id,message.senderId,MessageStatus.REJECTED).await()
+            adminRepo.updateMessageStatusAsync(message.id,message.senderToken,MessageStatus.REJECTED).await()
             _stateFlow.value.message = reloadMessage(messageId = message.id).getOrNull()
             _stateFlow.value.loadingState.hide()
             delay(400)
@@ -72,7 +72,7 @@ class AdminConversationViewModel @Inject constructor(
                 timestamp = date.time,
                 content = text
             )
-            adminRepo.updateMessageStatusAsync(message.id,message.senderId,MessageStatus.ANSWERED).await()
+            adminRepo.updateMessageStatusAsync(message.id,message.senderToken,MessageStatus.ANSWERED).await()
             _stateFlow.value.message?.answer = answer
             _stateFlow.value.message?.statusOrdinal = MessageStatus.ANSWERED.ordinal
             adminRepo.answerMessageAsync(message.id,answer).await()
