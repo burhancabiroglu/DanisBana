@@ -41,10 +41,12 @@ data class LoginFormState(
 data class LoginActions(
     val onClick: () -> Unit = {},
     val routeRegister: () -> Unit = {},
-    val tryLogin: () -> Unit = {}
+    val tryLogin: () -> Unit = {},
+    val routeForgotPassword: () -> Unit = {}
 )
 
 sealed interface LoginNavChannel {
     object RouteRegister: LoginNavChannel
     object RouteHome: LoginNavChannel
+    object RouteForgotPassword: LoginNavChannel
 }

@@ -1,7 +1,6 @@
 package com.danisbana.danisbanaapp.core.service
 
 import android.net.Uri
-import android.util.Log
 import com.danisbana.danisbanaapp.core.model.login.LoginRequest
 import com.danisbana.danisbanaapp.core.model.register.RegisterRequest
 import com.danisbana.danisbanaapp.domain.service.FirebaseAuthService
@@ -69,9 +68,9 @@ class FirebaseAuthServiceImpl: FirebaseAuthService {
         }
     }
 
-    override suspend fun initFCMToken(): Result<String> {
+    override suspend fun sendResetPasswordReq(email: String): Result<Void> {
         return suspendCancellableCoroutine { continuation ->
-            messaging.token
+            auth.sendPasswordResetEmail(email)
                 .addOnSuccessListener {
                     continuation.resume(Result.success(it))
                 }

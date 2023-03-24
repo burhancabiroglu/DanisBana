@@ -19,5 +19,5 @@ interface FirebaseAuthService {
     fun signOut()
     fun getCurrentUser(): FirebaseUser?
     suspend fun updateProfilePicture(uri: Uri): Result<Void>
-    suspend fun initFCMToken(): Result<String>
+    suspend fun sendResetPasswordReq(email: String): Result<Void>
 }

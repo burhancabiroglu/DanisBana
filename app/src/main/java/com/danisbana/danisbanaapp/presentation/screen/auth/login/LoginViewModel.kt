@@ -40,6 +40,12 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun routeForgotPassword() {
+        viewModelScope.launch {
+            _navChannel.send(LoginNavChannel.RouteForgotPassword)
+        }
+    }
+
     fun tryLogin() {
         val state = _stateFlow.value
         val emailResult = validateEmail.execute(state.email.text)

@@ -27,5 +27,6 @@ interface FirebaseAuthRepo {
     suspend fun getTotalMessageCountAsync(): Deferred<Result<Int>>
     suspend fun getAcceptedMessageCountAsync(): Deferred<Result<Int>>
     suspend fun updateFCMTokenAsync(token: String): Deferred<Result<String>>
+    suspend fun sendResetPasswordReqAsync(email: String): Deferred<Result<Void>>
 }
 

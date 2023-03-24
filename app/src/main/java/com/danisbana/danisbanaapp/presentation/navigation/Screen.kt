@@ -15,4 +15,6 @@ sealed class Screen(var route: String) {
     object MessagePool: Screen(route = "message_pool_screen")
     object AdminMessages: Screen(route = "admin_messages_screen")
     object ConditionalScreen: Screen(route = "messages_screen")
+    object ForgotPassword: Screen(route = "forgot_password_screen")
+
 }

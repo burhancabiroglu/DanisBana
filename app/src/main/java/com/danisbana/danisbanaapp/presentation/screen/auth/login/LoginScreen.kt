@@ -75,7 +75,10 @@ fun LoginScreen(
                         .padding(horizontal = AppDimens.wallSpace),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    MTextButton(text = stringResource(R.string.forgot_password))
+                    MTextButton(
+                        text = stringResource(R.string.forgot_password),
+                        onClick = actions.routeForgotPassword
+                    )
                 }
                 Spacer(modifier = Modifier.height(32.dp))
                 PrimaryButton(

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.danisbana.danisbanaapp.presentation.screen.auth.forgot.ForgotPasswordRoute
 import com.danisbana.danisbanaapp.presentation.screen.auth.login.LoginRoute
 import com.danisbana.danisbanaapp.presentation.screen.auth.register.RegisterRoute
 import com.danisbana.danisbanaapp.presentation.screen.home.consultant.ConsultantRoute
@@ -36,6 +37,9 @@ fun SetupNavGraph(navController: NavHostController) {
             SuccessScreen(){
                 navController.navigate(Screen.Login.route)
             }
+        }
+        composable(route = Screen.ForgotPassword.route) {
+            ForgotPasswordRoute(navController = navController)
         }
     }
 }

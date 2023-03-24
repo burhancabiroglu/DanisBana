@@ -25,6 +25,9 @@ fun LoginRoute(
                     navController.popBackStack()
                     navController.navigate(Screen.Home.route)
                 }
+                LoginNavChannel.RouteForgotPassword -> {
+                    navController.navigate(Screen.ForgotPassword.route)
+                }
             }
         }
     }
@@ -36,7 +39,8 @@ fun rememberLoginActions(viewModel: LoginViewModel): LoginActions {
     return remember(viewModel) {
         LoginActions(
             routeRegister = viewModel::routeRegister,
-            tryLogin = viewModel::tryLogin
+            tryLogin = viewModel::tryLogin,
+            routeForgotPassword = viewModel::routeForgotPassword
         )
     }
 }

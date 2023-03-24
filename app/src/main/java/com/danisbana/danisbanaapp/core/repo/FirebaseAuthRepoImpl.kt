@@ -252,4 +252,16 @@ class FirebaseAuthRepoImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun sendResetPasswordReqAsync(email: String): Deferred<Result<Void>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext async {
+                try {
+                    return@async authService.sendResetPasswordReq(email)
+                } catch (e: java.lang.Exception) {
+                    return@async Result.failure(e)
+                }
+            }
+        }
+    }
 }
