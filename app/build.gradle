@@ -23,6 +23,10 @@ android {
             useSupportLibrary true
         }
 
+
+        buildConfigField "String","admob_app_id","\"ca-app-pub-3443916551479925~7215635645\""
+        buildConfigField "String","admob_test_app_id","\"ca-app-pub-3940256099942544/5224354917\""
+
         buildConfigField "String","FCM_SERVER_URL","\"https://fcm.googleapis.com\""
         buildConfigField "String","FCM_SERVER_KEY","\"AAAA35kg-pY:APA91bHkhcmIdguHMLs_Hva3o-4xF23qLgMJXD135U5Pp6Gbphnt0OtaBk5RVcNkbfOGS85_lqX0rCir13jxHPluzndWCXwUsQ9xJC6TdtV2O9CMwBEvYOxQ0-9Jbr_OXlbJ7N8Q8KvJ\""
 
@@ -98,6 +102,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation "com.google.firebase:firebase-messaging-ktx"
     implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.android.gms:play-services-ads:21.5.0'
 
 
     implementation "com.squareup.retrofit2:retrofit:2.9.0"

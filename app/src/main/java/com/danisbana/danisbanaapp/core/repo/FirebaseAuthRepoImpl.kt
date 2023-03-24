@@ -176,14 +176,15 @@ class FirebaseAuthRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun appendPointAsync(): Deferred<Result<Void>> {
+    override suspend fun appendPointAsync(reward: Int): Deferred<Result<Void>> {
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
                     val user = getAppUserAsync().await().getOrNull() ?:return@async Result.failure(UserNotRegisteredException())
                     return@async databaseService.appendPoint(
                         user.info?.id.toString(),
-                        user.info?.point?:0
+                        user.info?.point?:0,
+                        reward
                     )
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)

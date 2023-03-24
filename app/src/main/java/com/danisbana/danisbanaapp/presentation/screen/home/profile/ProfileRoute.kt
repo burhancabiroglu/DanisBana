@@ -30,7 +30,9 @@ fun rememberProfileActions(viewModel: ProfileViewModel): ProfileActions {
     return remember(viewModel) {
         ProfileActions(
             logout = viewModel::logout,
-            updatePicture = viewModel::updateProfilePicture
+            updatePicture = viewModel::updateProfilePicture,
+            loadingAction = viewModel::toggleLoading,
+            adsSuccess = viewModel::adsSuccess
         )
     }
 }

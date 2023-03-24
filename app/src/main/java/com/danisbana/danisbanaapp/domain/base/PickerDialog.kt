@@ -44,7 +44,6 @@ fun PickerDialog(
         val launcherGallery = rememberLauncherForActivityResult(
             contract = GetMediaActivityResultContract(), onResult = {
                 if(it!=null) action.invoke(it)
-
             }
         )
 

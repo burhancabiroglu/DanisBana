@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.danisbana.danisbanaapp.R
+import com.danisbana.danisbanaapp.core.util.AdmobHelper
 import com.danisbana.danisbanaapp.domain.base.BaseScaffold
 import com.danisbana.danisbanaapp.domain.base.rememberDialogState
 import com.danisbana.danisbanaapp.presentation.components.MAppBar
@@ -39,12 +40,17 @@ fun ProfileScreen(
             actions.updatePicture(bytes)
         }
     }
+    val admobHelper = AdmobHelper(context)
+    admobHelper.setOnAdLoading(actions.loadingAction)
+    admobHelper.setOnSuccess(actions.adsSuccess)
+
     return BaseScaffold(
         dialogAction = actions.logout,
         dialogState = dialogState,
         loadingState = state.pageLoading,
         pickerDialogState = pickerState,
         pickerAction = pickerAction,
+        snackBarHostState = state.snackBarHostState,
         topBar = {
             MAppBar(
                 title = stringResource(id = R.string.profile),
@@ -96,7 +102,10 @@ fun ProfileScreen(
                 //WhiteButton(label = stringResource(id = R.string.profile_info))
                 WhiteButton(label = stringResource(id = R.string.update_password))
                 if(state.appUser?.info?.userRole?.admin != true) {
-                    WhiteButton(label = stringResource(id = R.string.earn_point))
+                    WhiteButton(
+                        label = stringResource(id = R.string.earn_point),
+                        onClick = admobHelper::loadRewardedAds
+                    )
                 }
             }
         }

@@ -24,7 +24,11 @@ interface FirebaseDatabaseService {
     suspend fun getMessagesPool(): Result<List<MessageEntity>>
     suspend fun getEditorMessages(consultantId: String): Result<List<MessageEntity>>
     suspend fun deleteMessage(id: String): Result<Void>
-    suspend fun appendPoint(userId: String, currentValue: Int): Result<Void>
+    suspend fun appendPoint(
+        userId: String,
+        currentValue: Int,
+        reward: Int
+    ): Result<Void>
     suspend fun removePoint(userId: String, currentValue: Int): Result<Void>
     suspend fun totalMessageCount(userId: String): Result<Int>
     suspend fun acceptedMessageCount(userId: String): Result<Int>

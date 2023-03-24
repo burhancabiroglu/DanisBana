@@ -9,12 +9,15 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.danisbana.danisbanaapp.R
+import com.danisbana.danisbanaapp.core.util.AdmobHelper
 import com.danisbana.danisbanaapp.domain.base.BaseDialog
 import com.danisbana.danisbanaapp.domain.base.BaseScaffold
+import com.danisbana.danisbanaapp.domain.base.PointDialog
 import com.danisbana.danisbanaapp.presentation.components.MAppBar
 import com.danisbana.danisbanaapp.presentation.screen.home.messages.components.MessageListItem
 import com.danisbana.danisbanaapp.presentation.theme.DanisBanaAppTheme
@@ -26,7 +29,12 @@ fun MessagesScreen(
     state: MessagesState = MessagesState(),
     actions: MessagesActions = MessagesActions()
 ) {
-    var messageId: String =""
+    var messageId: String = ""
+    val context = LocalContext.current
+    val admobHelper = AdmobHelper(context)
+    admobHelper.setOnAdLoading(actions.loadingAction)
+    admobHelper.setOnSuccess(actions.adsSuccess)
+
     BaseScaffold(
         modifier = Modifier
             .navigationBarsPadding()
@@ -71,6 +79,10 @@ fun MessagesScreen(
                 }
             )
         }
+        PointDialog(
+            dialogState = state.pointDialogState,
+            action = admobHelper::loadRewardedAds
+        )
         BaseDialog(
             title = "Mesajı Sil",
             buttonConfirm = "Onayla",

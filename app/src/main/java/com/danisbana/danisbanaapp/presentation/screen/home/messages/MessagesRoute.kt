@@ -15,8 +15,14 @@ fun MessagesRoute(
     val context = LocalContext.current
     val uiState by viewModel.stateFlow.collectAsState(MessagesState())
     val actions = rememberMessagesActions(viewModel)
-    actions.routeConsultant = homeActions.routeConsultant
-
+    actions.routeConsultant = {
+        viewModel.hasPoint(
+            successCallBack = homeActions.routeConsultant,
+            errorCallBack = {
+                viewModel.showDialog()
+            }
+        )
+    }
     actions.routeConversation = {
         ConversationActivity.launch(
             context,
@@ -37,7 +43,9 @@ fun MessagesRoute(
 fun rememberMessagesActions(viewModel: MessagesViewModel): MessagesActions {
     return remember(viewModel) {
         MessagesActions(
-            deleteMessage = viewModel::deleteMessage
+            deleteMessage = viewModel::deleteMessage,
+            loadingAction = viewModel::toggleLoading,
+            adsSuccess = viewModel::adsSuccess
         )
     }
 }

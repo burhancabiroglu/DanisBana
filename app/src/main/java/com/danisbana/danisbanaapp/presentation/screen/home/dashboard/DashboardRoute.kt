@@ -14,7 +14,14 @@ fun DashboardRoute(
 ) {
     val uiState by viewModel.stateFlow.collectAsState(DashboardState())
     val actions = rememberDashboardActions(viewModel)
-    actions.routeConsultant = homeActions.routeConsultant
+    actions.routeConsultant = {
+        viewModel.hasPoint(
+            successCallBack = homeActions.routeConsultant,
+            errorCallBack = {
+                viewModel.showDialog()
+            }
+        )
+    }
     DashboardScreen(uiState, actions)
 }
 
@@ -22,6 +29,9 @@ fun DashboardRoute(
 @Composable
 fun rememberDashboardActions(viewModel: DashboardViewModel): DashboardActions {
     return remember(viewModel) {
-        DashboardActions()
+        DashboardActions(
+            loadingAction = viewModel::toggleLoading,
+            adsSuccess = viewModel::adsSuccess
+        )
     }
 }

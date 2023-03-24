@@ -62,6 +62,10 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/Charcoal" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3443916551479925~7215635645"/>
+
     </application>
 
 </manifest>

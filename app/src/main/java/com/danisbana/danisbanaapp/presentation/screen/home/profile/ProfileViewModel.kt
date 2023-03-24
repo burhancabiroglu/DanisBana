@@ -1,9 +1,11 @@
 package com.danisbana.danisbanaapp.presentation.screen.home.profile
 
+import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danisbana.danisbanaapp.core.model.profile.AppUser
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
+import com.google.android.gms.ads.rewarded.RewardItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -16,7 +18,9 @@ class ProfileViewModel @Inject constructor(
     private val authRepo: FirebaseAuthRepo
 ) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState())
+    var snackBarState = SnackbarHostState()
+
+    private val _stateFlow: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState(snackBarState))
     val stateFlow: StateFlow<ProfileState> = _stateFlow.asStateFlow()
 
     init {
@@ -68,5 +72,23 @@ class ProfileViewModel @Inject constructor(
 
     fun logout() {
         authRepo.signOut()
+    }
+
+    fun toggleLoading(it:Boolean) {
+        if (it) _stateFlow.value.pageLoading.show()
+        else _stateFlow.value.pageLoading.hide()
+    }
+
+    fun adsSuccess(reward:RewardItem) {
+        viewModelScope.launch {
+            snackBarState.showSnackbar(
+                actionLabel = "success",
+                message = "Tebrikler,\n${reward.amount} lotus puan kazandın!"
+            )
+        }
+        viewModelScope.launch {
+            authRepo.appendPointAsync(reward = reward.amount).await()
+            getAppUserAsync().await()
+        }
     }
 }

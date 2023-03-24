@@ -2,6 +2,7 @@ package com.danisbana.danisbanaapp.core.service
 
 import android.net.Uri
 import android.util.Log
+import androidx.work.Operation.State.IN_PROGRESS
 import com.danisbana.danisbanaapp.core.model.message.Answer
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.message.MessageStatus
@@ -115,9 +116,13 @@ class FirebaseDatabaseServiceImpl : FirebaseDatabaseService {
         }
     }
 
-    override suspend fun appendPoint(userId: String, currentValue: Int): Result<Void> {
+    override suspend fun appendPoint(
+        userId: String,
+        currentValue: Int,
+        reward: Int
+    ): Result<Void> {
         return suspendCancellableCoroutine { continuation ->
-            firestore.collection("users").document(userId).update("point", currentValue + 20)
+            firestore.collection("users").document(userId).update("point", currentValue + reward)
                 .addOnSuccessListener {
                     continuation.resume(Result.success(it))
                 }.addOnFailureListener {
