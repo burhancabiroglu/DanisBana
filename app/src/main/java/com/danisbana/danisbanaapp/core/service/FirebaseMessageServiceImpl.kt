@@ -1,16 +1,16 @@
 package com.danisbana.danisbanaapp.core.service
 
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.util.Log
 import android.widget.RemoteViews
-import androidx.core.app.NotificationBuilderWithBuilderAccessor
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.danisbana.danisbanaapp.R
+import com.danisbana.danisbanaapp.core.repo.SharedPrefRepo
 import com.danisbana.danisbanaapp.presentation.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -19,23 +19,25 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
-class FirebaseMessageServiceImpl: FirebaseMessagingService() {
-    private val firestore: FirebaseFirestore get() = Firebase.firestore
-    private val auth: FirebaseAuth get() = Firebase.auth
+@AndroidEntryPoint
+class FirebaseMessageServiceImpl @Inject constructor(): FirebaseMessagingService() {
+
+    @get: Inject
+    @set: Inject
+    var sharedPrefRepo: SharedPrefRepo? = null
 
     override fun onCreate() {
         super.onCreate()
     }
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        updateFCMToken(auth.currentUser?.uid.toString(),token)
+        sharedPrefRepo?.fcmToken = token
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
@@ -87,10 +89,5 @@ class FirebaseMessageServiceImpl: FirebaseMessagingService() {
             delay(15000)
             notificationManager.deleteNotificationChannel("CHANNEL_ID")
         }*/
-    }
-
-    private fun updateFCMToken(uid: String, token: String) {
-        val updates: Map<String,Any> = hashMapOf("cloudToken" to token.trim())
-        firestore.collection("users").document(uid).update(updates)
     }
 }

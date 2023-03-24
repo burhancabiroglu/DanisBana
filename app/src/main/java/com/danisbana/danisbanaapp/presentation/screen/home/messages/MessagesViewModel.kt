@@ -3,6 +3,7 @@ package com.danisbana.danisbanaapp.presentation.screen.home.messages
 import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.danisbana.danisbanaapp.application.Constants.MESSAGE_COST
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import com.google.android.gms.ads.rewarded.RewardItem
@@ -65,7 +66,7 @@ class MessagesViewModel @Inject constructor(
         viewModelScope.launch {
             val result = authRepo.getAppUserAsync().await()
             result.onSuccess {
-                if ((it.info?.point ?: 0) < 60) errorCallBack.invoke()
+                if ((it.info?.point ?: 0) < MESSAGE_COST) errorCallBack.invoke()
                 else successCallBack.invoke()
             }
         }

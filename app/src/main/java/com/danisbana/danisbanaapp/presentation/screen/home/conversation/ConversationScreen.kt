@@ -47,7 +47,7 @@ fun ConversationScreen(
                     }
                     if(answer != null) {
                         item {
-                            ChatItemBubble(message, false)
+                            ChatItemBubble(answer, false)
                         }
                     }
                 }

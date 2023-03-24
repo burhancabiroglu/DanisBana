@@ -1,10 +1,8 @@
 package com.danisbana.danisbanaapp.core.module
 
+import android.content.Context
 import com.danisbana.danisbanaapp.core.api.NotificationApi
-import com.danisbana.danisbanaapp.core.repo.AdminRepoImpl
-import com.danisbana.danisbanaapp.core.repo.FirebaseAuthRepoImpl
-import com.danisbana.danisbanaapp.core.repo.FirebaseConfigRepoImpl
-import com.danisbana.danisbanaapp.core.repo.FirebaseDatabaseRepoImpl
+import com.danisbana.danisbanaapp.core.repo.*
 import com.danisbana.danisbanaapp.core.service.*
 import com.danisbana.danisbanaapp.domain.repo.AdminRepo
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
@@ -16,6 +14,7 @@ import com.danisbana.danisbanaapp.domain.service.FirebaseDatabaseService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -69,6 +68,15 @@ object AppModule {
     fun provideFirebaseDatabaseRepo(firebaseDatabaseService: FirebaseDatabaseService): FirebaseDatabaseRepo {
         return FirebaseDatabaseRepoImpl(firebaseDatabaseService)
     }
+
+    @Provides
+    @Singleton
+    fun provideSharedPref(
+        @ApplicationContext context: Context
+    ): SharedPrefRepo {
+        return SharedPrefRepo(context)
+    }
+
 
     @Provides
     @Singleton

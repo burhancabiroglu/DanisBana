@@ -3,6 +3,7 @@ package com.danisbana.danisbanaapp.core.service
 import android.net.Uri
 import android.util.Log
 import androidx.work.Operation.State.IN_PROGRESS
+import com.danisbana.danisbanaapp.application.Constants.MESSAGE_COST
 import com.danisbana.danisbanaapp.core.model.message.Answer
 import com.danisbana.danisbanaapp.core.model.message.MessageEntity
 import com.danisbana.danisbanaapp.core.model.message.MessageStatus
@@ -133,13 +134,13 @@ class FirebaseDatabaseServiceImpl : FirebaseDatabaseService {
 
     override suspend fun removePoint(userId: String, currentValue: Int): Result<Void> {
         return suspendCancellableCoroutine { continuation ->
-            if (currentValue - 60 < 0) {
+            if (currentValue - MESSAGE_COST < 0) {
                 val exception = InsufficientUserPointException()
                 continuation.resumeWithException(exception)
                 throw exception
             }
             else {
-                firestore.collection("users").document(userId).update("point", currentValue - 60)
+                firestore.collection("users").document(userId).update("point", currentValue - MESSAGE_COST)
                     .addOnSuccessListener {
                         continuation.resume(Result.success(it))
                     }.addOnFailureListener {

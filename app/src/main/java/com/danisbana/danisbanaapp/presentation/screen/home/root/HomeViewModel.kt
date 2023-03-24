@@ -2,16 +2,26 @@ package com.danisbana.danisbanaapp.presentation.screen.home.root
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.danisbana.danisbanaapp.core.repo.SharedPrefRepo
 import com.danisbana.danisbanaapp.domain.repo.FirebaseAuthRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    authRepo: FirebaseAuthRepo,
+    private val authRepo: FirebaseAuthRepo,
+    private val sharedPref: SharedPrefRepo,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            authRepo.updateFCMTokenAsync(sharedPref.fcmToken.toString()).await()
+        }
+    }
 
     private val _stateFlow: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState(

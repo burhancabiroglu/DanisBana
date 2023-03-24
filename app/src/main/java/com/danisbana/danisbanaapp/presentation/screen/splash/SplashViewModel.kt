@@ -24,14 +24,12 @@ class SplashViewModel @Inject constructor(
             authRepo.getCurrentUser()?.let {
                 val state = _stateFlow.value
                 _stateFlow.tryEmit(state.copy(screen = Screen.Home))
-                val result = authRepo.getAppUserAsync().await().let {
+                authRepo.getAppUserAsync().await().let {
                     val user = it.getOrNull()?:return@launch
                     Screen.ConditionalScreen.route =
                         if(user.info?.userRole?.admin == true) Screen.AdminPanel.route
                         else Screen.Messages.route
-                    user
                 }
-                authRepo.initFCMTokenAsync(false,result.info).await()
             }
             callBack.invoke()
         }

@@ -26,6 +26,6 @@ interface FirebaseAuthRepo {
     suspend fun removePointAsync(): Deferred<Result<Void>>
     suspend fun getTotalMessageCountAsync(): Deferred<Result<Int>>
     suspend fun getAcceptedMessageCountAsync(): Deferred<Result<Int>>
-    suspend fun initFCMTokenAsync(forceUpdate: Boolean,userInfo: UserInfo?): Deferred<Result<String>>
+    suspend fun updateFCMTokenAsync(token: String): Deferred<Result<String>>
 }
 

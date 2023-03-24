@@ -45,7 +45,6 @@ class FirebaseAuthRepoImpl @Inject constructor(
                         info = userInfo.getOrNull()
                     )
                     userCache.value = appUser
-                    initFCMTokenAsync(true,userInfo.getOrNull()).await()
                     return@async Result.success(appUser)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
@@ -235,22 +234,18 @@ class FirebaseAuthRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun initFCMTokenAsync(forceUpdate: Boolean,userInfo: UserInfo?): Deferred<Result<String>> {
+    override suspend fun updateFCMTokenAsync(token:String): Deferred<Result<String>> {
         return withContext(Dispatchers.IO) {
             return@withContext async {
                 try {
-                    if (userInfo?.userRole?.admin == true){
-                        authService.messaging.subscribeToTopic(Constants.ADMIN_TOPIC)
+                    val user = getCurrentUser() ?:return@async Result.failure(UserNotRegisteredException())
+                    val userInfo = databaseService.getUserCredentials(user.uid).getOrNull() ?:return@async Result.failure(UserNotRegisteredException())
+                    if (userInfo.userRole.admin) authService.messaging.subscribeToTopic(Constants.ADMIN_TOPIC)
+                    databaseService.updateFCMToken(userInfo.id,token)
+                    userCache.value = userCacheValue.apply {
+                        this?.info?.cloudToken = token
                     }
-                    if(forceUpdate || userInfo?.cloudToken.isNullOrEmpty()){
-                        val result = authService.initFCMToken()
-                        databaseService.updateFCMToken(userInfo?.id.toString(),result.getOrNull().toString())
-                        userCache.value = userCacheValue.apply {
-                            this?.info?.cloudToken = result.getOrNull()
-                        }
-                        return@async result
-                    }
-                    else return@async Result.success(userInfo?.cloudToken.toString())
+                    return@async Result.success(token)
                 } catch (e: java.lang.Exception) {
                     return@async Result.failure(e)
                 }
