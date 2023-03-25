@@ -71,6 +71,6 @@ class AdmobHelper(val context: Context) {
     }
 
     companion object {
-        private const val AD_UNIT_ID = BuildConfig.admob_test_app_id
+        private const val AD_UNIT_ID = BuildConfig.admob_app_id
     }
 }
