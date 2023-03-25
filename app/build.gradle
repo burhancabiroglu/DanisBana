@@ -31,9 +31,18 @@ android {
         buildConfigField "String","FCM_SERVER_KEY","\"AAAA35kg-pY:APA91bHkhcmIdguHMLs_Hva3o-4xF23qLgMJXD135U5Pp6Gbphnt0OtaBk5RVcNkbfOGS85_lqX0rCir13jxHPluzndWCXwUsQ9xJC6TdtV2O9CMwBEvYOxQ0-9Jbr_OXlbJ7N8Q8KvJ\""
 
     }
+    signingConfigs {
+        release {
+            storeFile file('../consultantAppKeyStore.jks')
+            storePassword "dns123!"
+            keyAlias "releaseKey"
+            keyPassword "dns123!"
+        }
+    }
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
