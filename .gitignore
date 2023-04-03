@@ -14,6 +14,6 @@
 .cxx
 local.properties
 /app/google-services.json
-consultantAppKeyStore.jks
-private_key.pepk
-/app/release/app-release.aab
+/consultantAppKeyStore.jks
+/private_key.pepk
+/app/release/
