@@ -2,7 +2,7 @@
 
 <p>
 <img src="./art/logo.svg" align="left"
-width="120" hspace="10" vspace="*">
+width="120" hspace="10" vspace="0">
 
 <img src="./art/app.gif" width="15%" hspace="14" vspace="0" align="left"/>
 
