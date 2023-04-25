@@ -1,4 +1,4 @@
-# Danış Bana - Android App
+# Psychologist Counselor - Android App
 
 <p>
 <img src="./art/logo.svg" align="left"
